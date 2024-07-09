@@ -1,0 +1,206 @@
+<div class="flex justify-center items-center">
+  <div
+    class="w-full py-16 px-4 md:px-6 2xl:px-0 flex justify-center items-center 2xl:mx-auto 2xl:container"
+  >
+    <div class="flex flex-col justify-start items-start w-full space-y-9">
+      <div class="flex justify-start flex-col items-start space-y-2">
+        <button
+          (click)="onBack()"
+          class="flex flex-row items-center text-gray-600 hover:text-gray-500 space-x-1"
+        >
+          <svg
+            class="fill-stroke"
+            width="14"
+            height="14"
+            viewBox="0 0 14 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2.91681 7H11.0835"
+              stroke="currentColor"
+              stroke-width="0.666667"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M2.91681 7L5.25014 9.33333"
+              stroke="currentColor"
+              stroke-width="0.666667"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M2.91681 7.00002L5.25014 4.66669"
+              stroke="currentColor"
+              stroke-width="0.666667"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <p class="text-sm leading-none">Back</p>
+        </button>
+        <p
+          class="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9 text-dark-gray"
+        >
+          Checkout
+        </p>
+        <p class="text-base leading-normal sm:leading-4 text-gray-600">
+          Home > Electronics > Headphones > Cart > Checkout
+        </p>
+      </div>
+
+      <div
+        class="flex flex-col xl:flex-row justify-center xl:justify-between space-y-6 xl:space-y-0 xl:space-x-6 w-full"
+      >
+        <div class="mt-4 bg-white flex flex-col gap-8 lg:w-full xl:w-3/5">
+          <div class="flex flex-col gap-2">
+            <h3 class="text-2xl text-dark-blue font-bold">Contact</h3>
+            <input
+              class="border border-gray-300 p-4 rounded w-full text-base leading-4 placeholder-gray-600 text-gray-600"
+              type="email"
+              name=""
+              id=""
+              placeholder="Email or mobile phone number"
+            />
+          </div>
+
+          <div class="flex gap-2 flex-col">
+            <h3 class="text-2xl text-dark-blue font-bold">Delivery</h3>
+            <select
+              class="border border-gray-300 p-4 rounded w-full text-base leading-4 placeholder-gray-600 text-gray-600"
+            >
+              <option value="null">Pakistan</option>
+            </select>
+            <div class="grid grid-flow-col gap-4">
+              <input
+                class="border border-gray-300 p-4 rounded text-base leading-4 placeholder-gray-600 text-gray-600"
+                type="text"
+                name=""
+                id=""
+                placeholder="First name"
+              />
+              <input
+                class="border border-gray-300 p-4 rounded text-base leading-4 placeholder-gray-600 text-gray-600"
+                type="text"
+                name=""
+                id=""
+                placeholder="Last name"
+              />
+            </div>
+            <div class="flex flex-col gap-2">
+              <input
+                class="border border-gray-300 p-4 rounded text-base leading-4 placeholder-gray-600 text-gray-600"
+                type="text"
+                name=""
+                id=""
+                placeholder="Address"
+              />
+              <input
+                class="border border-gray-300 p-4 rounded text-base leading-4 placeholder-gray-600 text-gray-600"
+                type="text"
+                name=""
+                id=""
+                placeholder="Address, suite, etc. (optional)"
+              />
+            </div>
+            <div class="grid grid-flow-col gap-4">
+              <input
+                class="border border-gray-300 p-4 rounded text-base leading-4 placeholder-gray-600 text-gray-600"
+                type="text"
+                name=""
+                id=""
+                placeholder="City"
+              />
+              <input
+                class="border border-gray-300 p-4 rounded text-base leading-4 placeholder-gray-600 text-gray-600"
+                type="text"
+                name=""
+                id=""
+                placeholder="Postal code"
+              />
+            </div>
+
+            <input
+              class="border border-gray-300 p-4 rounded text-base leading-4 placeholder-gray-600 text-gray-600"
+              type="tel"
+              name=""
+              id=""
+              placeholder="phone"
+            />
+          </div>
+
+          <div class="flex gap-2 flex-col">
+            <h3 class="text-2xl text-dark-blue font-bold">Payment</h3>
+            <p class="font-medium text-gray-600">
+              All transactions are secure and encrypted.
+            </p>
+
+            <ul class="">
+              <li
+                class="border p-4 rounded rounded-bl-none rounded-br-none text-base leading-4 placeholder-gray-600 text-gray-600"
+              >
+                <div class="flex gap-4 bg-white-300">
+                  <input
+                    type="checkbox"
+                    id="filled-border-checkbox"
+                    class="appearance-none h-5 w-5 border rounded-full border-gray-300 bg-white checked:bg-blue-600 dark:checked:bg-green-600 checked:border-none"
+                  />
+
+                  <p>Cash on Devlivery (COD)</p>
+                </div>
+              </li>
+              <li
+                class="border border-t-0 p-4 rounded rounded-tl-none rounded-tr-none text-base leading-4 placeholder-gray-600 text-gray-600"
+              >
+                <div class="flex gap-4 bg-white-300">
+                  <input
+                    [(ngModel)]="isChecked"
+                    type="checkbox"
+                    id="filled-border-checkbox"
+                    class="appearance-none h-5 w-5 border rounded-full border-gray-300 bg-white checked:bg-blue-600 dark:checked:bg-green-600 checked:border-none"
+                  />
+
+                  <p class="">Bank deposit and jazz cash</p>
+                </div>
+              </li>
+              <div
+                [ngClass]="{ 'animate-slide-down': isChecked }"
+                [hidden]="!isChecked"
+                class="p-4 border border-gray-50 bg-gray-200"
+              >
+                <p class="font-medium text-gray-600">
+                  KHAN DRY FRUIT <br />Bank: Meezan<br />
+                  Account: 02460105204017<br />
+                  IBAN: PK89MEZN0002460105204017<br />
+                  Easypaisa account 03049996000<br />
+                  Title Qadir Khan<br />
+                  Account Title<br />
+                  QADAR KHAN<br />
+                  Bank Name Bank<br />
+                  Alfalah<br />
+                  Account Number<br />
+                  55265001187668<br />
+                  IBAN PK22ALFH5526005001187668<br />
+                  Branch Name <br />IBG Multan Rd Br. Lahore<br />
+                  Branch Code<br />
+                  5526
+                </p>
+              </div>
+            </ul>
+          </div>
+
+          <button
+            class="mt-8 border border-transparent hover:border-gray-300 bg-green-700 hover:bg-white text-white hover:text-gray-900 flex justify-center items-center py-4 rounded w-full"
+          >
+            <div>
+              <p class="text-base leading-4">Complete order</p>
+            </div>
+          </button>
+        </div>
+        <div class="w-1/2">hehehe</div>
+        <div class="bg-gray-100"></div>
+      </div>
+    </div>
+  </div>
+</div>

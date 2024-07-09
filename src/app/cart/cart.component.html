@@ -1,3 +1,128 @@
-<div>
-  <p>This is a cart component!</p>
+<div class="bg-gray-100 h-screen py-8">
+  <div class="container mx-auto px-4">
+    <button
+      (click)="onBack()"
+      class="flex flex-row items-center text-gray-600 hover:text-gray-500 space-x-1 mb-2"
+    >
+      <svg
+        class="fill-stroke"
+        width="14"
+        height="14"
+        viewBox="0 0 14 14"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M2.91681 7H11.0835"
+          stroke="currentColor"
+          stroke-width="0.666667"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M2.91681 7L5.25014 9.33333"
+          stroke="currentColor"
+          stroke-width="0.666667"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M2.91681 7.00002L5.25014 4.66669"
+          stroke="currentColor"
+          stroke-width="0.666667"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <p class="text-sm leading-none">Back</p>
+    </button>
+    <h1 class="text-3xl text-dark-blue font-bold mb-4">Shopping Cart</h1>
+    <div class="flex flex-col md:flex-row gap-4">
+      <div class="md:w-3/4">
+        <div class="bg-white rounded-lg shadow-md p-6 mb-4">
+          <table class="w-full">
+            <thead>
+              <tr>
+                <th class="text-left text-dark-blue font-semibold">Product</th>
+                <th class="text-left text-dark-blue font-semibold">Price</th>
+                <th class="text-left text-dark-blue font-semibold">Quantity</th>
+                <th class="text-left text-dark-blue font-semibold">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (cartItemProduct of cartItemProducts; track
+              cartItemProduct.id;) {
+              <tr>
+                <td class="py-4">
+                  <div class="flex items-center">
+                    <img
+                      class="h-16 w-16 mr-4"
+                      [src]="cartItemProduct.productImages[1]"
+                      alt="Product image"
+                    />
+                    <span class="font-semibold text-dark-blue">{{
+                      cartItemProduct.productName
+                    }}</span>
+                  </div>
+                </td>
+                <td class="py-4">Rs {{ cartItemProduct.priceInPKR }}</td>
+                <td class="py-4">
+                  <div class="flex items-center">
+                    <button class="border rounded-md py-2 px-4 mr-2">-</button>
+                    <span class="text-center w-8">1</span>
+                    <button class="border rounded-md py-2 px-4 ml-2">+</button>
+                  </div>
+                </td>
+                <td class="py-4">$19.99</td>
+              </tr>
+
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="flex">
+          <button
+            class="mx-2 my-2 bg-green-600 transition duration-150 ease-in-out hover:bg-green-500 rounded text-white px-6 py-2 text-base"
+          >
+            Update cart
+          </button>
+          <button
+            (click)="onClearCart()"
+            class="mx-2 my-2 bg-red-600 transition duration-150 ease-in-out hover:bg-red-500 rounded text-white px-6 py-2 text-base"
+          >
+            Clear cart
+          </button>
+        </div>
+      </div>
+
+      <div class="md:w-1/4">
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-lg text-dark-blue font-semibold mb-4">Summary</h2>
+          <div class="flex justify-between mb-2">
+            <span>Subtotal</span>
+            <span>$19.99</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <span>Taxes</span>
+            <span>$1.99</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <span>Shipping</span>
+            <span>$0.00</span>
+          </div>
+          <hr class="my-2" />
+          <div class="flex justify-between mb-2">
+            <span class="font-semibold text-dark-blue">Total</span>
+            <span class="font-semibold text-dark-blue">$21.98</span>
+          </div>
+          <button
+            (click)="onCheckOut()"
+            class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full"
+          >
+            Checkout
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

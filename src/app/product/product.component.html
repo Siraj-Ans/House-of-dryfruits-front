@@ -1,3 +1,94 @@
-<div>
-  <p>This is a product component!</p>
+@if(productRes$ | async;) {
+<div class="bg-gray-100 px-6">
+  <div class="flex gap-16 grid-flow-col px-9 pt-10">
+    <div class="w-1/2">
+      <button
+        (click)="onBack()"
+        class="flex flex-row items-center text-gray-600 hover:text-gray-500 space-x-1 mb-5"
+      >
+        <svg
+          class="fill-stroke"
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M2.91681 7H11.0835"
+            stroke="currentColor"
+            stroke-width="0.666667"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M2.91681 7L5.25014 9.33333"
+            stroke="currentColor"
+            stroke-width="0.666667"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M2.91681 7.00002L5.25014 4.66669"
+            stroke="currentColor"
+            stroke-width="0.666667"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <p class="text-sm leading-none">Back</p>
+      </button>
+      <div class="lg:col-span-3 w-full h-1/2 lg:sticky top-0 text-center">
+        <div
+          class="px-4 py-10 rounded-lg h-full shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] relative"
+        >
+          <img
+            [src]="selectedImage"
+            alt="Product"
+            class="w-full h-full rounded object-cover mx-auto"
+          />
+        </div>
+
+        <div class="mt-6 flex flex-wrap justify-center gap-6 mx-auto">
+          @for(productImage of product?.productImages; track productImage) {
+          <button
+            (click)="onSelectImage(productImage)"
+            [style]="
+              selectedImage === productImage ? 'selectedImageStyle' : 'none'
+            "
+            class="w-24 h-20 flex items-center justify-center rounded-lg p-4 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] cursor-pointer"
+          >
+            <img [src]="productImage" alt="Product2" class="w-full" />
+          </button>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="flex w-1/2 flex-col gap-5">
+      <h1 class="text-4xl text-dark-blue font-bold">
+        {{ product?.productName }}
+      </h1>
+      <p class="font-medium text-gray-600">{{ product?.description }}</p>
+      <div class="flex items-center gap-5">
+        <p class="text-xl font-bold text-dark-blue cursor-auto my-3">
+          Rp {{ product?.priceInPKR }}
+        </p>
+
+        <button
+          (click)="onAddToCart(product?.id)"
+          class="flex items-center rounded gap-3 text-base text-white px-3 py-2 bg-green-700 transition duration-150 ease-in-out hover:bg-green-600"
+        >
+          <mat-icon
+            class="cursor-pointer"
+            aria-hidden="false"
+            aria-label="Example shopping_cart icon"
+            fontIcon="shopping_cart"
+          ></mat-icon>
+          Update cart
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
+}

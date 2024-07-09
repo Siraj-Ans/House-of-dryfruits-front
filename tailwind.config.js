@@ -5,13 +5,14 @@ module.exports = {
     extend: {
       colors: {
         "dark-gray": "#282828",
+        "dark-blue": "#131842",
         "light-green": "#5fa800",
         "dark-green": "#7FB414",
         cream: "#E5C3A6dd",
-        light: "#E5F9BD",
+        light: "#FBF6E2",
       },
       fontFamily: {
-        sans: ["Roboto", "sans-serif"],
+        sans: ["Poppins", "sans-serif"],
       },
     },
   },

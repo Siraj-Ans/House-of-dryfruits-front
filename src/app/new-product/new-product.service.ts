@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { NewProductsDataStorageService } from './new-products-dataStorage.service';
+import { NewProductsDataStorageService } from './new-product-dataStorage.service';
 import { ReplaySubject, Subject } from 'rxjs';
 import { Product } from './product.model';
 
@@ -20,9 +20,7 @@ export class NewProductsService {
         this.updateNewProducts.next(this.newProducts.slice());
       },
       error: () => {},
-      complete: () => {
-        console.log('Completed!');
-      },
+      complete: () => {},
     });
   }
 }

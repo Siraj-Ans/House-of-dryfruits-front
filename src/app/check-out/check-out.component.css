@@ -1,0 +1,4 @@
+.animate-slide-down {
+  @apply transform translate-y-0 opacity-100 visible;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}

@@ -21,6 +21,8 @@ export class NewProductsDataStorageService {
       productImages: string[];
       description: string;
       priceInPKR: number;
+      createdAt: string;
+      updatedAt: string;
     }[];
   }> {
     return this.http
@@ -43,6 +45,8 @@ export class NewProductsDataStorageService {
                 productImages: product.productImages,
                 description: product.description,
                 priceInPKR: product.priceInPKR,
+                createdAt: product.createdAt,
+                updatedAt: product.updatedAt,
               };
             }),
           };
