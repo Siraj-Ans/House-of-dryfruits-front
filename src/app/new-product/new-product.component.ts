@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import {
   Component,
   Inject,
@@ -9,10 +9,10 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
-import { ToastrService } from 'ngx-toastr';
 
 import { NewProductsService } from './new-product.service';
 import { HeaderService } from '../header/header.serice';
+import { ToastService } from '../toast.service';
 
 import { Product } from './product.model';
 
@@ -21,7 +21,6 @@ import { Product } from './product.model';
   standalone: true,
   imports: [CommonModule, MatIconModule, RouterModule],
   templateUrl: './new-product.component.html',
-  styleUrl: './new-product.component.css',
 })
 export class NewProduct implements OnInit, OnDestroy {
   newProducts: Product[] = [];
@@ -30,8 +29,9 @@ export class NewProduct implements OnInit, OnDestroy {
 
   constructor(
     private newProductsService: NewProductsService,
-    private toastrService: ToastrService,
+    private toastService: ToastService,
     private headerService: HeaderService,
+    private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
@@ -52,9 +52,23 @@ export class NewProduct implements OnInit, OnDestroy {
   }
 
   onAddToCart(id: string): void {
+    if (isPlatformBrowser(this.platformId)) {
+      if (localStorage.getItem('cart')) {
+        const cartItems = JSON.parse(localStorage.getItem('cart')!);
+
+        this.cartItems = cartItems;
+      } else {
+        this.cartItems = [];
+      }
+    }
+
     if (this.cartItems.includes(id)) {
-      this.toastrService.warning('Product already exists in the cart!', '', {
+      this.toastService.showWarning('Product already exists in the cart!', '', {
         toastClass: 'warning-toast',
+        timeOut: 3000,
+        extendedTimeOut: 1000,
+        positionClass: 'toast-top-right',
+        preventDuplicates: true,
       });
       return;
     }
@@ -64,7 +78,18 @@ export class NewProduct implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem('cart', JSON.stringify(this.cartItems));
       this.headerService.updateCartItemsCount.next(this.cartItems.length);
+      this.toastService.showSuccess('Product added to the cart!', '', {
+        toastClass: 'success-toast',
+        timeOut: 3000,
+        extendedTimeOut: 1000,
+        positionClass: 'toast-top-right',
+        preventDuplicates: true,
+      });
     }
+  }
+
+  onViewProduct(id: string): void {
+    this.router.navigate(['products/' + id]);
   }
 
   ngOnDestroy(): void {

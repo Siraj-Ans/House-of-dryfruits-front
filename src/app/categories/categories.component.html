@@ -1,0 +1,109 @@
+<div class="flex flex-col py-6 bg-gray-100">
+  <div class="flex flex-col gap-4">
+    @for (categoriesProduct of categoriesProducts; track categoriesProduct; let
+    i = $index) {
+
+    <div>
+      <div class="flex gap-5 items-center">
+        <h2 class="text-3xl pl-6 text-dark-blue font-bold">
+          {{ categoriesProduct.category.categoryName }}
+        </h2>
+        <p
+          (click)="onShowCategory(categoriesProduct.category)"
+          class="cursor-pointer font-medium text-lg text-dark-gray underline"
+        >
+          Show all
+        </p>
+      </div>
+      <div>
+        <div class="flex w-full relative items-center">
+          <button
+            aria-label="slide backward"
+            class="absolute z-30 left-0 ml-8 focus:outline-none focus:bg-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 cursor-pointer"
+            (click)="goPrev(slider)"
+          >
+            <mat-icon
+              class="cursor-pointer"
+              aria-hidden="false"
+              aria-label="Example left icon"
+              fontIcon="chevron_left"
+            ></mat-icon>
+          </button>
+          <div class="w-full mx-auto overflow-x-hidden overflow-y-hidden">
+            <div
+              #slider
+              [id]="i"
+              class="slider flex px-6 py-6 lg:gap-8 md:gap-6 gap-14 items-center justify-start transition ease-out duration-700"
+            >
+              @for(product of categoriesProduct.categoriesProducts; track
+              product.id) {
+              <div
+                class="w-56 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
+              >
+                <div>
+                  <img
+                    src="
+              https://www.khandryfruit.com/cdn/shop/products/Buy-Quality-Australia-Almonds-Online--_1Kg-Pack_-Badam-Giri-Premium-Quality-khandryfruit-1675863011_750x810.webp?v=1683531192
+            "
+                    alt="Product"
+                    class="h-52 w-72 object-cover rounded-t-xl"
+                  />
+                  <div class="px-3 py-1">
+                    <p
+                      routerLink="/cart"
+                      (click)="onViewProduct(product.id)"
+                      class="cursor-pointer text-base font-semibold text-dark-blue truncate block capitalize"
+                    >
+                      {{ product.productName }}
+                    </p>
+                    <div class="flex items-center">
+                      <p class="text-sm font-medium text-dark-blue cursor-auto">
+                        Rp {{ product.priceInPKR }}
+                      </p>
+                      <del>
+                        <p class="text-sm text-gray-500 cursor-auto ml-2">
+                          Rp 199
+                        </p>
+                      </del>
+                      <div class="ml-auto">
+                        <mat-icon
+                          class="cursor-pointer"
+                          (click)="onAddToCart(product.id)"
+                          aria-hidden="false"
+                          aria-label="Example shopping_cart icon"
+                          fontIcon="shopping_cart"
+                        ></mat-icon>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              }
+
+              <div
+                class="h-[324px] bg-gray-100 shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
+              >
+                <p class="absolute left-50 font-medium text-lg text-gray-300">
+                  Show all
+                </p>
+              </div>
+            </div>
+          </div>
+          <button
+            aria-label="slide forward"
+            class="absolute z-30 right-0 mr-8 focus:outline-none focus:bg-gray-400 focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+            (click)="goNext(slider)"
+          >
+            <mat-icon
+              class="cursor-pointer"
+              aria-hidden="false"
+              aria-label="Example chevron_right icon"
+              fontIcon="chevron_right"
+            ></mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>

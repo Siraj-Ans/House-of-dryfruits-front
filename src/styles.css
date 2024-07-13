@@ -15,3 +15,21 @@
   @apply transform translate-y-0 opacity-100 visible;
   transition: transform 2s ease-in-out, opacity 0.5s ease-in-out;
 }
+
+.error-toast {
+  background-color: #f44336; /* Red background for error */
+  color: #fff; /* White text for high contrast */
+  font-weight: bold; /* Emphasize the text */
+  padding: 15px; /* Padding around the content */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Slightly darker shadow for emphasis */
+}
+
+.success-toast {
+  background-color: #4caf50; /* Green background for success */
+  color: #fff; /* White text for high contrast */
+  font-weight: bold; /* Emphasize the text */
+  padding: 15px; /* Padding around the content */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Slightly darker shadow for emphasis */
+}

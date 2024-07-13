@@ -29,7 +29,6 @@ export class CartComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       if (localStorage.getItem('cart')) {
         const cartItemIds = JSON.parse(localStorage.getItem('cart')!);
-        console.log('cartItemIds: ', cartItemIds);
 
         this.cartService.getCartItemProducts(cartItemIds);
       }

@@ -5,8 +5,11 @@ import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 import { routes } from './app.routes';
+import { provideAuth } from '@angular/fire/auth';
+import { getAuth } from 'firebase/auth';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,12 +17,9 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     provideAnimations(),
-    provideToastr({
-      timeOut: 3000,
-      extendedTimeOut: 1000,
-      positionClass: 'toast-top-right',
-      preventDuplicates: true,
-    }),
+    provideFirestore(() => getFirestore()),
+    provideAuth(() => getAuth()),
+    provideToastr(),
     provideHttpClient(withFetch()),
     provideAnimationsAsync(),
   ],

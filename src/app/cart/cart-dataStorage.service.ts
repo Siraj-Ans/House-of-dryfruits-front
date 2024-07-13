@@ -28,7 +28,10 @@ export class CartDataStorageService {
       .get<FetchCartItemProducts>(
         'http://localhost:3000/api/products/fetchCartProducts',
         {
-          params: new HttpParams().set('ids', JSON.stringify(cartItemIds)),
+          params: new HttpParams().set(
+            'productIds',
+            JSON.stringify(cartItemIds)
+          ),
         }
       )
       .pipe(

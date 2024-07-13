@@ -10,10 +10,10 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 
 import { ProductsService } from './products.service';
 import { HeaderService } from '../header/header.serice';
+import { ToastService } from '../toast.service';
 
 import { Product } from '../new-product/product.model';
 
@@ -30,7 +30,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   constructor(
     private productsService: ProductsService,
-    private toastrService: ToastrService,
+    private toastService: ToastService,
     private router: Router,
     private headerService: HeaderService,
     @Inject(PLATFORM_ID) private platformId: Object
@@ -55,9 +55,23 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   onAddToCart(productId: string): void {
+    if (isPlatformBrowser(this.platformId)) {
+      if (localStorage.getItem('cart')) {
+        const cartItems = JSON.parse(localStorage.getItem('cart')!);
+
+        this.cartItems = cartItems;
+      } else {
+        this.cartItems = [];
+      }
+    }
+
     if (this.cartItems.includes(productId)) {
-      this.toastrService.warning('Product already exists in the cart!', '', {
+      this.toastService.showWarning('Product already exists in the cart!', '', {
         toastClass: 'warning-toast',
+        timeOut: 3000,
+        extendedTimeOut: 1000,
+        positionClass: 'toast-top-right',
+        preventDuplicates: true,
       });
       return;
     }
@@ -67,11 +81,18 @@ export class ProductsComponent implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem('cart', JSON.stringify(this.cartItems));
       this.headerService.updateCartItemsCount.next(this.cartItems.length);
+      this.toastService.showSuccess('Product added to the cart!', '', {
+        toastClass: 'success-toast',
+        timeOut: 3000,
+        extendedTimeOut: 1000,
+        positionClass: 'toast-top-right',
+        preventDuplicates: true,
+      });
     }
   }
 
   onViewProduct(id: string): void {
-    this.router.navigate(['/product/' + id]);
+    this.router.navigate(['products/' + id]);
   }
 
   ngOnDestroy(): void {

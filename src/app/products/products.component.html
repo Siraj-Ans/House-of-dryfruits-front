@@ -1,32 +1,33 @@
 <section class="flex bg-gray-100 h-full pt-4">
   <div class="mx-auto w-full px-6">
-    <h1 class="text-3xl text-dark-blue font-bold mb-8">All Products</h1>
-    <div class="grid grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-4">
+    <h1 class="text-2xl text-dark-blue font-bold mb-8">All Products</h1>
+    <div class="flex gap-8">
       @for(product of products; track product.id) {
       <div
-        class="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
+        class="w-56 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
       >
         <div>
           <img
             src="
-              https://www.khandryfruit.com/cdn/shop/products/Buy-Quality-Australia-Almonds-Online--_1Kg-Pack_-Badam-Giri-Premium-Quality-khandryfruit-1675863011_750x810.webp?v=1683531192
-            "
+      https://www.khandryfruit.com/cdn/shop/products/Buy-Quality-Australia-Almonds-Online--_1Kg-Pack_-Badam-Giri-Premium-Quality-khandryfruit-1675863011_750x810.webp?v=1683531192
+    "
             alt="Product"
-            class="h-60 w-72 object-cover rounded-t-xl"
+            class="h-52 w-72 object-cover rounded-t-xl"
           />
-          <div class="px-4 py-1 w-72">
+          <div class="px-3 py-1">
             <p
+              routerLink="/cart"
               (click)="onViewProduct(product.id)"
-              class="cursor-pointer text-lg font-medium text-dark-blue truncate block capitalize"
+              class="cursor-pointer text-base font-semibold text-dark-blue truncate block capitalize"
             >
               {{ product.productName }}
             </p>
             <div class="flex items-center">
-              <p class="text-base font-bold text-dark-blue cursor-auto my-3">
+              <p class="text-sm font-medium text-dark-blue cursor-auto">
                 Rp {{ product.priceInPKR }}
               </p>
               <del>
-                <p class="text-sm text-gray-600 cursor-auto ml-2">Rp 199</p>
+                <p class="text-sm text-gray-500 cursor-auto ml-2">Rp 199</p>
               </del>
               <div class="ml-auto">
                 <mat-icon

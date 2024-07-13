@@ -1,32 +1,33 @@
 <section class="bg-gray-100 pt-4">
   <div class="mx-auto w-full px-6">
-    <h1 class="text-4xl text-dark-blue font-bold mb-8">Latest Products</h1>
+    <h1 class="text-2xl text-dark-blue font-bold mb-8">Latest Products</h1>
     <div class="grid grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-4">
       @for(newProduct of newProducts; track newProduct.id) {
       <div
-        class="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
+        class="w-56 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
       >
         <div>
           <img
             src="
-              https://www.khandryfruit.com/cdn/shop/products/Buy-Quality-Australia-Almonds-Online--_1Kg-Pack_-Badam-Giri-Premium-Quality-khandryfruit-1675863011_750x810.webp?v=1683531192
-            "
+      https://www.khandryfruit.com/cdn/shop/products/Buy-Quality-Australia-Almonds-Online--_1Kg-Pack_-Badam-Giri-Premium-Quality-khandryfruit-1675863011_750x810.webp?v=1683531192
+    "
             alt="Product"
-            class="h-60 w-72 object-cover rounded-t-xl"
+            class="h-52 w-72 object-cover rounded-t-xl"
           />
-          <div class="px-4 py-1 w-72">
+          <div class="px-3 py-1">
             <p
               routerLink="/cart"
-              class="cursor-pointer text-lg font-medium text-dark-blue truncate block capitalize"
+              (click)="onViewProduct(newProduct.id)"
+              class="cursor-pointer text-base font-semibold text-dark-blue truncate block capitalize"
             >
               {{ newProduct.productName }}
             </p>
             <div class="flex items-center">
-              <p class="text-base font-bold text-dark-blue cursor-auto my-3">
+              <p class="text-sm font-medium text-dark-blue cursor-auto">
                 Rp {{ newProduct.priceInPKR }}
               </p>
               <del>
-                <p class="text-sm text-gray-600 cursor-auto ml-2">Rp 199</p>
+                <p class="text-sm text-gray-500 cursor-auto ml-2">Rp 199</p>
               </del>
               <div class="ml-auto">
                 <mat-icon

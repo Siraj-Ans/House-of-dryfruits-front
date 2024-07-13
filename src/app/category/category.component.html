@@ -1,3 +1,61 @@
-<div>
-  <p>This is a category component!</p>
-</div>
+<section class="flex bg-gray-100 h-full pt-4">
+  <div class="mx-auto w-full px-6">
+    <div class="flex justify-between px-6">
+      @if(categoryRes$ | async;) { }
+      <h1 class="text-2xl text-dark-blue font-bold mb-8">
+        {{ category?.categoryName || "fafa" }}
+      </h1>
+      <mat-form-field>
+        <mat-select value="All">
+          @for (food of foods; track food) {
+          <mat-option [value]="food.value">{{ food.viewValue }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-4">
+      @for(categoryProduct of categoryProducts; track categoryProduct.id) {
+      <div
+        class="w-56 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
+      >
+        <div>
+          <img
+            src="
+      https://www.khandryfruit.com/cdn/shop/products/Buy-Quality-Australia-Almonds-Online--_1Kg-Pack_-Badam-Giri-Premium-Quality-khandryfruit-1675863011_750x810.webp?v=1683531192
+    "
+            alt="Product"
+            class="h-52 w-72 object-cover rounded-t-xl"
+          />
+          <div class="px-3 py-1">
+            <p
+              routerLink="/cart"
+              (click)="onViewProduct(categoryProduct.id)"
+              class="cursor-pointer text-base font-semibold text-dark-blue truncate block capitalize"
+            >
+              {{ categoryProduct.productName }}
+            </p>
+            <div class="flex items-center">
+              <p class="text-sm font-medium text-dark-blue cursor-auto">
+                Rp {{ categoryProduct.priceInPKR }}
+              </p>
+              <del>
+                <p class="text-sm text-gray-500 cursor-auto ml-2">Rp 199</p>
+              </del>
+              <div class="ml-auto">
+                <mat-icon
+                  class="cursor-pointer"
+                  (click)="onAddToCart(categoryProduct.id)"
+                  aria-hidden="false"
+                  aria-label="Example shopping_cart icon"
+                  fontIcon="shopping_cart"
+                ></mat-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</section>
