@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 
 import { HeaderComponent } from './header/header.component';
 
+import { AuthService } from './account/auth/auth.service';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -12,5 +14,9 @@ import { HeaderComponent } from './header/header.component';
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
-  ngOnInit(): void {}
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.autoAuth();
+  }
 }

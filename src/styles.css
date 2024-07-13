@@ -18,7 +18,7 @@
 
 .error-toast {
   background-color: #f44336; /* Red background for error */
-  color: #fff; /* White text for high contrast */
+  color: black; /* White text for high contrast */
   font-weight: bold; /* Emphasize the text */
   padding: 15px; /* Padding around the content */
   border-radius: 5px; /* Rounded corners */

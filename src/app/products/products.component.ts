@@ -14,18 +14,23 @@ import { Router } from '@angular/router';
 import { ProductsService } from './products.service';
 import { HeaderService } from '../header/header.serice';
 import { ToastService } from '../toast.service';
+import { AuthService } from '../account/auth/auth.service';
 
 import { Product } from '../new-product/product.model';
+import { User } from '../account/User.model';
 
 @Component({
   selector: 'app-products',
   standalone: true,
   imports: [CommonModule, MatIconModule, RouterModule],
   templateUrl: './products.component.html',
+  styleUrl: './products.component.css',
 })
 export class ProductsComponent implements OnInit, OnDestroy {
   products: Product[] = [];
   cartItems: string[] = [];
+  user: User | undefined;
+  updateUserSubscription: Subscription | undefined;
   productSubscription: Subscription | undefined;
 
   constructor(
@@ -33,6 +38,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     private toastService: ToastService,
     private router: Router,
     private headerService: HeaderService,
+    private authService: AuthService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
@@ -47,11 +53,26 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
     this.productsService.getProducts();
 
+    this.updateUserSubscription = this.authService.updateUser.subscribe(
+      (user) => {
+        this.user = user;
+        console.log(this.user);
+      }
+    );
+
     this.productSubscription = this.productsService.updateProducts.subscribe(
       (products) => {
         this.products = products;
       }
     );
+  }
+
+  onAddToWhishlist(productId: string): void {
+    this.productsService.addProductToWishList(productId, this.user!.id);
+  }
+
+  onRemoveFromWhishlist(productId: string): void {
+    this.productsService.removeProductFromWishList(productId, this.user!.id);
   }
 
   onAddToCart(productId: string): void {
@@ -91,8 +112,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     }
   }
 
-  onViewProduct(id: string): void {
-    this.router.navigate(['products/' + id]);
+  onViewProduct(productId: string): void {
+    this.router.navigate(['products/' + productId]);
   }
 
   ngOnDestroy(): void {

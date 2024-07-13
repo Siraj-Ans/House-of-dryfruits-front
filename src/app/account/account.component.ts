@@ -1,42 +1,76 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule, NgFor } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { AuthService } from './auth.service';
+import { RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
+
+import { AuthService } from './auth/auth.service';
+import { AccountDetails } from './AccountDetails.model';
+import { AccountService } from './account.service';
+
+import { User } from './User.model';
 
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatIconModule],
+  imports: [CommonModule, FormsModule, MatIconModule, RouterModule],
   templateUrl: './account.component.html',
+  styleUrl: './account.component.css',
 })
-export class AccountComponent {
-  mode = 'login';
+export class AccountComponent implements OnInit {
+  user: User | undefined;
+  accountDetails: AccountDetails | undefined;
+  updateUserSubscription: Subscription | undefined;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private accountService: AccountService
+  ) {}
 
-  signup(authForm: NgForm): void {
-    console.log(authForm);
-    this.authService.signup(
-      authForm.value.userName,
-      authForm.value.emailAddress,
-      authForm.value.password
+  ngOnInit(): void {
+    this.authService.updateUser.subscribe((user) => {
+      this.user = user;
+      this.accountService.getAccountDetails(this.user.id);
+    });
+
+    this.accountService.updatedAccountDetails.subscribe((accountDetails) => {
+      this.accountDetails = accountDetails;
+      console.log('accountDetails: ', this.accountDetails);
+    });
+  }
+
+  onLogout(): void {
+    this.authService.logOut();
+  }
+
+  onUpdate(accountDetailsForm: NgForm): void {
+    const accountDetails = new AccountDetails(
+      this.user!.id,
+      accountDetailsForm.value.emailAddress,
+      accountDetailsForm.value.phoneNumber,
+      accountDetailsForm.value.city,
+      +accountDetailsForm.value.postalCode,
+      accountDetailsForm.value.address1,
+      accountDetailsForm.value.address2,
+      this.accountDetails?.id
     );
+
+    this.accountService.updateAccountDetails(accountDetails);
   }
 
-  login(authForm: NgForm): void {
-    this.authService.login(
-      authForm.value.emailAddress,
-      authForm.value.password
+  onSave(accountDetailsForm: NgForm): void {
+    const accountDetails = new AccountDetails(
+      this.user!.id,
+      accountDetailsForm.value.emailAddress,
+      accountDetailsForm.value.phoneNumber,
+      accountDetailsForm.value.city,
+      +accountDetailsForm.value.postalCode,
+      accountDetailsForm.value.address1,
+      accountDetailsForm.value.address2,
+      this.accountDetails?.id
     );
-  }
 
-  onAuth(authForm: NgForm): void {
-    if (this.mode === 'login') this.login(authForm);
-    else this.signup(authForm);
-  }
-
-  onSignup(): void {
-    this.mode = 'signup';
+    this.accountService.createAccountDetails(accountDetails);
   }
 }

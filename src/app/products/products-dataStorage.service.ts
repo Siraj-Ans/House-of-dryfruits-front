@@ -53,4 +53,31 @@ export class ProductsDataStorageService {
         })
       );
   }
+
+  saveProductToWishList(productId: string, userId: string): void {
+    this.http
+      .post('http://localhost:3000/api/wishlist/saveToWishList', {
+        productId: productId,
+        userId: userId,
+      })
+      .subscribe({
+        next: () => {},
+        error: () => {},
+        complete: () => {},
+      });
+  }
+
+  removeProductFromWishList(productId: string, userId: string): void {
+    console.log(productId, userId);
+    this.http
+      .post('http://localhost:3000/api/wishlist/removeFromWishList', {
+        productId: productId,
+        userId: userId,
+      })
+      .subscribe({
+        next: () => {},
+        error: () => {},
+        complete: () => {},
+      });
+  }
 }

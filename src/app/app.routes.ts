@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { CheckOutComponent } from './check-out/check-out.component';
 import { ProductComponent } from './product/product.component';
 import { CategoryComponent } from './category/category.component';
+import { AuthComponent } from './account/auth/auth.component';
 
 import { productResolver } from './product/product.resolver';
 import { categoryResolver } from './category/category.resolver';
@@ -19,7 +20,11 @@ export const routes: Routes = [
     component: CategoryComponent,
     resolve: { category: categoryResolver },
   },
-  { path: 'account', component: AccountComponent },
+  {
+    path: 'account',
+    component: AccountComponent,
+    children: [{ path: 'auth', component: AuthComponent }],
+  },
   { path: 'cart', component: CartComponent },
   { path: 'products', component: ProductsComponent },
   { path: 'check-out', component: CheckOutComponent },

@@ -25,4 +25,12 @@ export class ProductsService {
       complete: () => {},
     });
   }
+
+  addProductToWishList(productid: string, userId: string): void {
+    this.productDataStorageService.saveProductToWishList(productid, userId);
+  }
+
+  removeProductFromWishList(productId: string, userId: string): void {
+    this.productDataStorageService.removeProductFromWishList(productId, userId);
+  }
 }
