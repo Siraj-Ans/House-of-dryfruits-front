@@ -32,3 +32,27 @@ export interface FetchCategoryResponse {
     properties: { property: string; values: string[] }[];
   };
 }
+
+export interface SaveWishedProductResponse {
+  message: string;
+  wishedProduct: {
+    user: string;
+    product: string;
+    _id: string;
+    __v: number;
+  };
+}
+
+export interface FetchWishedProductsResponse {
+  message: string;
+  wishedProducts: {
+    _id: string;
+    __v: string;
+    user: string;
+    product: string;
+  }[];
+}
+
+export interface RemoveWishedProductRespone {
+  message: string;
+}

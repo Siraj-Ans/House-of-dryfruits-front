@@ -10,7 +10,7 @@ import { FetchProductResponse } from './ProductRes.model';
 export class ProductDataStorageService {
   constructor(private http: HttpClient) {}
 
-  fetchProduct(id: string): Observable<{
+  fetchProduct(productId: string): Observable<{
     message: string;
     product: {
       id: string;
@@ -31,7 +31,7 @@ export class ProductDataStorageService {
       .get<FetchProductResponse>(
         'http://localhost:3000/api/products/fetchProduct',
         {
-          params: new HttpParams().set('id', id),
+          params: new HttpParams().set('productId', productId),
         }
       )
       .pipe(

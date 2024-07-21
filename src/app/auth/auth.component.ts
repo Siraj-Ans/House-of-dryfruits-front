@@ -2,18 +2,23 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { AuthService } from './auth.service';
 import { Subscription } from 'rxjs';
+
+import { LoadSpinner } from '../shared/load-spinner/load-spinner.component';
+
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatIconModule],
+  imports: [CommonModule, FormsModule, MatIconModule, LoadSpinner],
   templateUrl: './auth.component.html',
 })
 export class AuthComponent implements OnInit, OnDestroy {
   mode = 'login';
+  loading = false;
   updateModeSubscription: Subscription | undefined;
+  updateLoadingStatusSubscription: Subscription | undefined;
 
   constructor(private authService: AuthService) {}
 
@@ -23,6 +28,10 @@ export class AuthComponent implements OnInit, OnDestroy {
         this.mode = mode;
       }
     );
+
+    this.authService.updateLoadingStatus.subscribe((status) => {
+      this.loading = status;
+    });
   }
 
   signup(authForm: NgForm): void {
@@ -52,5 +61,6 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.updateModeSubscription?.unsubscribe();
+    this.updateLoadingStatusSubscription?.unsubscribe();
   }
 }

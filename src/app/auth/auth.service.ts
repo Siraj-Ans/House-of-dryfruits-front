@@ -5,13 +5,16 @@ import { jwtDecode } from 'jwt-decode';
 import { isPlatformBrowser } from '@angular/common';
 
 import { AuthDataStorageService } from './auth-dataStorage.service';
+import { ToastService } from '../toast.service';
 
-import { User } from '../User.model';
+import { User } from '../account/User.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  updateLoadingStatus = new Subject<boolean>();
   updateAuthMode = new Subject<string>();
-  updateUser = new ReplaySubject<User>();
+  updateUser = new ReplaySubject<User>(0);
+  private user: User | undefined;
   private token: undefined | null | string;
   private isAuthenticated = false;
   private timerExpiration: any;
@@ -19,10 +22,12 @@ export class AuthService {
   constructor(
     private authDataStorageService: AuthDataStorageService,
     private router: Router,
+    private toastr: ToastService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   login(emailAddress: string, password: string): void {
+    this.updateLoadingStatus.next(true);
     this.authDataStorageService.login(emailAddress, password).subscribe({
       next: (res) => {
         this.token = res.token;
@@ -50,27 +55,72 @@ export class AuthService {
           decodedToken.userName,
           decodedToken.emailAddress
         );
+        this.user = user;
         this.updateUser.next(user);
 
         this.router.navigate(['account']);
       },
-      error: () => {},
-      complete: () => {},
+      error: (err) => {
+        if (!err.status)
+          this.toastr.showError('Server failed!', '', {
+            toastClass: 'error-toast',
+            timeOut: 3000,
+            extendedTimeOut: 1000,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+          });
+        else
+          this.toastr.showError(err.error.message, '', {
+            toastClass: 'error-toast',
+            timeOut: 3000,
+            extendedTimeOut: 1000,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+          });
+        this.updateLoadingStatus.next(false);
+      },
+      complete: () => {
+        this.updateLoadingStatus.next(false);
+      },
     });
   }
 
   signup(userName: string, email: string, password: string): void {
+    this.updateLoadingStatus.next(true);
     this.authDataStorageService.signup(userName, email, password).subscribe({
       next: (res) => {
+        this.user = res.user;
+        this.updateUser.next(res.user);
         this.updateAuthMode.next('login');
       },
-      error: () => {},
-      complete: () => {},
+      error: (err) => {
+        if (!err.status)
+          this.toastr.showError('Server failed!', '', {
+            toastClass: 'error-toast',
+            timeOut: 3000,
+            extendedTimeOut: 1000,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+          });
+        else
+          this.toastr.showError(err.error.message, '', {
+            toastClass: 'error-toast',
+            timeOut: 3000,
+            extendedTimeOut: 1000,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+          });
+        this.updateLoadingStatus.next(false);
+      },
+      complete: () => {
+        this.updateLoadingStatus.next(false);
+      },
     });
   }
 
   private removeAuthData(): void {
     this.token = null;
+    this.user = undefined;
 
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('token');
@@ -83,7 +133,7 @@ export class AuthService {
     this.isAuthenticated = false;
     clearTimeout(this.timerExpiration);
 
-    this.router.navigate(['account/auth']);
+    this.router.navigate(['']);
   }
 
   private setTokenTimer(expiresInDuration: number): void {
@@ -97,6 +147,10 @@ export class AuthService {
       localStorage.setItem('token', token);
       localStorage.setItem('expiresIn', expirationDate.toISOString());
     }
+  }
+
+  getUser(): User | undefined {
+    return this.user;
   }
 
   autoAuth(): void {
@@ -124,7 +178,8 @@ export class AuthService {
           decodedToken.userName,
           decodedToken.emailAddress
         );
-        this.updateUser.next(user);
+        this.user = user;
+        // this.updateUser.next(user);
 
         this.setTokenTimer(isInFuture);
       }
@@ -150,5 +205,9 @@ export class AuthService {
 
   getAuthToken(): undefined | null | string {
     return this.token;
+  }
+
+  getIsAuthenticated(): boolean {
+    return this.isAuthenticated;
   }
 }

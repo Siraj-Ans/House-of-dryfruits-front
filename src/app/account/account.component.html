@@ -1,29 +1,84 @@
 <div class="bg-gray-100 py-6 px-6 h-full">
-  <router-outlet></router-outlet>
-
   <div class="flex gap-5 justify-between">
-    <div class="bg-white p-6 rounded-lg w-2/4">
-      <h2 class="text-2xl font-bold text-dark-blue">Whishlist</h2>
+    <div class="flex flex-col gap-5 bg-white p-6 rounded-lg w-3/4">
+      <div class="flex gap-8">
+        <a
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="active-link"
+          routerLink="orders"
+        >
+          <h2 class="text-3xl font-bold text-gray-200">Orders</h2>
+        </a>
+        <a
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="active-link"
+          routerLink="wishlist"
+        >
+          <h2 class="text-3xl font-bold text-gray-200">Whishlist</h2>
+        </a>
+      </div>
+
+      <div>
+        <router-outlet></router-outlet>
+      </div>
     </div>
 
     <div class="flex flex-col gap-5 bg-white p-6 rounded-lg w-2/6">
       <h2 class="text-2xl font-bold text-dark-blue">Account Details</h2>
 
-      <form #accountDetailsForm="ngForm" class="flex flex-col gap-3">
+      @if(loading) {
+      <div class="flex bg-transparent items-center gap-2 justify-between">
+        <app-bar-spinner></app-bar-spinner>
+      </div>
+
+      } @else {
+      <form [formGroup]="accountDetailsForm" class="flex flex-col gap-3">
         <input
-          ngModel
-          required
-          email=""
-          #emailAddress="ngModel"
+          [ngClass]="{
+            borderBlink:
+              accountDetailsForm.controls['emailAddress'].invalid &&
+              accountDetailsForm.controls['emailAddress'].touched
+          }"
+          formControlName="emailAddress"
           name="emailAddress"
           type="email"
           placeholder="Email Address"
           class="bg-gray-100 py-2 text-dark-blue px-4 rounded-full focus:bg-black-dark focus:outline-none focus:ring-1 focus:ring-neon-blue focus:drop-shadow-lg"
         />
+
+        <div class="flex justify-between">
+          <input
+            [ngClass]="{
+              borderBlink:
+                accountDetailsForm.controls['firstName'].invalid &&
+                accountDetailsForm.controls['firstName'].touched
+            }"
+            formControlName="firstName"
+            name="firstName"
+            type="text"
+            placeholder="First Name"
+            class="bg-gray-100 w-2/5 py-2 text-dark-blue px-4 rounded-full focus:bg-black-dark focus:outline-none focus:ring-1 focus:ring-neon-blue focus:drop-shadow-lg"
+          />
+          <input
+            [ngClass]="{
+              borderBlink:
+                accountDetailsForm.controls['lastName'].invalid &&
+                accountDetailsForm.controls['lastName'].touched
+            }"
+            formControlName="lastName"
+            name="lastName"
+            type="text"
+            placeholder="Last Name"
+            class="bg-gray-100 w-2/5 py-2 text-dark-blue px-4 rounded-full focus:bg-black-dark focus:outline-none focus:ring-1 focus:ring-neon-blue focus:drop-shadow-lg"
+          />
+        </div>
         <input
-          ngModel
-          required
-          #phoneNumber="ngModel"
+          [ngClass]="{
+            borderBlink:
+              accountDetailsForm.controls['phoneNumber'].invalid &&
+              accountDetailsForm.controls['phoneNumber'].touched
+          }"
+          formControlName="phoneNumber"
           name="phoneNumber"
           type="tel"
           placeholder="Phone Number"
@@ -32,18 +87,24 @@
 
         <div class="flex justify-between">
           <input
-            ngModel
-            required
-            #city="ngModel"
+            [ngClass]="{
+              borderBlink:
+                accountDetailsForm.controls['city'].invalid &&
+                accountDetailsForm.controls['city'].touched
+            }"
+            formControlName="city"
             name="city"
             type="text"
             placeholder="City"
             class="bg-gray-100 w-2/5 py-2 text-dark-blue px-4 rounded-full focus:bg-black-dark focus:outline-none focus:ring-1 focus:ring-neon-blue focus:drop-shadow-lg"
           />
           <input
-            ngModel
-            required
-            #postalCode="ngModel"
+            [ngClass]="{
+              borderBlink:
+                accountDetailsForm.controls['postalCode'].invalid &&
+                accountDetailsForm.controls['postalCode'].touched
+            }"
+            formControlName="postalCode"
             name="postalCode"
             type="text"
             placeholder="Postal Code"
@@ -51,17 +112,24 @@
           />
         </div>
         <input
-          ngModel
-          required
-          #address1="ngModel"
+          [ngClass]="{
+            borderBlink:
+              accountDetailsForm.controls['address1'].invalid &&
+              accountDetailsForm.controls['address1'].touched
+          }"
+          formControlName="address1"
           name="address1"
           type="text"
           placeholder="Address"
           class="bg-gray-100 py-2 text-dark-blue px-4 rounded-full focus:bg-black-dark focus:outline-none focus:ring-1 focus:ring-neon-blue focus:drop-shadow-lg"
         />
         <input
-          ngModel
-          #address2="ngModel"
+          [ngClass]="{
+            borderBlink:
+              accountDetailsForm.controls['address2'].invalid &&
+              accountDetailsForm.controls['address2'].touched
+          }"
+          formControlName="address2"
           name="address2"
           type="text"
           placeholder="Address, suite, etc. (optional)"
@@ -69,7 +137,7 @@
         />
         <div class="flex gap-2">
           <button
-            (click)="onUpdate(accountDetailsForm)"
+            (click)="onUpdate()"
             [disabled]="accountDetailsForm.invalid"
             [ngClass]="
               accountDetailsForm.invalid ? 'invalid-update' : 'valid-update'
@@ -80,7 +148,7 @@
             Update
           </button>
           <button
-            (click)="onSave(accountDetailsForm)"
+            (click)="onSave()"
             [disabled]="accountDetailsForm.invalid"
             [ngClass]="
               accountDetailsForm.invalid ? 'invalid-save' : 'valid-save'
@@ -100,6 +168,7 @@
           Logout
         </button>
       </form>
+      }
     </div>
   </div>
 </div>

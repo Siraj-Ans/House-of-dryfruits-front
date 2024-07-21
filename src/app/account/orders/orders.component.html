@@ -1,0 +1,63 @@
+@if(loading) {
+<div class="flex bg-transparent items-center gap-2 justify-between">
+  <app-bar-spinner></app-bar-spinner>
+</div>
+} @else { @for(order of orders; track order.id; let i = $index) {
+<div class="flex items-center py-2 border-b border-gray-500">
+  <div class="flex flex-col justify-center">
+    <a
+      target="_blank"
+      type="button"
+      href="https://f20190652318v.trackingmore.org/?page=tracking-page"
+      class="mx-2 my-2 w-fit bg-orange-400 transition duration-150 ease-in-out hover:bg-orange-600 rounded-lg text-white px-6 py-2 text-base"
+    >
+      Track
+    </a>
+    <p class="text-gray-400">
+      Tracking Number:
+      <span class="text-base font-bold text-dark-blue">{{
+        order.trackingId
+      }}</span>
+    </p>
+
+    <button
+      (click)="onCancelOrder(order.id, order.trackingId, i)"
+      type="button"
+      class="mx-2 my-2 mt-4 w-fit bg-red-600 transition duration-150 ease-in-out hover:bg-red-500 rounded-lg text-white px-6 py-2 text-base"
+    >
+      Cancel order
+    </button>
+  </div>
+  <div class="flex flex-col w-1/2">
+    <p class="text-2xl leading-tight font-bold text-gray-400">
+      {{ order.createdAt }}
+    </p>
+    <p class="font-medium mt-2 leading-tight text-lg text-dark-gray">
+      {{ order.firstName + " " + order.lastName }}
+    </p>
+    <p class="font-medium leading-tight text-lg text-dark-gray">
+      {{ order.emailAddress }}
+    </p>
+    <p class="font-medium leading-tight text-lg text-dark-gray">
+      {{ order.phoneNumber }}
+    </p>
+    <p class="font-medium leading-tight text-lg text-dark-gray">
+      {{ order.address1 }}
+    </p>
+    <p class="font-medium leading-tight text-lg text-dark-gray">
+      {{ order.country + " " + order.city + " " + order.postalCode }}
+    </p>
+  </div>
+  <div class="flex flex-col justify-center w-1/2">
+    @for(productInfo of order.productInfo; track productInfo.productName;) {
+    <p class="text-lg text-dark-blue font-medium">
+      <span class="font-medium text-lg text-gray-300">
+        {{ productInfo.quantity + "x" }}</span
+      >
+      {{ productInfo.productName }}
+    </p>
+
+    }
+  </div>
+</div>
+} }

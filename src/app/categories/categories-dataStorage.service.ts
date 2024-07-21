@@ -5,6 +5,9 @@ import { map, Observable } from 'rxjs';
 import {
   FetchCategoriesProductsResponse,
   FetchCategoriesResponse,
+  FetchWishedProductsResponse,
+  RemoveWishedProductRespone,
+  SaveWishedProductResponse,
 } from './CategoriesRes.model';
 
 @Injectable({ providedIn: 'root' })
@@ -113,5 +116,90 @@ export class CategoriesDataStorageService {
           };
         })
       );
+  }
+
+  saveProductOnWishList(
+    productId: string,
+    userId: string
+  ): Observable<{
+    message: string;
+    wishedProduct: {
+      user: string;
+      product: string;
+      id: string;
+    };
+  }> {
+    return this.http
+      .post<SaveWishedProductResponse>(
+        'http://localhost:3000/api/wishlist/saveToWishList',
+        {
+          productId: productId,
+          userId: userId,
+        }
+      )
+      .pipe(
+        map((res) => {
+          return {
+            message: res.message,
+            wishedProduct: {
+              id: res.wishedProduct._id,
+              user: res.wishedProduct.user,
+              product: res.wishedProduct.product,
+            },
+          };
+        })
+      );
+  }
+
+  fetchWishedProducts(
+    userId: string,
+    newProducts: string[]
+  ): Observable<{
+    message: string;
+    wishedProducts: {
+      id: string;
+      user: string;
+      product: string;
+    }[];
+  }> {
+    return this.http
+      .get<FetchWishedProductsResponse>(
+        'http://localhost:3000/api/wishlist/fetchWishedProducts',
+        {
+          params: new HttpParams()
+            .append('userId', userId)
+            .append('newProducts', JSON.stringify(newProducts)),
+        }
+      )
+      .pipe(
+        map((res) => {
+          return {
+            message: res.message,
+            wishedProducts: res.wishedProducts.map((wishedProduct) => {
+              return {
+                id: wishedProduct._id,
+                user: wishedProduct.user,
+                product: wishedProduct.product,
+              };
+            }),
+          };
+        })
+      );
+  }
+
+  removeProductFromWishlist(
+    userId: string,
+    productId: string
+  ): Observable<{
+    message: string;
+  }> {
+    return this.http.delete<RemoveWishedProductRespone>(
+      'http://localhost:3000/api/wishlist/removeFromWishList',
+      {
+        params: new HttpParams()
+          .append('userId', userId)
+          .append('productId', productId),
+      }
+    );
   }
 }

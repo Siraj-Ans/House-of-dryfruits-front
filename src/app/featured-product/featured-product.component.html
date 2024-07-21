@@ -1,18 +1,17 @@
 <div class="flex bg-dark-gray gap-6 h-4/6 px-6 py-12">
   <div class="flex flex-col gap-3 w-1/2">
-    <h1 class="text-3xl text-white font-bold">Austrlian Almonds</h1>
-    <p class="text-base text-gray-400 font-medium w-8/12">
-      The Taste of Australia Indulge in the exquisite taste of Australia with
-      our premium quality Australian almonds. Grown in the pristine orchards of
-      Down Under, these almonds offer a flavor that's second to none. Each
-      almond in this 1Kg pack is a taste of Australian goodness.
+    <h1 class="text-3xl text-white font-bold">
+      {{ featuredProduct?.productName }}
+    </h1>
+    <p class="text-base h-1/2 overflow-y-hidden text-gray-400 font-medium">
+      {{ featuredProduct?.description }}
     </p>
   </div>
 
-  <div class="w-1/2">
+  <div class="flex items-center w-1/2">
     <img
-      class="w-9/12 rounded-lg object-contain"
-      src="https://i.pinimg.com/originals/74/38/7d/74387d97e40405249433223e2a828a2a.png"
+      class="w-9/12 mx-auto rounded-lg object-contain"
+      [src]="(featuredProduct?.productImages)![0]"
       alt=""
     />
   </div>

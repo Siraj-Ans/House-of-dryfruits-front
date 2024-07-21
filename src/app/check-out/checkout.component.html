@@ -1,12 +1,11 @@
-<div class="flex justify-center items-center">
-  <div
-    class="w-full py-16 px-4 md:px-6 2xl:px-0 flex justify-center items-center 2xl:mx-auto 2xl:container"
-  >
-    <div class="flex flex-col justify-start items-start w-full space-y-9">
+@if(!checkoutSuccess) {
+<div class="flex">
+  <div class="w-1/2 py-8 px-4 md:px-6 2xl:px-0 flex 2xl:mx-auto 2xl:container">
+    <div class="flex flex-col justify-start items-start w-full space-y-5">
       <div class="flex justify-start flex-col items-start space-y-2">
         <button
           (click)="onBack()"
-          class="flex flex-row items-center text-gray-600 hover:text-gray-500 space-x-1"
+          class="flex flex-row items-center mb-3 text-gray-600 hover:text-gray-500 space-x-1"
         >
           <svg
             class="fill-stroke"
@@ -40,92 +39,150 @@
           </svg>
           <p class="text-sm leading-none">Back</p>
         </button>
-        <p
-          class="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9 text-dark-gray"
-        >
+        <h1 class="text-3xl lg:text-4xl font-semibold text-dark-gray">
           Checkout
-        </p>
-        <p class="text-base leading-normal sm:leading-4 text-gray-600">
+        </h1>
+        <!-- <p class="text-base leading-normal sm:leading-4 text-gray-600">
           Home > Electronics > Headphones > Cart > Checkout
-        </p>
+        </p> -->
       </div>
 
-      <div
+      @if(loading){
+      <div class="flex bg-transparent items-center gap-2 justify-between">
+        <app-bar-spinner></app-bar-spinner>
+      </div>
+      } @else {
+      <form
+        (ngSubmit)="onCheckOut()"
+        [formGroup]="checkOutForm"
         class="flex flex-col xl:flex-row justify-center xl:justify-between space-y-6 xl:space-y-0 xl:space-x-6 w-full"
       >
-        <div class="mt-4 bg-white flex flex-col gap-8 lg:w-full xl:w-3/5">
+        <div class="mt-4 bg-white flex flex-col gap-8 w-full">
           <div class="flex flex-col gap-2">
-            <h3 class="text-2xl text-dark-blue font-bold">Contact</h3>
+            <label
+              for="contact"
+              class="cursor-pointer text-2xl text-dark-blue font-bold"
+              >Contact</label
+            >
             <input
+              [ngClass]="{
+                borderBlink:
+                  checkOutForm.controls['emailAddress'].invalid &&
+                  checkOutForm.controls['emailAddress'].touched
+              }"
+              id="contact"
               class="border border-gray-300 p-4 rounded w-full text-base leading-4 placeholder-gray-600 text-gray-600"
               type="email"
-              name=""
-              id=""
-              placeholder="Email or mobile phone number"
+              formControlName="emailAddress"
+              name="emailAddress"
+              placeholder="Email Address"
             />
           </div>
 
           <div class="flex gap-2 flex-col">
-            <h3 class="text-2xl text-dark-blue font-bold">Delivery</h3>
+            <label
+              for="country"
+              class="cursor-pointer text-2xl text-dark-blue font-bold"
+              >Delivery</label
+            >
             <select
+              [ngClass]="{
+                borderBlink:
+                  checkOutForm.controls['country'].invalid &&
+                  checkOutForm.controls['country'].touched
+              }"
+              id="country"
+              formControlName="country"
+              name="country"
               class="border border-gray-300 p-4 rounded w-full text-base leading-4 placeholder-gray-600 text-gray-600"
             >
-              <option value="null">Pakistan</option>
+              <option value="Pakistan">Pakistan</option>
             </select>
             <div class="grid grid-flow-col gap-4">
               <input
+                [ngClass]="{
+                  borderBlink:
+                    checkOutForm.controls['firstName'].invalid &&
+                    checkOutForm.controls['firstName'].touched
+                }"
+                formControlName="firstName"
+                name="firstName"
                 class="border border-gray-300 p-4 rounded text-base leading-4 placeholder-gray-600 text-gray-600"
                 type="text"
-                name=""
-                id=""
+                name="firstName"
                 placeholder="First name"
               />
               <input
+                [ngClass]="{
+                  borderBlink:
+                    checkOutForm.controls['lastName'].invalid &&
+                    checkOutForm.controls['lastName'].touched
+                }"
                 class="border border-gray-300 p-4 rounded text-base leading-4 placeholder-gray-600 text-gray-600"
                 type="text"
-                name=""
-                id=""
+                formControlName="lastName"
+                name="lastName"
                 placeholder="Last name"
               />
             </div>
             <div class="flex flex-col gap-2">
               <input
+                [ngClass]="{
+                  borderBlink:
+                    checkOutForm.controls['address1'].invalid &&
+                    checkOutForm.controls['address1'].touched
+                }"
                 class="border border-gray-300 p-4 rounded text-base leading-4 placeholder-gray-600 text-gray-600"
                 type="text"
-                name=""
-                id=""
+                formControlName="address1"
+                name="address1"
                 placeholder="Address"
               />
               <input
                 class="border border-gray-300 p-4 rounded text-base leading-4 placeholder-gray-600 text-gray-600"
                 type="text"
-                name=""
-                id=""
+                formControlName="address2"
+                name="address2"
                 placeholder="Address, suite, etc. (optional)"
               />
             </div>
             <div class="grid grid-flow-col gap-4">
               <input
+                [ngClass]="{
+                  borderBlink:
+                    checkOutForm.controls['city'].invalid &&
+                    checkOutForm.controls['city'].touched
+                }"
                 class="border border-gray-300 p-4 rounded text-base leading-4 placeholder-gray-600 text-gray-600"
                 type="text"
-                name=""
-                id=""
+                formControlName="city"
+                name="city"
                 placeholder="City"
               />
               <input
+                [ngClass]="{
+                  borderBlink:
+                    checkOutForm.controls['postalCode'].invalid &&
+                    checkOutForm.controls['postalCode'].touched
+                }"
                 class="border border-gray-300 p-4 rounded text-base leading-4 placeholder-gray-600 text-gray-600"
                 type="text"
-                name=""
-                id=""
+                formControlName="postalCode"
+                name="postalCode"
                 placeholder="Postal code"
               />
             </div>
 
             <input
+              [ngClass]="{
+                borderBlink:
+                  checkOutForm.controls['phoneNumber'].invalid &&
+                  checkOutForm.controls['phoneNumber'].touched
+              }"
               class="border border-gray-300 p-4 rounded text-base leading-4 placeholder-gray-600 text-gray-600"
               type="tel"
-              name=""
-              id=""
+              formControlName="phoneNumber"
+              name="phoneNumber"
               placeholder="phone"
             />
           </div>
@@ -136,13 +193,17 @@
               All transactions are secure and encrypted.
             </p>
 
-            <ul class="">
+            <ul>
               <li
                 class="border p-4 rounded rounded-bl-none rounded-br-none text-base leading-4 placeholder-gray-600 text-gray-600"
               >
                 <div class="flex gap-4 bg-white-300">
                   <input
-                    type="checkbox"
+                    (ngModelChange)="onCOD()"
+                    type="radio"
+                    value="COD"
+                    formControlName="paymentMethod"
+                    name="paymentMethod"
                     id="filled-border-checkbox"
                     class="appearance-none h-5 w-5 border rounded-full border-gray-300 bg-white checked:bg-blue-600 dark:checked:bg-green-600 checked:border-none"
                   />
@@ -155,8 +216,11 @@
               >
                 <div class="flex gap-4 bg-white-300">
                   <input
-                    [(ngModel)]="isChecked"
-                    type="checkbox"
+                    type="radio"
+                    (ngModelChange)="onBankDeposit()"
+                    formControlName="paymentMethod"
+                    name="paymentMethod"
+                    value="Bank Deposit"
                     id="filled-border-checkbox"
                     class="appearance-none h-5 w-5 border rounded-full border-gray-300 bg-white checked:bg-blue-600 dark:checked:bg-green-600 checked:border-none"
                   />
@@ -191,15 +255,29 @@
           </div>
 
           <button
-            class="mt-8 border border-transparent hover:border-gray-300 bg-green-700 hover:bg-green-600 text-white hover:text-gray-900 flex justify-center items-center py-4 rounded w-full"
+            [ngClass]="
+              checkOutForm.invalid ? 'invalid-checkout' : 'valid-checkout'
+            "
+            class="text-base leading-4 mt-8 border border-transparent text-white flex justify-center items-center py-4 rounded w-full"
           >
-            <div>
-              <p class="text-base leading-4">Complete order</p>
-            </div>
+            Complete order
           </button>
         </div>
-        <div class="bg-gray-100"></div>
-      </div>
+      </form>
+      }
     </div>
   </div>
 </div>
+} @else {
+<div class="bg-gray-100 pt-7 pl-7 h-screen">
+  <div class="flex flex-col bg-white w-1/2 gap-10 rounded px-5 py-10">
+    <h1 class="text-3xl lg:text-4xl font-semibold text-dark-gray">
+      Thanks for your order!
+    </h1>
+    <p class="font-medium text-base">
+      We will email you when the order will be sent!
+    </p>
+  </div>
+</div>
+
+}

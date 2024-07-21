@@ -5,6 +5,8 @@ export interface SaveAccountDetails {
     _id: string;
     __v: number;
     emailAddress: string;
+    firstName: string;
+    lastName: string;
     phoneNumber: string;
     city: string;
     postalCode: number;
@@ -20,12 +22,14 @@ export interface FetchAccountDetails {
     __v: number;
     userId: string;
     emailAddress: string;
+    firstName: string;
+    lastName: string;
     phoneNumber: string;
     city: string;
     postalCode: number;
     address1: string;
     address2: string;
-  };
+  } | null;
 }
 
 export interface UpdateAccountDetailsResponse {

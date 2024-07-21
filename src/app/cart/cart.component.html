@@ -49,9 +49,16 @@
                 <th class="text-left text-dark-blue font-semibold">Total</th>
               </tr>
             </thead>
+
             <tbody>
-              @for (cartItemProduct of cartItemProducts; track
-              cartItemProduct.id;) {
+              @if(loading) {
+              <div
+                class="flex bg-transparent items-center gap-2 justify-between"
+              >
+                <app-bar-spinner></app-bar-spinner>
+              </div>
+              } @else { @for (cartItemProduct of cartItemProducts; track
+              cartItemProduct.id; let i = $index) {
               <tr>
                 <td class="py-4">
                   <div class="flex items-center">
@@ -65,28 +72,43 @@
                     }}</span>
                   </div>
                 </td>
-                <td class="py-4">Rs {{ cartItemProduct.priceInPKR }}</td>
-                <td class="py-4">
+                <td class="py-4 w-20">Rs {{ cartItemProduct.priceInPKR }}</td>
+                <td class="py-4 px-2">
                   <div class="flex items-center">
-                    <button class="border rounded-md py-2 px-4 mr-2">-</button>
-                    <span class="text-center w-8">1</span>
-                    <button class="border rounded-md py-2 px-4 ml-2">+</button>
+                    <button
+                      (click)="onDecreaseQuantity(i)"
+                      class="border rounded-md py-2 px-4 mr-2"
+                    >
+                      -
+                    </button>
+                    <span class="text-center w-8">{{
+                      cartItems[i].quanity
+                    }}</span>
+                    <button
+                      (click)="onIncreaseQuantity(i)"
+                      class="border rounded-md py-2 px-4 ml-2"
+                    >
+                      +
+                    </button>
                   </div>
                 </td>
-                <td class="py-4">$19.99</td>
+                <td class="py-4 w-20">Rs {{ cartItems[i].total }}</td>
               </tr>
 
-              }
+              } }
             </tbody>
           </table>
         </div>
         <div class="flex">
           <button
+            [disabled]="cartItemProducts.length == 0"
+            (click)="onUpdateCart()"
             class="mx-2 my-2 bg-green-600 transition duration-150 ease-in-out hover:bg-green-500 rounded text-white px-6 py-2 text-base"
           >
             Update cart
           </button>
           <button
+            [disabled]="cartItemProducts.length == 0"
             (click)="onClearCart()"
             class="mx-2 my-2 bg-red-600 transition duration-150 ease-in-out hover:bg-red-500 rounded text-white px-6 py-2 text-base"
           >
@@ -100,22 +122,24 @@
           <h2 class="text-lg text-dark-blue font-semibold mb-4">Summary</h2>
           <div class="flex justify-between mb-2">
             <span>Subtotal</span>
-            <span>$19.99</span>
-          </div>
-          <div class="flex justify-between mb-2">
-            <span>Taxes</span>
-            <span>$1.99</span>
+            <span>Rs {{ subTotal }}</span>
           </div>
           <div class="flex justify-between mb-2">
             <span>Shipping</span>
-            <span>$0.00</span>
+            <span>Rs {{ shippingFee }}</span>
           </div>
           <hr class="my-2" />
           <div class="flex justify-between mb-2">
             <span class="font-semibold text-dark-blue">Total</span>
-            <span class="font-semibold text-dark-blue">$21.98</span>
+            <span class="font-semibold text-dark-blue"
+              >Rs {{ subTotal + shippingFee }}</span
+            >
           </div>
           <button
+            [disabled]="cartItems.length === 0"
+            [ngClass]="
+              cartItems.length === 0 ? 'invalid-checkout' : 'valid-checkout'
+            "
             (click)="onCheckOut()"
             class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full"
           >

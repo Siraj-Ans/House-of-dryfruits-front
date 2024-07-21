@@ -1,19 +1,72 @@
-<section class="bg-gray-100 pt-4">
+<section class="bg-gray-100 pt-4 pb-16">
   <div class="mx-auto w-full px-6">
     <h1 class="text-2xl text-dark-blue font-bold mb-8">Latest Products</h1>
+
+    @if(loading) {
+    <div class="flex bg-transparent items-center gap-2 justify-between">
+      <app-bar-spinner></app-bar-spinner>
+    </div>
+    }@else {
     <div class="grid grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-4">
       @for(newProduct of newProducts; track newProduct.id) {
       <div
+        (mouseenter)="onMouseEnter(newProduct.id)"
+        (mouseleave)="onMouseLeave(newProduct.id)"
         class="w-56 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
       >
-        <div>
+        <div class="relative">
           <img
-            src="
-      https://www.khandryfruit.com/cdn/shop/products/Buy-Quality-Australia-Almonds-Online--_1Kg-Pack_-Badam-Giri-Premium-Quality-khandryfruit-1675863011_750x810.webp?v=1683531192
-    "
+            src="Organic.svg"
             alt="Product"
             class="h-52 w-72 object-cover rounded-t-xl"
           />
+          @if(iconsShowing.has(newProduct.id)) {
+
+          <div class="cursor-pointer icons-container" [@showHideIcons]="state">
+            <div
+              class="cursor-pointer bg-gray-100 px-3 pt-3 pb-1 rounded-md hover:px-4 hover:pt-4 hover:pb-2"
+            >
+              @if(wishedProducts.includes(newProduct.id)) {
+              <mat-icon
+                (click)="onRemoveFromWhishlist(newProduct.id)"
+                aria-hidden="false"
+                aria-label="Example close icon"
+                fontIcon="close"
+              ></mat-icon>
+              } @else {
+              <mat-icon
+                (click)="onAddToWhishlist(newProduct.id)"
+                aria-hidden="false"
+                aria-label="Example favorite icon"
+                fontIcon="favorite"
+              ></mat-icon>
+              }
+            </div>
+            <div
+              class="cursor-pointer bg-gray-100 px-3 pt-3 pb-1 rounded-md hover:px-4 hover:pt-4 hover:pb-2"
+            >
+              <mat-icon
+                class=""
+                (click)="onAddToCart(newProduct)"
+                aria-hidden="false"
+                aria-label="Example local_mall icon"
+                fontIcon="local_mall"
+              ></mat-icon>
+            </div>
+            <div
+              class="cursor-pointer bg-gray-100 px-3 pt-3 pb-1 rounded-md hover:px-4 hover:pt-4 hover:pb-2"
+            >
+              <mat-icon
+                class=""
+                (click)="onViewProduct(newProduct.id)"
+                aria-hidden="false"
+                aria-label="Example visibility"
+                fontIcon="visibility"
+              ></mat-icon>
+            </div>
+          </div>
+          }
+
           <div class="px-3 py-1">
             <p
               routerLink="/cart"
@@ -32,7 +85,7 @@
               <div class="ml-auto">
                 <mat-icon
                   class="cursor-pointer"
-                  (click)="onAddToCart(newProduct.id)"
+                  (click)="onAddToCart(newProduct)"
                   aria-hidden="false"
                   aria-label="Example shopping_cart icon"
                   fontIcon="shopping_cart"
@@ -44,5 +97,6 @@
       </div>
       }
     </div>
+    }
   </div>
 </section>

@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginUserResponse, SignUpUserResponse } from './AuthRes.model';
 import { map, Observable } from 'rxjs';
+
+import { LoginUserResponse, SignUpUserResponse } from './AuthRes.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthDataStorageService {

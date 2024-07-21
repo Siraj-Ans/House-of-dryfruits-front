@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FetchCartItemProducts } from './CartRes.model';
 import { Observable, map } from 'rxjs';
+
+import { FetchCartItemProducts, FetchShippingFee } from './CartRes.model';
 
 @Injectable({ providedIn: 'root' })
 export class CartDataStorageService {
@@ -57,5 +58,14 @@ export class CartDataStorageService {
           };
         })
       );
+  }
+
+  fetchShippingFee(): Observable<{
+    message: string;
+    shippingFee: number;
+  }> {
+    return this.http.get<FetchShippingFee>(
+      'http://localhost:3000/api/settings/fetchShippingfee'
+    );
   }
 }

@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AccountDetails } from './AccountDetails.model';
 import { map, Observable } from 'rxjs';
+
+import { AccountDetails } from './AccountDetails.model';
 import {
   FetchAccountDetails,
   SaveAccountDetails,
@@ -20,6 +21,8 @@ export class AccountDataStorageService {
       userId: string;
       id: string;
       emailAddress: string;
+      firstName: string;
+      lastName: string;
       phoneNumber: string;
       postalCode: number;
       city: string;
@@ -40,6 +43,8 @@ export class AccountDataStorageService {
               id: res.accountDetails._id,
               userId: res.accountDetails.userId,
               emailAddress: res.accountDetails.emailAddress,
+              firstName: res.accountDetails.firstName,
+              lastName: res.accountDetails.lastName,
               phoneNumber: res.accountDetails.phoneNumber,
               city: res.accountDetails.city,
               postalCode: res.accountDetails.postalCode,
@@ -57,12 +62,14 @@ export class AccountDataStorageService {
       id: string;
       userId: string;
       emailAddress: string;
+      firstName: string;
+      lastName: string;
       phoneNumber: string;
       city: string;
       postalCode: number;
       address1: string;
       address2: string;
-    };
+    } | null;
   }> {
     return this.http
       .get<FetchAccountDetails>(
@@ -75,16 +82,20 @@ export class AccountDataStorageService {
         map((res) => {
           return {
             message: res.message,
-            accountDetails: {
-              id: res.accountDetails._id,
-              userId: res.accountDetails.userId,
-              emailAddress: res.accountDetails.emailAddress,
-              phoneNumber: res.accountDetails.phoneNumber,
-              city: res.accountDetails.city,
-              postalCode: res.accountDetails.postalCode,
-              address1: res.accountDetails.address1,
-              address2: res.accountDetails.address2,
-            },
+            accountDetails: res.accountDetails
+              ? {
+                  id: res.accountDetails._id,
+                  userId: res.accountDetails.userId,
+                  emailAddress: res.accountDetails.emailAddress,
+                  firstName: res.accountDetails.firstName,
+                  lastName: res.accountDetails.lastName,
+                  phoneNumber: res.accountDetails.phoneNumber,
+                  city: res.accountDetails.city,
+                  postalCode: res.accountDetails.postalCode,
+                  address1: res.accountDetails.address1,
+                  address2: res.accountDetails.address2,
+                }
+              : null,
           };
         })
       );
@@ -93,7 +104,6 @@ export class AccountDataStorageService {
   updateAccountDetails(accountDetails: AccountDetails): Observable<{
     message: string;
   }> {
-    console.log(accountDetails);
     return this.http.post<UpdateAccountDetailsResponse>(
       'http://localhost:3000/api/account/updateAccountDetails',
       accountDetails

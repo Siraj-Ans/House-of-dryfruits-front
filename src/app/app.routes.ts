@@ -8,10 +8,15 @@ import { HomeComponent } from './home/home.component';
 import { CheckOutComponent } from './check-out/check-out.component';
 import { ProductComponent } from './product/product.component';
 import { CategoryComponent } from './category/category.component';
-import { AuthComponent } from './account/auth/auth.component';
+import { AuthComponent } from './auth/auth.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 import { productResolver } from './product/product.resolver';
 import { categoryResolver } from './category/category.resolver';
+
+import { authGuard } from './auth/auth-guard';
+import { OrdersComponent } from './account/orders/orders.component';
+import { WishListComponent } from './account/wishlist/wishlist.componenet';
 
 export const routes: Routes = [
   { path: 'categories', component: CategoriesComponent },
@@ -23,15 +28,27 @@ export const routes: Routes = [
   {
     path: 'account',
     component: AccountComponent,
-    children: [{ path: 'auth', component: AuthComponent }],
+    canActivate: [authGuard],
+    children: [
+      {
+        path: 'orders',
+        component: OrdersComponent,
+      },
+      {
+        path: 'wishlist',
+        component: WishListComponent,
+      },
+    ],
   },
+  { path: 'auth', component: AuthComponent },
   { path: 'cart', component: CartComponent },
   { path: 'products', component: ProductsComponent },
-  { path: 'check-out', component: CheckOutComponent },
+  { path: 'check-out', component: CheckOutComponent, canActivate: [authGuard] },
   {
     path: 'products/:id',
     component: ProductComponent,
     resolve: { product: productResolver },
   },
   { path: '', component: HomeComponent },
+  { path: '**', component: PageNotFoundComponent },
 ];

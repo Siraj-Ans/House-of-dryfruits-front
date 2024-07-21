@@ -1,45 +1,52 @@
 <section class="flex bg-gray-100 h-full pt-4">
   <div class="mx-auto w-full px-6">
     <h1 class="text-2xl text-dark-blue font-bold mb-8">All Products</h1>
-    <div class="flex gap-8">
+    @if(loading) {
+    <div class="flex bg-transparent items-center gap-2 justify-between">
+      <app-bar-spinner></app-bar-spinner>
+    </div>
+    } @else {
+    <div class="grid grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-4">
       @for(product of products; track product.id) {
       <div
-        class="w-56 relative bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
+        (mouseenter)="onMouseEnter(product.id)"
+        (mouseleave)="onMouseLeave(product.id)"
+        class="w-56 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
       >
-        <div>
+        <div class="relative">
           <img
-            src="
-      https://www.khandryfruit.com/cdn/shop/products/Buy-Quality-Australia-Almonds-Online--_1Kg-Pack_-Badam-Giri-Premium-Quality-khandryfruit-1675863011_750x810.webp?v=1683531192
-    "
+            src="Organic.svg"
             alt="Product"
             class="h-52 w-72 object-cover rounded-t-xl"
           />
-          <div
-            class="cursor-pointer icons-container hidden"
-            id="iconsContainer"
-          >
+          @if(iconsShowing.has(product.id)) {
+
+          <div class="cursor-pointer icons-container" [@showHideIcons]="state">
             <div
               class="cursor-pointer bg-gray-100 px-3 pt-3 pb-1 rounded-md hover:px-4 hover:pt-4 hover:pb-2"
             >
+              @if(wishedProducts.includes(product.id)) {
               <mat-icon
                 (click)="onRemoveFromWhishlist(product.id)"
                 aria-hidden="false"
                 aria-label="Example close icon"
                 fontIcon="close"
               ></mat-icon>
-              <!-- <mat-icon
+              } @else {
+              <mat-icon
                 (click)="onAddToWhishlist(product.id)"
                 aria-hidden="false"
                 aria-label="Example favorite icon"
                 fontIcon="favorite"
-              ></mat-icon> -->
+              ></mat-icon>
+              }
             </div>
             <div
               class="cursor-pointer bg-gray-100 px-3 pt-3 pb-1 rounded-md hover:px-4 hover:pt-4 hover:pb-2"
             >
               <mat-icon
                 class=""
-                (click)="onAddToCart(product.id)"
+                (click)="onAddToCart(product)"
                 aria-hidden="false"
                 aria-label="Example local_mall icon"
                 fontIcon="local_mall"
@@ -57,6 +64,8 @@
               ></mat-icon>
             </div>
           </div>
+          }
+
           <div class="px-3 py-1">
             <p
               routerLink="/cart"
@@ -75,7 +84,7 @@
               <div class="ml-auto">
                 <mat-icon
                   class="cursor-pointer"
-                  (click)="onAddToCart(product.id)"
+                  (click)="onAddToCart(product)"
                   aria-hidden="false"
                   aria-label="Example shopping_cart icon"
                   fontIcon="shopping_cart"
@@ -87,5 +96,6 @@
       </div>
       }
     </div>
+    }
   </div>
 </section>

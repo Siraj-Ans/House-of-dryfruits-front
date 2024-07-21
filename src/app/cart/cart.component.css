@@ -1,0 +1,12 @@
+.valid-checkout {
+  background-color: rgb(59 130 246);
+}
+
+.invalid-checkout {
+  background-color: rgb(219 234 254);
+  cursor: no-drop;
+}
+
+.valid-checkout:hover {
+  background-color: rgb(29 78 216);
+}

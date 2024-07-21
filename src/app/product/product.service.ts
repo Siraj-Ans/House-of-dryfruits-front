@@ -12,8 +12,8 @@ export class ProductService {
 
   constructor(private productDataStorageService: ProductDataStorageService) {}
 
-  getProduct(id: string): void {
-    this.productDataStorageService.fetchProduct(id).subscribe({
+  getProduct(productId: string): void {
+    this.productDataStorageService.fetchProduct(productId).subscribe({
       next: (responseData) => {
         this.product = responseData.product;
 

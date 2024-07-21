@@ -17,3 +17,8 @@ export interface FetchCartItemProducts {
     updatedAt: string;
   }[];
 }
+
+export interface FetchShippingFee {
+  message: string;
+  shippingFee: number;
+}

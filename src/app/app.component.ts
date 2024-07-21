@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { HeaderComponent } from './header/header.component';
 
-import { AuthService } from './account/auth/auth.service';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',

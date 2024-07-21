@@ -4,6 +4,7 @@
 
 .invalid-save {
   background-color: rgb(187 247 208);
+  cursor: no-drop;
 }
 
 .valid-save:hover {
@@ -16,8 +17,32 @@
 
 .invalid-update {
   background-color: rgb(229 231 235);
+  cursor: no-drop;
 }
 
 .valid-update:hover {
   background-color: rgb(107 114 128);
+}
+
+.borderBlink {
+  border: 2px solid black;
+  animation: borderBlink 800ms step-end infinite;
+}
+
+@keyframes borderBlink {
+  from,
+  to {
+    border-color: inherit;
+  }
+  30% {
+    border-color: red;
+  }
+}
+
+.active-link {
+  border-bottom: 2px solid darkgray;
+}
+
+.active-link h2 {
+  color: rgb(19 24 66 / var(--tw-text-opacity));
 }
