@@ -8,7 +8,7 @@
     @if(order.fullfilled !== 'delivered' ) { @if(order.fullfilled === 'pending')
     {
     <button
-      (click)="onCancelOrder(order.id, order.trackingId, i)"
+      (click)="onCancelOrder(order.id, i)"
       type="button"
       class="mx-2 my-2 mt-4 w-fit bg-red-600 transition duration-150 ease-in-out hover:bg-red-500 rounded-lg text-white px-6 py-2 text-base"
     >
@@ -17,7 +17,7 @@
     <p class="font-bold text-gray-400 mt-5 text-base">To be shipped...</p>
     } @else {
     <button
-      (click)="onCancelOrder(order.id, order.trackingId, i)"
+      (click)="onCancelOrder(order.id, i)"
       type="button"
       class="mx-2 my-2 mt-4 w-fit bg-red-600 transition duration-150 ease-in-out hover:bg-red-500 rounded-lg text-white px-6 py-2 text-base"
     >
