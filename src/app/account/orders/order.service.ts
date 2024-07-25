@@ -4,13 +4,14 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { OrderDataStorageService } from './order-dataStorage.service';
 import { ToastService } from '../../toast.service';
 
-import { Order } from './Order.model';
+import { Order } from '../orders/Order.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
   orders: Order[] = [];
+  updateOrder = new Subject<Order>();
   updateOrders = new Subject<Order[]>();
   updateLoadingStatus = new ReplaySubject<boolean>(0);
 
@@ -19,39 +20,40 @@ export class OrderService {
     private toastr: ToastService
   ) {}
 
-  cancelOrder(
-    orderId: string,
-    userId: string,
-    trackingId: string,
-    index: number
-  ): void {
-    this.orders.splice(index, 1);
-    this.orderDataStorageService
-      .cancelOrder(orderId, userId, trackingId)
-      .subscribe({
-        next: (res) => {
-          console.log(res);
-        },
-        error: (err) => {
-          if (!err.status)
-            this.toastr.showError('Server failed!', '', {
-              toastClass: 'error-toast',
-              timeOut: 3000,
-              extendedTimeOut: 1000,
-              positionClass: 'toast-top-right',
-              preventDuplicates: true,
-            });
-          else
-            this.toastr.showError(err.error.message, '', {
-              toastClass: 'error-toast',
-              timeOut: 3000,
-              extendedTimeOut: 1000,
-              positionClass: 'toast-top-right',
-              preventDuplicates: true,
-            });
-        },
-        complete: () => {},
-      });
+  cancelOrder(orderId: string, userId: string, index: number): void {
+    this.orderDataStorageService.cancelOrder(orderId, userId).subscribe({
+      next: (res) => {
+        this.getOrders(userId);
+        this.orders.splice(index, 1);
+        this.updateOrders.next(this.orders.slice());
+        this.toastr.showSuccess('Order canceled!', '', {
+          toastClass: 'success-toast',
+          timeOut: 3000,
+          extendedTimeOut: 1000,
+          positionClass: 'toast-top-right',
+          preventDuplicates: true,
+        });
+      },
+      error: (err) => {
+        if (!err.status)
+          this.toastr.showError('Server failed!', '', {
+            toastClass: 'error-toast',
+            timeOut: 3000,
+            extendedTimeOut: 1000,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+          });
+        else
+          this.toastr.showError(err.error.message, '', {
+            toastClass: 'error-toast',
+            timeOut: 3000,
+            extendedTimeOut: 1000,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+          });
+      },
+      complete: () => {},
+    });
   }
 
   getOrders(userId: string): void {
@@ -84,6 +86,33 @@ export class OrderService {
       complete: () => {
         this.updateLoadingStatus.next(false);
       },
+    });
+  }
+
+  getorder(orderId: string, userId: string): void {
+    this.orderDataStorageService.fetchOrder(userId, orderId).subscribe({
+      next: (res) => {
+        this.updateOrder.next(res.order);
+      },
+      error: (err) => {
+        if (!err.status)
+          this.toastr.showError('Server failed!', '', {
+            toastClass: 'error-toast',
+            timeOut: 3000,
+            extendedTimeOut: 1000,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+          });
+        else
+          this.toastr.showError(err.error.message, '', {
+            toastClass: 'error-toast',
+            timeOut: 3000,
+            extendedTimeOut: 1000,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+          });
+      },
+      complete: () => {},
     });
   }
 }

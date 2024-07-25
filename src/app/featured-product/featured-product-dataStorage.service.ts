@@ -1,7 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FetchFeaturedProduct } from './FeaturedProductRes.model';
 import { map, Observable } from 'rxjs';
+
+import { FetchFeaturedProduct } from './FeaturedProductRes.model';
+
+import { environment } from '../../environments/environment.development';
+
+const BACKEND_URL = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root',
@@ -21,9 +26,7 @@ export class FeaturedProductDataStorageService {
     };
   }> {
     return this.http
-      .get<FetchFeaturedProduct>(
-        'http://localhost:3000/api/settings/fetchFeaturedProduct'
-      )
+      .get<FetchFeaturedProduct>(BACKEND_URL + '/settings/fetchFeaturedProduct')
       .pipe(
         map((res) => {
           return {

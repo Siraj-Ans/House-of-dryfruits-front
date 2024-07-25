@@ -3,12 +3,19 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
 import {
+  FetchCategoryOldestProductsResponse,
+  FetchCategoryProductsByHighestPriceResponse,
+  FetchCategoryProductsByLowestPriceResponse,
   FetchCategoryProductsResponse,
   FetchCategoryResponse,
   FetchWishedProductsResponse,
   RemoveWishedProductRespone,
   SaveWishedProductResponse,
 } from './CategoryRes.model';
+
+import { environment } from '../../environments/environment.development';
+
+const BACKEND_URL = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root',
@@ -21,11 +28,7 @@ export class CategoryDataStorageService {
     categoryProducts: {
       id: string;
       productName: string;
-      productCategory: {
-        id: string;
-        categoryName: string;
-        properties: { property: string; values: string[] }[];
-      };
+      productCategory: string;
       productImages: string[];
       description: string;
       priceInPKR: number;
@@ -35,7 +38,7 @@ export class CategoryDataStorageService {
   }> {
     return this.http
       .get<FetchCategoryProductsResponse>(
-        'http://localhost:3000/api/products/fetchCategoryProducts',
+        BACKEND_URL + '/products/fetchCategoryProducts',
         {
           params: new HttpParams().set('categoryId', categoryId),
         }
@@ -48,11 +51,7 @@ export class CategoryDataStorageService {
               return {
                 id: product._id,
                 productName: product.productName,
-                productCategory: {
-                  id: product.productCategory._id,
-                  categoryName: product.productCategory.categoryName,
-                  properties: product.productCategory.properties,
-                },
+                productCategory: product.productCategory,
                 productImages: product.productImages,
                 description: product.description,
                 priceInPKR: product.priceInPKR,
@@ -79,12 +78,9 @@ export class CategoryDataStorageService {
     };
   }> {
     return this.http
-      .get<FetchCategoryResponse>(
-        'http://localhost:3000/api/categories/fetchCategory',
-        {
-          params: new HttpParams().set('categoryId', categoryId),
-        }
-      )
+      .get<FetchCategoryResponse>(BACKEND_URL + '/categories/fetchCategory', {
+        params: new HttpParams().set('categoryId', categoryId),
+      })
       .pipe(
         map((responseData) => {
           if (responseData.category.parent) {
@@ -124,6 +120,129 @@ export class CategoryDataStorageService {
       );
   }
 
+  getOldestCategoryProducts(categoryId: string): Observable<{
+    message: string;
+    categoryProducts: {
+      id: string;
+      productName: string;
+      productCategory: string;
+      productImages: string[];
+      description: string;
+      priceInPKR: number;
+      createdAt: string;
+      updatedAt: string;
+    }[];
+  }> {
+    return this.http
+      .get<FetchCategoryOldestProductsResponse>(
+        BACKEND_URL + '/products/fetchOldestCategoryProducts',
+        {
+          params: new HttpParams().set('categoryId', categoryId),
+        }
+      )
+      .pipe(
+        map((res) => {
+          return {
+            message: res.message,
+            categoryProducts: res.categoryProducts.map((product) => {
+              return {
+                id: product._id,
+                productName: product.productName,
+                productCategory: product.productCategory,
+                productImages: product.productImages,
+                description: product.description,
+                priceInPKR: product.priceInPKR,
+                createdAt: product.createdAt,
+                updatedAt: product.updatedAt,
+              };
+            }),
+          };
+        })
+      );
+  }
+
+  getCategoryProductsByLowestPrice(categoryId: string): Observable<{
+    message: string;
+    categoryProducts: {
+      id: string;
+      productName: string;
+      productCategory: string;
+      productImages: string[];
+      description: string;
+      priceInPKR: number;
+      createdAt: string;
+      updatedAt: string;
+    }[];
+  }> {
+    return this.http
+      .get<FetchCategoryProductsByLowestPriceResponse>(
+        BACKEND_URL + '/products/fetchCategoryProductsByLowestPrice',
+        {
+          params: new HttpParams().set('categoryId', categoryId),
+        }
+      )
+      .pipe(
+        map((res) => {
+          return {
+            message: res.message,
+            categoryProducts: res.categoryProducts.map((product) => {
+              return {
+                id: product._id,
+                productName: product.productName,
+                productCategory: product.productCategory,
+                productImages: product.productImages,
+                description: product.description,
+                priceInPKR: product.priceInPKR,
+                createdAt: product.createdAt,
+                updatedAt: product.updatedAt,
+              };
+            }),
+          };
+        })
+      );
+  }
+
+  getCategoryProductsByHighestPrice(categoryId: string): Observable<{
+    message: string;
+    categoryProducts: {
+      id: string;
+      productName: string;
+      productCategory: string;
+      productImages: string[];
+      description: string;
+      priceInPKR: number;
+      createdAt: string;
+      updatedAt: string;
+    }[];
+  }> {
+    return this.http
+      .get<FetchCategoryProductsByHighestPriceResponse>(
+        BACKEND_URL + '/products/fetchCategoryProductsByHighestPrice',
+        {
+          params: new HttpParams().set('categoryId', categoryId),
+        }
+      )
+      .pipe(
+        map((res) => {
+          return {
+            message: res.message,
+            categoryProducts: res.categoryProducts.map((product) => {
+              return {
+                id: product._id,
+                productName: product.productName,
+                productCategory: product.productCategory,
+                productImages: product.productImages,
+                description: product.description,
+                priceInPKR: product.priceInPKR,
+                createdAt: product.createdAt,
+                updatedAt: product.updatedAt,
+              };
+            }),
+          };
+        })
+      );
+  }
+
   saveProductOnWishList(
     productId: string,
     userId: string
@@ -137,7 +256,7 @@ export class CategoryDataStorageService {
   }> {
     return this.http
       .post<SaveWishedProductResponse>(
-        'http://localhost:3000/api/wishlist/saveToWishList',
+        BACKEND_URL + '/wishlist/saveToWishList',
         {
           productId: productId,
           userId: userId,
@@ -170,7 +289,7 @@ export class CategoryDataStorageService {
   }> {
     return this.http
       .get<FetchWishedProductsResponse>(
-        'http://localhost:3000/api/wishlist/fetchWishedProducts',
+        BACKEND_URL + '/wishlist/fetchWishedProducts',
         {
           params: new HttpParams()
             .append('userId', userId)
@@ -200,7 +319,7 @@ export class CategoryDataStorageService {
     message: string;
   }> {
     return this.http.delete<RemoveWishedProductRespone>(
-      'http://localhost:3000/api/wishlist/removeFromWishList',
+      BACKEND_URL + '/wishlist/removeFromWishList',
       {
         params: new HttpParams()
           .append('userId', userId)

@@ -4,29 +4,33 @@
 </div>
 } @else { @for(order of orders; track order.id; let i = $index) {
 <div class="flex items-center py-2 border-b border-gray-500">
-  <div class="flex flex-col justify-center">
-    <a
-      target="_blank"
-      type="button"
-      href="https://f20190652318v.trackingmore.org/?page=tracking-page"
-      class="mx-2 my-2 w-fit bg-orange-400 transition duration-150 ease-in-out hover:bg-orange-600 rounded-lg text-white px-6 py-2 text-base"
-    >
-      Track
-    </a>
-    <p class="text-gray-400">
-      Tracking Number:
-      <span class="text-base font-bold text-dark-blue">{{
-        order.trackingId
-      }}</span>
-    </p>
-
+  <div class="flex flex-col justify-center w-1/4">
+    @if(order.fullfilled !== 'delivered' ) { @if(order.fullfilled === 'pending')
+    {
     <button
       (click)="onCancelOrder(order.id, order.trackingId, i)"
       type="button"
       class="mx-2 my-2 mt-4 w-fit bg-red-600 transition duration-150 ease-in-out hover:bg-red-500 rounded-lg text-white px-6 py-2 text-base"
     >
-      Cancel order
+      Cancel
     </button>
+    <p class="font-bold text-gray-400 mt-5 text-base">To be shipped...</p>
+    } @else {
+    <button
+      (click)="onCancelOrder(order.id, order.trackingId, i)"
+      type="button"
+      class="mx-2 my-2 mt-4 w-fit bg-red-600 transition duration-150 ease-in-out hover:bg-red-500 rounded-lg text-white px-6 py-2 text-base"
+    >
+      Cancel
+    </button>
+    <a
+      (click)="onTrackOrder(order.id)"
+      type="button"
+      class="cursor-pointer mx-2 my-2 w-fit bg-orange-400 transition duration-150 ease-in-out hover:bg-orange-600 rounded-lg text-white px-6 py-2 text-base"
+    >
+      Track
+    </a>
+    } }
   </div>
   <div class="flex flex-col w-1/2">
     <p class="text-2xl leading-tight font-bold text-gray-400">
@@ -48,7 +52,7 @@
       {{ order.country + " " + order.city + " " + order.postalCode }}
     </p>
   </div>
-  <div class="flex flex-col justify-center w-1/2">
+  <div class="flex flex-col justify-center w-1/3">
     @for(productInfo of order.productInfo; track productInfo.productName;) {
     <p class="text-lg text-dark-blue font-medium">
       <span class="font-medium text-lg text-gray-300">

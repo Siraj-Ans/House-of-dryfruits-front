@@ -9,6 +9,10 @@ import {
 } from './CheckOutRes.model';
 import { Order } from '../shared/Order.model';
 
+import { environment } from '../../environments/environment.development';
+
+const BACKEND_URL = environment.apiUrl;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -31,12 +35,9 @@ export class CheckOutDataStorageService {
     };
   }> {
     return this.http
-      .get<FetchAccountDetails>(
-        'http://localhost:3000/api/account/fetchAccountDetails',
-        {
-          params: new HttpParams().set('userId', userId),
-        }
-      )
+      .get<FetchAccountDetails>(BACKEND_URL + '/account/fetchAccountDetails', {
+        params: new HttpParams().set('userId', userId),
+      })
       .pipe(
         map((res) => {
           return {
@@ -63,11 +64,7 @@ export class CheckOutDataStorageService {
     products: {
       id: string;
       productName: string;
-      productCategory: {
-        id: string;
-        categoryName: string;
-        properties: { property: string; values: string[] }[];
-      };
+      productCategory: string;
       productImages: string[];
       description: string;
       priceInPKR: number;
@@ -75,7 +72,7 @@ export class CheckOutDataStorageService {
   }> {
     return this.http
       .get<FetchCheckedOutProducts>(
-        'http://localhost:3000/api/products/fetchCartProducts',
+        BACKEND_URL + '/products/fetchCartProducts',
         {
           params: new HttpParams().set(
             'productIds',
@@ -91,11 +88,7 @@ export class CheckOutDataStorageService {
               return {
                 id: product._id,
                 productName: product.productName,
-                productCategory: {
-                  id: product.productCategory._id,
-                  categoryName: product.productCategory.categoryName,
-                  properties: product.productCategory.properties,
-                },
+                productCategory: product.productCategory,
                 productImages: product.productImages,
                 description: product.description,
                 priceInPKR: product.priceInPKR,
@@ -125,16 +118,15 @@ export class CheckOutDataStorageService {
         quantity: number;
         productsTotal: number;
       }[];
+      paid: boolean;
+      fullfilled: string;
       createdAt: string;
       updatedAt: string;
       address2?: string;
     };
   }> {
     return this.http
-      .post<CreateOrderResponse>(
-        'http://localhost:3000/api/orders/createOrder',
-        order
-      )
+      .post<CreateOrderResponse>(BACKEND_URL + '/orders/createOrder', order)
       .pipe(
         map((res) => {
           return {
@@ -152,6 +144,8 @@ export class CheckOutDataStorageService {
               address1: res.order.address1,
               paymentMethod: res.order.paymentMethod,
               productInfo: res.order.productInfo,
+              paid: res.order.paid,
+              fullfilled: res.order.fullfilled,
               createdAt: res.order.createdAt,
               updatedAt: res.order.updatedAt,
               address2: res.order.address2,

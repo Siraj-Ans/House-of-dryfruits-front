@@ -43,11 +43,7 @@ export class CategoriesService {
     categoriesProducts: {
       id: string;
       productName: string;
-      productCategory: {
-        id: string;
-        categoryName: string;
-        properties: { property: string; values: string[] }[];
-      };
+      productCategory: string;
       productImages: string[];
       description: string;
       priceInPKR: number;
@@ -61,7 +57,6 @@ export class CategoriesService {
   }
 
   addProductToWishList(productId: string, userId: string): void {
-    this.updateLoadingStatus.next(true);
     this.categoriesDataStorageService
       .saveProductOnWishList(productId, userId)
       .subscribe({
@@ -93,11 +88,8 @@ export class CategoriesService {
               positionClass: 'toast-top-right',
               preventDuplicates: true,
             });
-          this.updateLoadingStatus.next(false);
         },
-        complete: () => {
-          this.updateLoadingStatus.next(true);
-        },
+        complete: () => {},
       });
   }
 
@@ -138,7 +130,6 @@ export class CategoriesService {
   }
 
   removeProductFromWishList(userId: string, productId: string): void {
-    this.updateLoadingStatus.next(true);
     this.categoriesDataStorageService
       .removeProductFromWishlist(userId, productId)
       .subscribe({
@@ -173,11 +164,8 @@ export class CategoriesService {
               positionClass: 'toast-top-right',
               preventDuplicates: true,
             });
-          this.updateLoadingStatus.next(false);
         },
-        complete: () => {
-          this.updateLoadingStatus.next(false);
-        },
+        complete: () => {},
       });
   }
 }

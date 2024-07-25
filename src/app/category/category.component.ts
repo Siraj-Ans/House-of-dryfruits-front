@@ -57,16 +57,17 @@ export class CategoryComponent implements OnInit, OnDestroy {
   categoryProducts: Product[] = [];
   user: User | undefined;
   wishedProducts: string[] = [];
+  selectedOption = 'All';
   updatedCategorySubscription: Subscription | undefined;
   updateCategoryProductsSubscription: Subscription | undefined;
   updateLoadingStatusSubscription: Subscription | undefined;
   updateWishedProductSubscription: Subscription | undefined;
-  foods = [
+  filters = [
     { value: 'All', viewValue: 'All' },
     { value: 'price, lowest first', viewValue: 'price, lowest first' },
     { value: 'price, highest first', viewValue: 'price, highest first' },
     { value: 'oldest first', viewValue: 'oldest first' },
-    { value: 'oldest first', viewValue: 'oldest first' },
+    { value: 'new first', viewValue: 'new first' },
   ];
 
   constructor(
@@ -89,7 +90,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     );
 
     this.updatedCategorySubscription =
-      this.categoryService.udatedCategoryProducts.subscribe(
+      this.categoryService.updateCategoryProducts.subscribe(
         (categoryProducts) => {
           this.categoryProducts = categoryProducts;
 
@@ -105,6 +106,42 @@ export class CategoryComponent implements OnInit, OnDestroy {
       this.categoryService.updateWishedProducts.subscribe((wishedProducts) => {
         this.wishedProducts = wishedProducts;
       });
+  }
+
+  onSelectChange(event: any) {
+    switch (this.selectedOption) {
+      case 'All':
+        this.categoryService.getCategoryProducts(this.category!.id!);
+        break;
+      case 'price, lowest first':
+        this.sortOrderByLowestPrice();
+        break;
+      case 'price, highest first':
+        this.sortOrderByHighestPrice();
+        break;
+      case 'oldest first':
+        this.sortOrderByOldest();
+        break;
+      case 'new first':
+        this.sortOrderByNewest();
+        break;
+    }
+  }
+
+  sortOrderByNewest(): void {
+    this.categoryService.getCategoryProducts(this.category!.id!);
+  }
+
+  sortOrderByOldest(): void {
+    this.categoryService.getOldestCategoryProducts(this.category!.id!);
+  }
+
+  sortOrderByHighestPrice(): void {
+    this.categoryService.getCategoryProductsByHighestPrice(this.category!.id!);
+  }
+
+  sortOrderByLowestPrice(): void {
+    this.categoryService.getCategoryProductsByLowestPrice(this.category!.id!);
   }
 
   onAddToWhishlist(productId: string): void {

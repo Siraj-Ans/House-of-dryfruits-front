@@ -96,6 +96,8 @@ export class CheckOutService {
         quantity: number;
         productsTotal: number;
       }[];
+      paid: boolean;
+      fullfilled: string;
       createdAt: string;
       updatedAt: string;
       address2?: string;

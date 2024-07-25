@@ -9,34 +9,54 @@ import {
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { map, Observable, Subscription } from 'rxjs';
+import { FormsModule, NgForm } from '@angular/forms';
+
+import { BarSpinner } from '../shared/bar-spinner/bar-spinner.component';
 
 import { ProductService } from './product.service';
 import { HeaderService } from '../header/header.serice';
 import { ToastService } from '../toast.service';
+import { AuthService } from '../auth/auth.service';
 
 import { Product } from '../new-product/product.model';
+import { Review } from './Review.model';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, MatIconModule, RouterModule],
+  imports: [
+    CommonModule,
+    AsyncPipe,
+    MatIconModule,
+    RouterModule,
+    FormsModule,
+    BarSpinner,
+  ],
   templateUrl: './product.component.html',
 })
 export class ProductComponent implements OnInit, OnDestroy {
+  reviews: Review[] = [];
   productRes$: Observable<{ message: string; product: Product }> | undefined;
+  reviewValue = 0;
+  reviewLoading = false;
   product: Product | undefined;
+  reviewStars = [0, 1, 2, 3, 4];
   selectedImage: string | undefined;
   cartItems: string[] = [];
-  productSubscription: Subscription | undefined;
   selectedImageStyle = {
     boxShadow: '0px 4px 15px -5px rgba(6, 81, 237, 0.5)',
     backGround: 'black',
   };
+  productSubscription: Subscription | undefined;
+  updateReviewSubscription: Subscription | undefined;
+  updateReviewLoadingStatusSubscription: Subscription | undefined;
 
   constructor(
     private productService: ProductService,
     private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
     private router: Router,
+    private toastr: ToastService,
     private headerService: HeaderService,
     @Inject(PLATFORM_ID) private platformId: Object,
     private toastService: ToastService
@@ -51,10 +71,18 @@ export class ProductComponent implements OnInit, OnDestroy {
       }
     }
 
+    this.productService.updateReviews.subscribe((reviews) => {
+      this.reviews = reviews;
+      console.log(reviews, this.product?.id);
+    });
+
     this.productRes$ = this.activatedRoute.data.pipe(
       map((data) => {
+        console.log('product: ', data['product'].product);
         this.selectedImage = data['product'].product.productImages[0];
         this.product = data['product'].product;
+
+        this.productService.getReviews(this.product!.id);
         return data['product'];
       })
     );
@@ -64,6 +92,38 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.product = product;
       }
     );
+
+    this.updateReviewLoadingStatusSubscription =
+      this.productService.updateReviewLoadingStatus.subscribe((status) => {
+        this.reviewLoading = status;
+      });
+  }
+
+  onSaveReview(reviewForm: NgForm): void {
+    if (!this.authService.getIsAuthenticated())
+      return this.toastr.showError(
+        'Please login first to save the review!',
+        '',
+        {
+          toastClass: 'error-toast',
+          timeOut: 3000,
+          extendedTimeOut: 1000,
+          positionClass: 'toast-top-right',
+          preventDuplicates: true,
+        }
+      );
+
+    this.productService.saveReview(
+      reviewForm.value.title,
+      reviewForm.value.comment,
+      this.reviewValue,
+      this.product!.id
+    );
+  }
+
+  onChangeReview(i: number): void {
+    this.reviewValue = i + 1;
+    console.log(this.reviewValue);
   }
 
   onSelectImage(selectedImage: string): void {
@@ -117,5 +177,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.productSubscription?.unsubscribe();
+    this.updateReviewSubscription?.unsubscribe();
+    this.updateReviewLoadingStatusSubscription?.unsubscribe();
   }
 }

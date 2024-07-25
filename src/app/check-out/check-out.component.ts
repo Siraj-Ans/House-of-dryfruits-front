@@ -158,7 +158,9 @@ export class CheckOutComponent implements OnInit, OnDestroy {
         this.checkOutForm.value.postalCode,
         this.checkOutForm.value.address1,
         this.checkOutForm.value.paymentMethod,
-        productInfo
+        productInfo,
+        false,
+        'pending'
       );
     else
       order = new Order(
@@ -173,6 +175,8 @@ export class CheckOutComponent implements OnInit, OnDestroy {
         this.checkOutForm.value.address1,
         this.checkOutForm.value.paymentMethod,
         productInfo,
+        false,
+        'pending',
         this.checkOutForm.value.address2
       );
 
@@ -183,7 +187,13 @@ export class CheckOutComponent implements OnInit, OnDestroy {
           localStorage.removeItem('cart');
           this.headerService.updateCartItemsCount.next(0);
         }
-
+        this.toastr.showSuccess('Order created!', '', {
+          toastClass: 'success-toast',
+          timeOut: 3000,
+          extendedTimeOut: 1000,
+          positionClass: 'toast-top-right',
+          preventDuplicates: true,
+        });
         this.products = [];
         this.cartItems = [];
         this.checkoutSuccess = true;
@@ -205,6 +215,7 @@ export class CheckOutComponent implements OnInit, OnDestroy {
             positionClass: 'toast-top-right',
             preventDuplicates: true,
           });
+        this.checkOutService.updateLoadingStatus.next(false);
       },
       complete: () => {
         this.checkOutService.updateLoadingStatus.next(false);

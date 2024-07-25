@@ -5,13 +5,25 @@
       <h1 class="text-2xl text-dark-blue font-bold mb-8">
         {{ category?.categoryName || "fafa" }}
       </h1>
-      <mat-form-field>
-        <mat-select value="All">
-          @for (food of foods; track food) {
-          <mat-option [value]="food.value">{{ food.viewValue }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <div class="relative inline-block text-left">
+        <div
+          class="inline-flex justify-center w-full text-base font-medium text-white bg-gray-600 rounded-md hover:bg-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 focus-visible:ring-opacity-75"
+        >
+          <select
+            class="form-select block px-2 py-2 bg-gray-600 w-full mt-1"
+            [(ngModel)]="selectedOption"
+            (change)="onSelectChange($event)"
+          >
+            <option
+              class="py-2 px-1"
+              *ngFor="let filter of filters"
+              [value]="filter.value"
+            >
+              {{ filter.value }}
+            </option>
+          </select>
+        </div>
+      </div>
     </div>
 
     <div class="grid grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-4">

@@ -10,16 +10,24 @@ import { ProductComponent } from './product/product.component';
 import { CategoryComponent } from './category/category.component';
 import { AuthComponent } from './auth/auth.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { OrdersComponent } from './account/orders/orders.component';
+import { WishListComponent } from './account/wishlist/wishlist.componenet';
+import { TrackingComponent } from './tracking/tracking.component';
 
 import { productResolver } from './product/product.resolver';
 import { categoryResolver } from './category/category.resolver';
+import { OrderResolver } from './tracking/order.resolver';
 
 import { authGuard } from './auth/auth-guard';
-import { OrdersComponent } from './account/orders/orders.component';
-import { WishListComponent } from './account/wishlist/wishlist.componenet';
 
 export const routes: Routes = [
   { path: 'categories', component: CategoriesComponent },
+  {
+    path: 'orders/:id',
+    component: TrackingComponent,
+    canActivate: [authGuard],
+    resolve: { order: OrderResolver },
+  },
   {
     path: 'categories/:id',
     component: CategoryComponent,

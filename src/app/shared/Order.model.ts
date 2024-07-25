@@ -15,6 +15,8 @@ export class Order {
       quantity: number;
       productsTotal: number;
     }[],
+    public paid: boolean,
+    public fullfilled: string,
     public address2?: string
   ) {}
 }

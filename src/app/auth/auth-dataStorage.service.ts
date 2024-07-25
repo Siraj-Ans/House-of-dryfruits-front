@@ -4,6 +4,10 @@ import { map, Observable } from 'rxjs';
 
 import { LoginUserResponse, SignUpUserResponse } from './AuthRes.model';
 
+import { environment } from '../../environments/environment.development';
+
+const BACKEND_URL = environment.apiUrl + '/user/';
+
 @Injectable({ providedIn: 'root' })
 export class AuthDataStorageService {
   constructor(private http: HttpClient) {}
@@ -22,7 +26,7 @@ export class AuthDataStorageService {
     expiresIn: number;
   }> {
     return this.http
-      .post<LoginUserResponse>('http://localhost:3000/api/user/login', {
+      .post<LoginUserResponse>(BACKEND_URL + 'login', {
         emailAddress: emailAddress,
         password: password,
       })
@@ -55,7 +59,7 @@ export class AuthDataStorageService {
     };
   }> {
     return this.http
-      .post<SignUpUserResponse>('http://localhost:3000/api/user/signup', {
+      .post<SignUpUserResponse>(BACKEND_URL + 'signup', {
         userName: userName,
         emailAddress: emailAddress,
         password: password,

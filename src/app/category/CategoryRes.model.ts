@@ -4,12 +4,52 @@ export interface FetchCategoryProductsResponse {
     _id: string;
     __v: number;
     productName: string;
-    productCategory: {
-      _id: string;
-      __v: number;
-      categoryName: string;
-      properties: { property: string; values: string[] }[];
-    };
+    productCategory: string;
+    productImages: string[];
+    description: string;
+    priceInPKR: number;
+    createdAt: string;
+    updatedAt: string;
+  }[];
+}
+
+export interface FetchCategoryOldestProductsResponse {
+  message: string;
+  categoryProducts: {
+    _id: string;
+    __v: number;
+    productName: string;
+    productCategory: string;
+    productImages: string[];
+    description: string;
+    priceInPKR: number;
+    createdAt: string;
+    updatedAt: string;
+  }[];
+}
+
+export interface FetchCategoryProductsByHighestPriceResponse {
+  message: string;
+  categoryProducts: {
+    _id: string;
+    __v: number;
+    productName: string;
+    productCategory: string;
+    productImages: string[];
+    description: string;
+    priceInPKR: number;
+    createdAt: string;
+    updatedAt: string;
+  }[];
+}
+
+export interface FetchCategoryProductsByLowestPriceResponse {
+  message: string;
+  categoryProducts: {
+    _id: string;
+    __v: number;
+    productName: string;
+    productCategory: string;
     productImages: string[];
     description: string;
     priceInPKR: number;

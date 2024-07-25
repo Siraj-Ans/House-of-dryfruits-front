@@ -5,11 +5,7 @@ export interface CategoryProduct {
   categoriesProducts: {
     id: string;
     productName: string;
-    productCategory: {
-      id: string;
-      categoryName: string;
-      properties: { property: string; values: string[] }[];
-    };
+    productCategory: string;
     productImages: string[];
     description: string;
     priceInPKR: number;

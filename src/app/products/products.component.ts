@@ -17,6 +17,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { FormsModule } from '@angular/forms';
 
 import { BarSpinner } from '../shared/bar-spinner/bar-spinner.component';
 
@@ -32,7 +33,7 @@ import { CartItem } from '../shared/CartItem.model';
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, MatIconModule, RouterModule, BarSpinner],
+  imports: [CommonModule, MatIconModule, RouterModule, BarSpinner, FormsModule],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
   animations: [

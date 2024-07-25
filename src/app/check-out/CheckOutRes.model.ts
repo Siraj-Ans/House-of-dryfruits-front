@@ -21,12 +21,7 @@ export interface FetchCheckedOutProducts {
     _id: string;
     __v: number;
     productName: string;
-    productCategory: {
-      _id: string;
-      __v: number;
-      categoryName: string;
-      properties: { property: string; values: string[] }[];
-    };
+    productCategory: string;
     productImages: string[];
     description: string;
     priceInPKR: number;
@@ -53,6 +48,8 @@ export interface CreateOrderResponse {
       quantity: number;
       productsTotal: number;
     }[];
+    paid: boolean;
+    fullfilled: string;
     createdAt: string;
     updatedAt: string;
     address2?: string;

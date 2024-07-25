@@ -7,6 +7,10 @@ import {
   RemoveWishedProductRespone,
 } from './WishListRes.model';
 
+import { environment } from '../../../environments/environment.development';
+
+const BACKEND_URL = environment.apiUrl + '/wishlist/';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -30,7 +34,7 @@ export class WishListDataStorageService {
   }> {
     return this.http
       .get<FetchWishedProductsResponse>(
-        'http://localhost:3000/api/wishlist/fetchWishedProductsAccount',
+        BACKEND_URL + 'fetchWishedProductsAccount',
         {
           params: new HttpParams().append('userId', userId),
         }
@@ -65,7 +69,7 @@ export class WishListDataStorageService {
     message: string;
   }> {
     return this.http.delete<RemoveWishedProductRespone>(
-      'http://localhost:3000/api/wishlist/removeFromWishListAccount',
+      BACKEND_URL + 'removeFromWishListAccount',
       {
         params: new HttpParams()
           .append('userId', userId)

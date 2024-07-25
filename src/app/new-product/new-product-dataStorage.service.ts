@@ -2,6 +2,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
+import { environment } from '../../environments/environment.development';
+
+const BACKEND_URL = environment.apiUrl;
+
 import {
   FetchNewProductsResponse,
   FetchWishedProductsResponse,
@@ -18,11 +22,7 @@ export class NewProductsDataStorageService {
     products: {
       id: string;
       productName: string;
-      productCategory: {
-        id: string;
-        categoryName: string;
-        properties: { property: string; values: string[] }[];
-      };
+      productCategory: string;
       productImages: string[];
       description: string;
       priceInPKR: number;
@@ -31,9 +31,7 @@ export class NewProductsDataStorageService {
     }[];
   }> {
     return this.http
-      .get<FetchNewProductsResponse>(
-        'http://localhost:3000/api/products/fetchNewProducts'
-      )
+      .get<FetchNewProductsResponse>(BACKEND_URL + '/products/fetchNewProducts')
       .pipe(
         map((res) => {
           return {
@@ -42,11 +40,7 @@ export class NewProductsDataStorageService {
               return {
                 id: product._id,
                 productName: product.productName,
-                productCategory: {
-                  id: product.productCategory._id,
-                  categoryName: product.productCategory.categoryName,
-                  properties: product.productCategory.properties,
-                },
+                productCategory: product.productCategory,
                 productImages: product.productImages,
                 description: product.description,
                 priceInPKR: product.priceInPKR,
@@ -72,7 +66,7 @@ export class NewProductsDataStorageService {
   }> {
     return this.http
       .post<SaveWishedProductResponse>(
-        'http://localhost:3000/api/wishlist/saveToWishList',
+        BACKEND_URL + '/wishlist/saveToWishList',
         {
           productId: productId,
           userId: userId,
@@ -105,7 +99,7 @@ export class NewProductsDataStorageService {
   }> {
     return this.http
       .get<FetchWishedProductsResponse>(
-        'http://localhost:3000/api/wishlist/fetchWishedProducts',
+        BACKEND_URL + '/wishlist/fetchWishedProducts',
         {
           params: new HttpParams()
             .append('userId', userId)
@@ -135,7 +129,7 @@ export class NewProductsDataStorageService {
     message: string;
   }> {
     return this.http.delete<RemoveWishedProductRespone>(
-      'http://localhost:3000/api/wishlist/removeFromWishList',
+      BACKEND_URL + '/wishlist/removeFromWishList',
       {
         params: new HttpParams()
           .append('userId', userId)

@@ -10,6 +10,10 @@ import {
   SaveWishedProductResponse,
 } from './CategoriesRes.model';
 
+import { environment } from '../../environments/environment.development';
+
+const BACKEND_URL = environment.apiUrl;
+
 @Injectable({ providedIn: 'root' })
 export class CategoriesDataStorageService {
   constructor(private http: HttpClient) {}
@@ -28,9 +32,7 @@ export class CategoriesDataStorageService {
     }[];
   }> {
     return this.http
-      .get<FetchCategoriesResponse>(
-        'http://localhost:3000/api/categories/fetchCategories'
-      )
+      .get<FetchCategoriesResponse>(BACKEND_URL + '/categories/fetchCategories')
       .pipe(
         map((responseData) => {
           return {
@@ -74,11 +76,7 @@ export class CategoriesDataStorageService {
     categoriesProducts: {
       id: string;
       productName: string;
-      productCategory: {
-        id: string;
-        categoryName: string;
-        properties: { property: string; values: string[] }[];
-      };
+      productCategory: string;
       productImages: string[];
       description: string;
       priceInPKR: number;
@@ -88,7 +86,7 @@ export class CategoriesDataStorageService {
   }> {
     return this.http
       .get<FetchCategoriesProductsResponse>(
-        'http://localhost:3000/api/products/fetchCategoriesProducts',
+        BACKEND_URL + '/products/fetchCategoriesProducts',
         {
           params: new HttpParams().set('categoryIds', categoryIds),
         }
@@ -101,11 +99,7 @@ export class CategoriesDataStorageService {
               return {
                 id: product._id,
                 productName: product.productName,
-                productCategory: {
-                  id: product.productCategory._id,
-                  categoryName: product.productCategory.categoryName,
-                  properties: product.productCategory.properties,
-                },
+                productCategory: product.productCategory,
                 productImages: product.productImages,
                 description: product.description,
                 priceInPKR: product.priceInPKR,
@@ -131,7 +125,7 @@ export class CategoriesDataStorageService {
   }> {
     return this.http
       .post<SaveWishedProductResponse>(
-        'http://localhost:3000/api/wishlist/saveToWishList',
+        BACKEND_URL + '/wishlist/saveToWishList',
         {
           productId: productId,
           userId: userId,
@@ -164,7 +158,7 @@ export class CategoriesDataStorageService {
   }> {
     return this.http
       .get<FetchWishedProductsResponse>(
-        'http://localhost:3000/api/wishlist/fetchWishedProducts',
+        BACKEND_URL + '/wishlist/fetchWishedProducts',
         {
           params: new HttpParams()
             .append('userId', userId)
@@ -194,7 +188,7 @@ export class CategoriesDataStorageService {
     message: string;
   }> {
     return this.http.delete<RemoveWishedProductRespone>(
-      'http://localhost:3000/api/wishlist/removeFromWishList',
+      BACKEND_URL + '/wishlist/removeFromWishList',
       {
         params: new HttpParams()
           .append('userId', userId)

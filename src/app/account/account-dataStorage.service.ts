@@ -9,6 +9,10 @@ import {
   UpdateAccountDetailsResponse,
 } from './AccountDetailsRes.model';
 
+import { environment } from '../../environments/environment.development';
+
+const BACKEND_URL = environment.apiUrl + '/account/';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -32,7 +36,7 @@ export class AccountDataStorageService {
   }> {
     return this.http
       .post<SaveAccountDetails>(
-        'http://localhost:3000/api/account/saveAccountDetails',
+        BACKEND_URL + 'saveAccountDetails',
         accountDetails
       )
       .pipe(
@@ -72,12 +76,9 @@ export class AccountDataStorageService {
     } | null;
   }> {
     return this.http
-      .get<FetchAccountDetails>(
-        'http://localhost:3000/api/account/fetchAccountDetails',
-        {
-          params: new HttpParams().set('userId', userId),
-        }
-      )
+      .get<FetchAccountDetails>(BACKEND_URL + 'fetchAccountDetails', {
+        params: new HttpParams().set('userId', userId),
+      })
       .pipe(
         map((res) => {
           return {
@@ -105,7 +106,7 @@ export class AccountDataStorageService {
     message: string;
   }> {
     return this.http.post<UpdateAccountDetailsResponse>(
-      'http://localhost:3000/api/account/updateAccountDetails',
+      BACKEND_URL + 'updateAccountDetails',
       accountDetails
     );
   }

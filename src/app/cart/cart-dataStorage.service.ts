@@ -4,6 +4,10 @@ import { Observable, map } from 'rxjs';
 
 import { FetchCartItemProducts, FetchShippingFee } from './CartRes.model';
 
+import { environment } from '../../environments/environment.development';
+
+const BACKEND_URL = environment.apiUrl;
+
 @Injectable({ providedIn: 'root' })
 export class CartDataStorageService {
   constructor(private http: HttpClient) {}
@@ -13,11 +17,7 @@ export class CartDataStorageService {
     products: {
       id: string;
       productName: string;
-      productCategory: {
-        id: string;
-        categoryName: string;
-        properties: { property: string; values: string[] }[];
-      };
+      productCategory: string;
       productImages: string[];
       description: string;
       priceInPKR: number;
@@ -26,15 +26,9 @@ export class CartDataStorageService {
     }[];
   }> {
     return this.http
-      .get<FetchCartItemProducts>(
-        'http://localhost:3000/api/products/fetchCartProducts',
-        {
-          params: new HttpParams().set(
-            'productIds',
-            JSON.stringify(cartItemIds)
-          ),
-        }
-      )
+      .get<FetchCartItemProducts>(BACKEND_URL + '/products/fetchCartProducts', {
+        params: new HttpParams().set('productIds', JSON.stringify(cartItemIds)),
+      })
       .pipe(
         map((res) => {
           return {
@@ -43,11 +37,7 @@ export class CartDataStorageService {
               return {
                 id: product._id,
                 productName: product.productName,
-                productCategory: {
-                  id: product.productCategory._id,
-                  categoryName: product.productCategory.categoryName,
-                  properties: product.productCategory.properties,
-                },
+                productCategory: product.productCategory,
                 productImages: product.productImages,
                 description: product.description,
                 priceInPKR: product.priceInPKR,
@@ -65,7 +55,7 @@ export class CartDataStorageService {
     shippingFee: number;
   }> {
     return this.http.get<FetchShippingFee>(
-      'http://localhost:3000/api/settings/fetchShippingfee'
+      BACKEND_URL + '/settings/fetchShippingfee'
     );
   }
 }
