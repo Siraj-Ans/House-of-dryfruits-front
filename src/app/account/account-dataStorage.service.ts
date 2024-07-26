@@ -36,7 +36,7 @@ export class AccountDataStorageService {
   }> {
     return this.http
       .post<SaveAccountDetails>(
-        BACKEND_URL + 'saveAccountDetails',
+        'https://house-of-dryfruits-backend.onrender.com/api/account/saveAccountDetails',
         accountDetails
       )
       .pipe(
@@ -76,9 +76,12 @@ export class AccountDataStorageService {
     } | null;
   }> {
     return this.http
-      .get<FetchAccountDetails>(BACKEND_URL + 'fetchAccountDetails', {
-        params: new HttpParams().set('userId', userId),
-      })
+      .get<FetchAccountDetails>(
+        'https://house-of-dryfruits-backend.onrender.com/api/account/fetchAccountDetails',
+        {
+          params: new HttpParams().set('userId', userId),
+        }
+      )
       .pipe(
         map((res) => {
           return {
@@ -106,7 +109,7 @@ export class AccountDataStorageService {
     message: string;
   }> {
     return this.http.post<UpdateAccountDetailsResponse>(
-      BACKEND_URL + 'updateAccountDetails',
+      'https://house-of-dryfruits-backend.onrender.com/api/account/updateAccountDetails',
       accountDetails
     );
   }

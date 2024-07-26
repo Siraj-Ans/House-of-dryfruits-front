@@ -34,7 +34,7 @@ export class WishListDataStorageService {
   }> {
     return this.http
       .get<FetchWishedProductsResponse>(
-        BACKEND_URL + 'fetchWishedProductsAccount',
+        'https://house-of-dryfruits-backend.onrender.com/api/wishlist/fetchWishedProductsAccount',
         {
           params: new HttpParams().append('userId', userId),
         }
@@ -69,7 +69,7 @@ export class WishListDataStorageService {
     message: string;
   }> {
     return this.http.delete<RemoveWishedProductRespone>(
-      BACKEND_URL + 'removeFromWishListAccount',
+      'https://house-of-dryfruits-backend.onrender.com/api/wishlist/removeFromWishListAccount',
       {
         params: new HttpParams()
           .append('userId', userId)

@@ -35,9 +35,12 @@ export class CheckOutDataStorageService {
     };
   }> {
     return this.http
-      .get<FetchAccountDetails>(BACKEND_URL + '/account/fetchAccountDetails', {
-        params: new HttpParams().set('userId', userId),
-      })
+      .get<FetchAccountDetails>(
+        'https://house-of-dryfruits-backend.onrender.com/api/account/fetchAccountDetails',
+        {
+          params: new HttpParams().set('userId', userId),
+        }
+      )
       .pipe(
         map((res) => {
           return {
@@ -72,7 +75,7 @@ export class CheckOutDataStorageService {
   }> {
     return this.http
       .get<FetchCheckedOutProducts>(
-        BACKEND_URL + '/products/fetchCartProducts',
+        'https://house-of-dryfruits-backend.onrender.com/api/products/fetchCartProducts',
         {
           params: new HttpParams().set(
             'productIds',
@@ -126,7 +129,10 @@ export class CheckOutDataStorageService {
     };
   }> {
     return this.http
-      .post<CreateOrderResponse>(BACKEND_URL + '/orders/createOrder', order)
+      .post<CreateOrderResponse>(
+        'https://house-of-dryfruits-backend.onrender.com/api/orders/createOrder',
+        order
+      )
       .pipe(
         map((res) => {
           return {

@@ -26,9 +26,15 @@ export class CartDataStorageService {
     }[];
   }> {
     return this.http
-      .get<FetchCartItemProducts>(BACKEND_URL + '/products/fetchCartProducts', {
-        params: new HttpParams().set('productIds', JSON.stringify(cartItemIds)),
-      })
+      .get<FetchCartItemProducts>(
+        'https://house-of-dryfruits-backend.onrender.com/api/products/fetchCartProducts',
+        {
+          params: new HttpParams().set(
+            'productIds',
+            JSON.stringify(cartItemIds)
+          ),
+        }
+      )
       .pipe(
         map((res) => {
           return {
@@ -55,7 +61,7 @@ export class CartDataStorageService {
     shippingFee: number;
   }> {
     return this.http.get<FetchShippingFee>(
-      BACKEND_URL + '/settings/fetchShippingfee'
+      'https://house-of-dryfruits-backend.onrender.com/api/settings/fetchShippingfee'
     );
   }
 }

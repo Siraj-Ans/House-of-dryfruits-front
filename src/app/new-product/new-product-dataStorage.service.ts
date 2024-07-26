@@ -31,7 +31,9 @@ export class NewProductsDataStorageService {
     }[];
   }> {
     return this.http
-      .get<FetchNewProductsResponse>(BACKEND_URL + '/products/fetchNewProducts')
+      .get<FetchNewProductsResponse>(
+        'https://house-of-dryfruits-backend.onrender.com/api/products/fetchNewProducts'
+      )
       .pipe(
         map((res) => {
           return {
@@ -66,7 +68,7 @@ export class NewProductsDataStorageService {
   }> {
     return this.http
       .post<SaveWishedProductResponse>(
-        BACKEND_URL + '/wishlist/saveToWishList',
+        'https://house-of-dryfruits-backend.onrender.com/api/wishlist/saveToWishList',
         {
           productId: productId,
           userId: userId,
@@ -99,7 +101,7 @@ export class NewProductsDataStorageService {
   }> {
     return this.http
       .get<FetchWishedProductsResponse>(
-        BACKEND_URL + '/wishlist/fetchWishedProducts',
+        'https://house-of-dryfruits-backend.onrender.com/api/wishlist/fetchWishedProducts',
         {
           params: new HttpParams()
             .append('userId', userId)
@@ -129,7 +131,7 @@ export class NewProductsDataStorageService {
     message: string;
   }> {
     return this.http.delete<RemoveWishedProductRespone>(
-      BACKEND_URL + '/wishlist/removeFromWishList',
+      'https://house-of-dryfruits-backend.onrender.com/api/wishlist/removeFromWishList',
       {
         params: new HttpParams()
           .append('userId', userId)

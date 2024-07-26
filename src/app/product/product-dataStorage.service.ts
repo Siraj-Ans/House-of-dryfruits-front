@@ -32,9 +32,12 @@ export class ProductDataStorageService {
     };
   }> {
     return this.http
-      .get<FetchProductResponse>(BACKEND_URL + '/products/fetchProduct', {
-        params: new HttpParams().set('productId', productId),
-      })
+      .get<FetchProductResponse>(
+        'https://house-of-dryfruits-backend.onrender.com/api/products/fetchProduct',
+        {
+          params: new HttpParams().set('productId', productId),
+        }
+      )
       .pipe(
         map((res) => {
           return {
@@ -70,12 +73,15 @@ export class ProductDataStorageService {
     };
   }> {
     return this.http
-      .post<SaveReviewResponse>(BACKEND_URL + '/reviews/saveReview', {
-        title: title,
-        comment: comment,
-        stars: stars,
-        productId: productId,
-      })
+      .post<SaveReviewResponse>(
+        'https://house-of-dryfruits-backend.onrender.com/api/reviews/saveReview',
+        {
+          title: title,
+          comment: comment,
+          stars: stars,
+          productId: productId,
+        }
+      )
       .pipe(
         map((res) => {
           return {
@@ -105,9 +111,12 @@ export class ProductDataStorageService {
     }[];
   }> {
     return this.http
-      .get<FetchReviewsResponse>(BACKEND_URL + '/reviews/fetchReviews', {
-        params: new HttpParams().set('productId', productId),
-      })
+      .get<FetchReviewsResponse>(
+        'https://house-of-dryfruits-backend.onrender.com/api/reviews/fetchReviews',
+        {
+          params: new HttpParams().set('productId', productId),
+        }
+      )
       .pipe(
         map((res) => {
           return {

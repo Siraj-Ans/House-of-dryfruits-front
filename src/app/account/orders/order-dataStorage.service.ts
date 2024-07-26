@@ -24,10 +24,13 @@ export class OrderDataStorageService {
   ): Observable<{
     message: string;
   }> {
-    return this.http.post<CancelOrderResponse>(BACKEND_URL + 'cancelOrder', {
-      orderId: orderId,
-      userId: userId,
-    });
+    return this.http.post<CancelOrderResponse>(
+      'https://house-of-dryfruits-backend.onrender.com/api/orders/cancelOrder',
+      {
+        orderId: orderId,
+        userId: userId,
+      }
+    );
   }
 
   fetchOrders(userId: string): Observable<{
@@ -58,9 +61,12 @@ export class OrderDataStorageService {
     }[];
   }> {
     return this.http
-      .get<FetchOrdersResponse>(BACKEND_URL + 'fetchOrders', {
-        params: new HttpParams().append('userId', userId),
-      })
+      .get<FetchOrdersResponse>(
+        'https://house-of-dryfruits-backend.onrender.com/api/orders/fetchOrders',
+        {
+          params: new HttpParams().append('userId', userId),
+        }
+      )
       .pipe(
         map((res) => {
           return {
@@ -133,11 +139,14 @@ export class OrderDataStorageService {
     };
   }> {
     return this.http
-      .get<FetchOrderResponse>(BACKEND_URL + 'fetchOrder', {
-        params: new HttpParams()
-          .append('userId', userId)
-          .append('orderId', orderId),
-      })
+      .get<FetchOrderResponse>(
+        'https://house-of-dryfruits-backend.onrender.com/api/orders/fetchOrder',
+        {
+          params: new HttpParams()
+            .append('userId', userId)
+            .append('orderId', orderId),
+        }
+      )
       .pipe(
         map((res) => {
           return {

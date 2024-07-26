@@ -38,7 +38,7 @@ export class CategoryDataStorageService {
   }> {
     return this.http
       .get<FetchCategoryProductsResponse>(
-        BACKEND_URL + '/products/fetchCategoryProducts',
+        'https://house-of-dryfruits-backend.onrender.com/api/products/fetchCategoryProducts',
         {
           params: new HttpParams().set('categoryId', categoryId),
         }
@@ -78,9 +78,12 @@ export class CategoryDataStorageService {
     };
   }> {
     return this.http
-      .get<FetchCategoryResponse>(BACKEND_URL + '/categories/fetchCategory', {
-        params: new HttpParams().set('categoryId', categoryId),
-      })
+      .get<FetchCategoryResponse>(
+        'https://house-of-dryfruits-backend.onrender.com/api/categories/fetchCategory',
+        {
+          params: new HttpParams().set('categoryId', categoryId),
+        }
+      )
       .pipe(
         map((responseData) => {
           if (responseData.category.parent) {
@@ -135,7 +138,7 @@ export class CategoryDataStorageService {
   }> {
     return this.http
       .get<FetchCategoryOldestProductsResponse>(
-        BACKEND_URL + '/products/fetchOldestCategoryProducts',
+        'https://house-of-dryfruits-backend.onrender.com/api/products/fetchOldestCategoryProducts',
         {
           params: new HttpParams().set('categoryId', categoryId),
         }
@@ -176,7 +179,7 @@ export class CategoryDataStorageService {
   }> {
     return this.http
       .get<FetchCategoryProductsByLowestPriceResponse>(
-        BACKEND_URL + '/products/fetchCategoryProductsByLowestPrice',
+        'https://house-of-dryfruits-backend.onrender.com/api/products/fetchCategoryProductsByLowestPrice',
         {
           params: new HttpParams().set('categoryId', categoryId),
         }
@@ -217,7 +220,7 @@ export class CategoryDataStorageService {
   }> {
     return this.http
       .get<FetchCategoryProductsByHighestPriceResponse>(
-        BACKEND_URL + '/products/fetchCategoryProductsByHighestPrice',
+        'https://house-of-dryfruits-backend.onrender.com/api/products/fetchCategoryProductsByHighestPrice',
         {
           params: new HttpParams().set('categoryId', categoryId),
         }
@@ -256,7 +259,7 @@ export class CategoryDataStorageService {
   }> {
     return this.http
       .post<SaveWishedProductResponse>(
-        BACKEND_URL + '/wishlist/saveToWishList',
+        'https://house-of-dryfruits-backend.onrender.com/api/wishlist/saveToWishList',
         {
           productId: productId,
           userId: userId,
@@ -289,7 +292,7 @@ export class CategoryDataStorageService {
   }> {
     return this.http
       .get<FetchWishedProductsResponse>(
-        BACKEND_URL + '/wishlist/fetchWishedProducts',
+        'https://house-of-dryfruits-backend.onrender.com/api/wishlist/fetchWishedProducts',
         {
           params: new HttpParams()
             .append('userId', userId)
@@ -319,7 +322,7 @@ export class CategoryDataStorageService {
     message: string;
   }> {
     return this.http.delete<RemoveWishedProductRespone>(
-      BACKEND_URL + '/wishlist/removeFromWishList',
+      'https://house-of-dryfruits-backend.onrender.com/api/wishlist/removeFromWishList',
       {
         params: new HttpParams()
           .append('userId', userId)
