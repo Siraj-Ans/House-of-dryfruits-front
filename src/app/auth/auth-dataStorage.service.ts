@@ -26,13 +26,10 @@ export class AuthDataStorageService {
     expiresIn: number;
   }> {
     return this.http
-      .post<LoginUserResponse>(
-        'https://house-of-dryfruits-backend.onrender.com/api/user/login',
-        {
-          emailAddress: emailAddress,
-          password: password,
-        }
-      )
+      .post<LoginUserResponse>(BACKEND_URL + 'login', {
+        emailAddress: emailAddress,
+        password: password,
+      })
       .pipe(
         map((res) => {
           return {
@@ -62,14 +59,11 @@ export class AuthDataStorageService {
     };
   }> {
     return this.http
-      .post<SignUpUserResponse>(
-        'https://house-of-dryfruits-backend.onrender.com/api/user/signup',
-        {
-          userName: userName,
-          emailAddress: emailAddress,
-          password: password,
-        }
-      )
+      .post<SignUpUserResponse>(BACKEND_URL + 'signup', {
+        userName: userName,
+        emailAddress: emailAddress,
+        password: password,
+      })
       .pipe(
         map((res) => {
           return {

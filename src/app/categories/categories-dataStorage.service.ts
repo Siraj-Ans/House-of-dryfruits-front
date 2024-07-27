@@ -32,9 +32,7 @@ export class CategoriesDataStorageService {
     }[];
   }> {
     return this.http
-      .get<FetchCategoriesResponse>(
-        'https://house-of-dryfruits-backend.onrender.com/api/categories/fetchCategories'
-      )
+      .get<FetchCategoriesResponse>(BACKEND_URL + '/categories/fetchCategories')
       .pipe(
         map((responseData) => {
           return {
@@ -88,7 +86,7 @@ export class CategoriesDataStorageService {
   }> {
     return this.http
       .get<FetchCategoriesProductsResponse>(
-        'https://house-of-dryfruits-backend.onrender.com/api/products/fetchCategoriesProducts',
+        BACKEND_URL + '/products/fetchCategoriesProducts',
         {
           params: new HttpParams().set('categoryIds', categoryIds),
         }
@@ -127,7 +125,7 @@ export class CategoriesDataStorageService {
   }> {
     return this.http
       .post<SaveWishedProductResponse>(
-        'https://house-of-dryfruits-backend.onrender.com/api/wishlist/saveToWishList',
+        BACKEND_URL + '/wishlist/saveToWishList',
         {
           productId: productId,
           userId: userId,
@@ -160,7 +158,7 @@ export class CategoriesDataStorageService {
   }> {
     return this.http
       .get<FetchWishedProductsResponse>(
-        'https://house-of-dryfruits-backend.onrender.com/api/wishlist/fetchWishedProducts',
+        BACKEND_URL + '/wishlist/fetchWishedProducts',
         {
           params: new HttpParams()
             .append('userId', userId)
@@ -190,7 +188,7 @@ export class CategoriesDataStorageService {
     message: string;
   }> {
     return this.http.delete<RemoveWishedProductRespone>(
-      'https://house-of-dryfruits-backend.onrender.com/api/wishlist/removeFromWishList',
+      BACKEND_URL + '/wishlist/removeFromWishList',
       {
         params: new HttpParams()
           .append('userId', userId)

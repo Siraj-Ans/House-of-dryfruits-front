@@ -61,12 +61,9 @@ export class OrderDataStorageService {
     }[];
   }> {
     return this.http
-      .get<FetchOrdersResponse>(
-        'https://house-of-dryfruits-backend.onrender.com/api/orders/fetchOrders',
-        {
-          params: new HttpParams().append('userId', userId),
-        }
-      )
+      .get<FetchOrdersResponse>(BACKEND_URL + 'fetchOrders', {
+        params: new HttpParams().append('userId', userId),
+      })
       .pipe(
         map((res) => {
           return {
@@ -139,14 +136,11 @@ export class OrderDataStorageService {
     };
   }> {
     return this.http
-      .get<FetchOrderResponse>(
-        'https://house-of-dryfruits-backend.onrender.com/api/orders/fetchOrder',
-        {
-          params: new HttpParams()
-            .append('userId', userId)
-            .append('orderId', orderId),
-        }
-      )
+      .get<FetchOrderResponse>(BACKEND_URL + 'fetchOrder', {
+        params: new HttpParams()
+          .append('userId', userId)
+          .append('orderId', orderId),
+      })
       .pipe(
         map((res) => {
           return {

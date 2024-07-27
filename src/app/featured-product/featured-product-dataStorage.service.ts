@@ -26,9 +26,7 @@ export class FeaturedProductDataStorageService {
     };
   }> {
     return this.http
-      .get<FetchFeaturedProduct>(
-        'https://house-of-dryfruits-backend.onrender.com/api/settings/fetchFeaturedProduct'
-      )
+      .get<FetchFeaturedProduct>(BACKEND_URL + '/settings/fetchFeaturedProduct')
       .pipe(
         map((res) => {
           return {
