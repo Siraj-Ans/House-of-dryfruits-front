@@ -1,0 +1,9 @@
+.featured-product-description {
+  -ms-overflow-style: none; /* Internet Explorer and Edge */
+  scrollbar-width: none; /* Firefox */
+  overflow-y: scroll; /* Enable vertical scrolling */
+}
+
+.featured-product-description::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}

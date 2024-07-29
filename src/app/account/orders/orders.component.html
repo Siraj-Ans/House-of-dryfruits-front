@@ -30,7 +30,9 @@
     >
       Track
     </a>
-    } }
+    } } @if(order.fullfilled == 'delivered' && order.paid) {
+    <p class="text-base font-medium text-green-500">Paid and delivered</p>
+    }
   </div>
   <div class="flex flex-col w-1/2">
     <p class="text-2xl leading-tight font-bold text-gray-400">

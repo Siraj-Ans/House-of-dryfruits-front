@@ -50,6 +50,7 @@ export interface CreateOrderResponse {
     }[];
     paid: boolean;
     fullfilled: string;
+    completed: boolean;
     createdAt: string;
     updatedAt: string;
     address2?: string;

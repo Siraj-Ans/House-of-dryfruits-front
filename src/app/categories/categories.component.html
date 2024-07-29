@@ -1,4 +1,4 @@
-<div class="flex flex-col h-full py-6 bg-gray-100">
+<div class="flex flex-col py-6 bg-gray-100">
   <div class="flex flex-col gap-4">
     @if(loading) {
     <div class="flex bg-transparent px-6 items-center gap-2 justify-between">
@@ -14,7 +14,7 @@
         </h2>
         <p
           (click)="onShowCategory(categoriesProduct.category)"
-          class="cursor-pointer font-medium text-lg text-dark-gray underline"
+          class="cursor-pointer font-medium text-lg text-gray-300 underline hover:text-dark-gray"
         >
           Show all
         </p>
@@ -115,11 +115,11 @@
                       <p class="text-sm font-medium text-dark-blue cursor-auto">
                         Rp {{ product.priceInPKR }}
                       </p>
-                      <del>
+                      <!-- <del>
                         <p class="text-sm text-gray-500 cursor-auto ml-2">
                           Rp 199
                         </p>
-                      </del>
+                      </del> -->
                       <div class="ml-auto">
                         <mat-icon
                           class="cursor-pointer"
@@ -136,9 +136,13 @@
               }
 
               <div
-                class="h-[324px] bg-gray-100 shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
+                (click)="onShowCategory(categoriesProduct.category)"
+                class="cursor-pointer flex items-center w-56 h-[271px] bg-gray-300 shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
               >
-                <p class="absolute left-50 font-medium text-lg text-gray-300">
+                <p
+                  (click)="onShowCategory(categoriesProduct.category)"
+                  class="cursor-pointer font-medium mx-auto text-lg text-white hover:text-gray-100"
+                >
                   Show all
                 </p>
               </div>

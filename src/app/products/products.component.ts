@@ -8,6 +8,7 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import {
@@ -33,7 +34,14 @@ import { CartItem } from '../shared/CartItem.model';
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, MatIconModule, RouterModule, BarSpinner, FormsModule],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatPaginatorModule,
+    RouterModule,
+    BarSpinner,
+    FormsModule,
+  ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
   animations: [
@@ -49,6 +57,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
   state = 'hidden';
   loading = false;
   products: Product[] = [];
+  totalProducts = 0;
+  pageSize = 20;
+  currentPage = 1;
+  pageSizeOptions = [1, 2, 5, 10, 20, 30, 40, 50];
   iconsShowing = new Set<string>();
   cartItems: CartItem[] = [];
   wishedProducts: string[] = [];
@@ -56,6 +68,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   updateProductsSubscription: Subscription | undefined;
   updateProductsLoadingStatusSubscription: Subscription | undefined;
   updateWishedProductSubscription: Subscription | undefined;
+  updateProductsCountSubscription: Subscription | undefined;
 
   constructor(
     private productsService: ProductsService,
@@ -75,7 +88,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.productsService.getProducts();
+    this.productsService.getProducts(this.pageSize, this.currentPage);
+
+    this.updateProductsCountSubscription =
+      this.productsService.updateProductsCount.subscribe((count) => {
+        this.totalProducts = count;
+      });
 
     this.updateProductsSubscription =
       this.productsService.updateProducts.subscribe((products) => {
@@ -91,13 +109,18 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.updateProductsLoadingStatusSubscription =
       this.productsService.updateProductsLoadingStatus.subscribe((status) => {
         this.loading = status;
-        console.log(this.loading);
       });
 
     this.updateWishedProductSubscription =
       this.productsService.updateWishedProducts.subscribe((wishedProducts) => {
         this.wishedProducts = wishedProducts;
       });
+  }
+
+  onChangedPage(pageData: PageEvent): void {
+    this.currentPage = pageData.pageIndex + 1;
+    this.pageSize = pageData.pageSize;
+    this.productsService.getProducts(this.pageSize, this.currentPage);
   }
 
   onRemoveFromWhishlist(productId: string): void {
@@ -167,5 +190,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.updateProductsSubscription?.unsubscribe();
     this.updateWishedProductSubscription?.unsubscribe();
     this.updateProductsLoadingStatusSubscription?.unsubscribe();
+    this.updateProductsCountSubscription?.unsubscribe();
   }
 }

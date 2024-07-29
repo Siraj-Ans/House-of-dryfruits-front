@@ -14,7 +14,7 @@
   >
     <div class="relative">
       <img
-        src="Organic.svg"
+        [src]="wishedProduct.product.productImages[0]"
         alt="Product"
         class="h-52 w-72 object-cover rounded-t-xl"
       />
@@ -68,9 +68,9 @@
           <p class="text-sm font-medium text-dark-blue cursor-auto">
             Rp {{ wishedProduct.product.priceInPKR }}
           </p>
-          <del>
+          <!-- <del>
             <p class="text-sm text-gray-500 cursor-auto ml-2">Rp 199</p>
-          </del>
+          </del> -->
           <div class="ml-auto">
             <mat-icon
               class="cursor-pointer"

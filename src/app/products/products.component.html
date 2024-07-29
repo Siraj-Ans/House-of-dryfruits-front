@@ -1,6 +1,6 @@
 <section class="flex bg-gray-100 h-full pt-4">
-  <div class="mx-auto w-full px-6">
-    <h1 class="text-2xl text-dark-blue font-bold mb-8">All Products</h1>
+  <div class="flex flex-col mx-auto w-full px-6">
+    <h1 class="text-2xl text-dark-blue font-bold mb-4">All Products</h1>
     @if(loading) {
     <div class="flex bg-transparent items-center gap-2 justify-between">
       <app-bar-spinner></app-bar-spinner>
@@ -78,9 +78,9 @@
               <p class="text-sm font-medium text-dark-blue cursor-auto">
                 Rp {{ product.priceInPKR }}
               </p>
-              <del>
+              <!-- <del>
                 <p class="text-sm text-gray-500 cursor-auto ml-2">Rp 199</p>
-              </del>
+              </del> -->
               <div class="ml-auto">
                 <mat-icon
                   class="cursor-pointer"
@@ -95,6 +95,16 @@
         </div>
       </div>
       }
+    </div>
+    } @if(products.length > 0) {
+    <div class="mb-2 my-auto">
+      <mat-paginator
+        class="mat-paginator"
+        [length]="totalProducts"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onChangedPage($event)"
+      ></mat-paginator>
     </div>
     }
   </div>

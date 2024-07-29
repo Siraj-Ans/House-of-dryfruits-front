@@ -1,18 +1,48 @@
+@if(featuredProduct) {
 <div class="flex bg-dark-gray gap-6 h-4/6 px-6 py-12">
   <div class="flex flex-col gap-3 w-1/2">
     <h1 class="text-3xl text-white font-bold">
-      {{ featuredProduct?.productName }}
+      {{ featuredProduct.productName }}
     </h1>
-    <p class="text-base h-1/2 overflow-y-hidden text-gray-400 font-medium">
-      {{ featuredProduct?.description }}
+    <p class="text-base h-1/2 overflow-hidden text-gray-400 font-medium">
+      {{ featuredProduct.description }}
     </p>
+
+    <div class="flex gap-5">
+      <button
+        (click)="onAddToCart(featuredProduct)"
+        class="flex items-center w-fit mt-5 rounded gap-3 text-base text-white px-3 py-2 bg-blue-700 transition duration-150 ease-in-out hover:bg-blue-600"
+      >
+        <mat-icon
+          class="cursor-pointer"
+          aria-hidden="false"
+          aria-label="Example shopping_cart icon"
+          fontIcon="shopping_cart"
+        ></mat-icon>
+        Add to cart
+      </button>
+
+      <button
+        (click)="onViewProduct(featuredProduct.id)"
+        class="flex items-center w-fit mt-5 rounded border border-white gap-3 text-base text-white px-3 py-2 bg-transparent transition duration-150 ease-in-out hover:border-gray-500"
+      >
+        <mat-icon
+          class="cursor-pointer"
+          aria-hidden="false"
+          aria-label="Example visibility icon"
+          fontIcon="visibility"
+        ></mat-icon>
+        Read more
+      </button>
+    </div>
   </div>
 
   <div class="flex items-center w-1/2">
     <img
-      class="w-9/12 mx-auto rounded-lg object-contain"
-      [src]="(featuredProduct?.productImages)![0]"
+      class="w-9/12 h-full mx-auto rounded-lg object-contain"
+      [src]="featuredProduct.productImages![0]"
       alt=""
     />
   </div>
 </div>
+}

@@ -10,7 +10,7 @@ import { Product } from '../new-product/product.model';
   providedIn: 'root',
 })
 export class FeaturedProductService {
-  updateFeaturedProduct = new Subject<Product>();
+  updateFeaturedProduct = new Subject<Product | null | undefined>();
   updateLoadingStatus = new Subject<boolean>();
 
   constructor(

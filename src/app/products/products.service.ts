@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { ReplaySubject, Subject } from 'rxjs';
 
 import { ProductsDataStorageService } from './products-dataStorage.service';
 import { ToastService } from '../toast.service';
@@ -10,8 +10,9 @@ import { Product } from '../new-product/product.model';
 export class ProductsService {
   products: Product[] = [];
   wishedProducts: string[] = [];
+  updateProductsCount = new ReplaySubject<number>(0);
   updateProducts = new Subject<Product[]>();
-  updateProductsLoadingStatus = new Subject<boolean>();
+  updateProductsLoadingStatus = new ReplaySubject<boolean>(0);
   updateWishedProducts = new Subject<string[]>();
 
   constructor(
@@ -19,33 +20,40 @@ export class ProductsService {
     private toastr: ToastService
   ) {}
 
-  getProducts(): void {
-    this.productDataStorageService.fetchProducts().subscribe({
-      next: (responseData) => {
-        this.products = responseData.products;
+  getProducts(pageSize: number, currentPage: number): void {
+    this.updateProductsLoadingStatus.next(true);
+    this.productDataStorageService
+      .fetchProducts(pageSize, currentPage)
+      .subscribe({
+        next: (responseData) => {
+          this.products = responseData.products;
 
-        this.updateProducts.next(this.products.slice());
-      },
-      error: (err) => {
-        if (!err.status)
-          this.toastr.showError('Server failed!', '', {
-            toastClass: 'error-toast',
-            timeOut: 3000,
-            extendedTimeOut: 1000,
-            positionClass: 'toast-top-right',
-            preventDuplicates: true,
-          });
-        else
-          this.toastr.showError(err.error.message, '', {
-            toastClass: 'error-toast',
-            timeOut: 3000,
-            extendedTimeOut: 1000,
-            positionClass: 'toast-top-right',
-            preventDuplicates: true,
-          });
-      },
-      complete: () => {},
-    });
+          this.updateProducts.next(this.products.slice());
+          this.updateProductsCount.next(responseData.productsCount);
+        },
+        error: (err) => {
+          if (!err.status)
+            this.toastr.showError('Server failed!', '', {
+              toastClass: 'error-toast',
+              timeOut: 3000,
+              extendedTimeOut: 1000,
+              positionClass: 'toast-top-right',
+              preventDuplicates: true,
+            });
+          else
+            this.toastr.showError(err.error.message, '', {
+              toastClass: 'error-toast',
+              timeOut: 3000,
+              extendedTimeOut: 1000,
+              positionClass: 'toast-top-right',
+              preventDuplicates: true,
+            });
+          this.updateProductsLoadingStatus.next(false);
+        },
+        complete: () => {
+          this.updateProductsLoadingStatus.next(false);
+        },
+      });
   }
 
   addProductToWishList(productId: string, userId: string): void {

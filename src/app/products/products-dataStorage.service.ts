@@ -17,7 +17,10 @@ const BACKEND_URL = environment.apiUrl;
 export class ProductsDataStorageService {
   constructor(private http: HttpClient) {}
 
-  fetchProducts(): Observable<{
+  fetchProducts(
+    pageSize: number,
+    currentPage: number
+  ): Observable<{
     message: string;
     products: {
       id: string;
@@ -29,9 +32,17 @@ export class ProductsDataStorageService {
       createdAt: string;
       updatedAt: string;
     }[];
+    productsCount: number;
   }> {
     return this.http
-      .get<FetchProductsResponse>(BACKEND_URL + '/products/fetchProductsFront')
+      .get<FetchProductsResponse>(
+        BACKEND_URL + '/products/fetchProductsFront',
+        {
+          params: new HttpParams()
+            .append('pageSize', pageSize)
+            .append('currentPage', currentPage),
+        }
+      )
       .pipe(
         map((res) => {
           return {
@@ -48,6 +59,7 @@ export class ProductsDataStorageService {
                 updatedAt: product.updatedAt,
               };
             }),
+            productsCount: res.productsCount,
           };
         })
       );

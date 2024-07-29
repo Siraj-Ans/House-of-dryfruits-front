@@ -160,7 +160,8 @@ export class CheckOutComponent implements OnInit, OnDestroy {
         this.checkOutForm.value.paymentMethod,
         productInfo,
         false,
-        'pending'
+        'pending',
+        false
       );
     else
       order = new Order(
@@ -177,6 +178,7 @@ export class CheckOutComponent implements OnInit, OnDestroy {
         productInfo,
         false,
         'pending',
+        false,
         this.checkOutForm.value.address2
       );
 

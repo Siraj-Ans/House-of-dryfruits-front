@@ -1,6 +1,6 @@
 export interface FetchFeaturedProduct {
   message: string;
-  featuredProduct: {
+  featuredProduct?: {
     _id: string;
     __v: number;
     productName: string;

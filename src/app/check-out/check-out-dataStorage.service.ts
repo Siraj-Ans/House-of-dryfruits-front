@@ -120,6 +120,7 @@ export class CheckOutDataStorageService {
       }[];
       paid: boolean;
       fullfilled: string;
+      completed: boolean;
       createdAt: string;
       updatedAt: string;
       address2?: string;
@@ -146,6 +147,7 @@ export class CheckOutDataStorageService {
               productInfo: res.order.productInfo,
               paid: res.order.paid,
               fullfilled: res.order.fullfilled,
+              completed: res.order.completed,
               createdAt: res.order.createdAt,
               updatedAt: res.order.updatedAt,
               address2: res.order.address2,

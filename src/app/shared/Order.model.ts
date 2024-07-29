@@ -17,6 +17,7 @@ export class Order {
     }[],
     public paid: boolean,
     public fullfilled: string,
+    public completed: boolean,
     public address2?: string
   ) {}
 }

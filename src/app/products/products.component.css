@@ -10,3 +10,8 @@
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
+
+.mat-paginator {
+  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
+  color: black;
+}

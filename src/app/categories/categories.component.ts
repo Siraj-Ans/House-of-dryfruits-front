@@ -102,10 +102,11 @@ export class CategoriesComponent implements OnInit, OnDestroy {
                     res.categoriesProducts.map((np) => np.id)
                   );
 
-                this.categoriesProducts.push({
-                  category: mainCat,
-                  categoriesProducts: res.categoriesProducts,
-                });
+                if (res.categoriesProducts.length > 0)
+                  this.categoriesProducts.push({
+                    category: mainCat,
+                    categoriesProducts: res.categoriesProducts,
+                  });
               },
               error: (err) => {
                 if (!err.status)

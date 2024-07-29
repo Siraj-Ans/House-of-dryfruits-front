@@ -11,6 +11,7 @@ export interface FetchProductsResponse {
     createdAt: string;
     updatedAt: string;
   }[];
+  productsCount: number;
 }
 
 export interface SaveWishedProductResponse {
