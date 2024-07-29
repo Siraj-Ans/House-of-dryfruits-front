@@ -56,7 +56,7 @@ export class CartService {
   getShippingFee(): void {
     this.cartDataStorageService.fetchShippingFee().subscribe({
       next: (res) => {
-        this.updateShippingFee.next(res.shippingFee);
+        this.updateShippingFee.next(+res.shippingFee);
       },
       error: (err) => {
         if (!err.status)

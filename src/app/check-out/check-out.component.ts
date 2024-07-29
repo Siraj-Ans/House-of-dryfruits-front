@@ -101,23 +101,24 @@ export class CheckOutComponent implements OnInit, OnDestroy {
 
     this.updateAccountDetailsSubscription =
       this.checkOutService.updateAccountDetails.subscribe((accountDetails) => {
-        this.accountDetails = accountDetails;
-
-        this.checkOutForm.setValue({
-          emailAddress: this.accountDetails.emailAddress,
-          country: 'Pakistan',
-          firstName: this.accountDetails.firstName,
-          lastName: this.accountDetails.lastName,
-          phoneNumber: this.accountDetails.phoneNumber,
-          city: this.accountDetails.city,
-          postalCode: this.accountDetails.postalCode,
-          address1: this.accountDetails.address1,
-          address2: this.accountDetails.address2
-            ? this.accountDetails.address2
-            : null,
-          paymentMethod: 'COD',
-        });
-
+        if (!accountDetails) this.accountDetails = undefined;
+        else {
+          this.accountDetails = accountDetails;
+          this.checkOutForm.setValue({
+            emailAddress: this.accountDetails.emailAddress,
+            country: 'Pakistan',
+            firstName: this.accountDetails.firstName,
+            lastName: this.accountDetails.lastName,
+            phoneNumber: this.accountDetails.phoneNumber,
+            city: this.accountDetails.city,
+            postalCode: this.accountDetails.postalCode,
+            address1: this.accountDetails.address1,
+            address2: this.accountDetails.address2
+              ? this.accountDetails.address2
+              : null,
+            paymentMethod: 'COD',
+          });
+        }
         this.isChecked = false;
       });
 

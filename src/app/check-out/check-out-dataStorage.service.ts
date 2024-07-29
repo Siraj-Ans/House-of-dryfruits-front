@@ -32,7 +32,7 @@ export class CheckOutDataStorageService {
       postalCode: number;
       address1: string;
       address2: string;
-    };
+    } | null;
   }> {
     return this.http
       .get<FetchAccountDetails>(BACKEND_URL + '/account/fetchAccountDetails', {
@@ -42,18 +42,20 @@ export class CheckOutDataStorageService {
         map((res) => {
           return {
             message: res.message,
-            accountDetails: {
-              id: res.accountDetails._id,
-              userId: res.accountDetails.user,
-              emailAddress: res.accountDetails.emailAddress,
-              firstName: res.accountDetails.firstName,
-              lastName: res.accountDetails.lastName,
-              phoneNumber: res.accountDetails.phoneNumber,
-              city: res.accountDetails.city,
-              postalCode: res.accountDetails.postalCode,
-              address1: res.accountDetails.address1,
-              address2: res.accountDetails.address2,
-            },
+            accountDetails: res.accountDetails
+              ? {
+                  id: res.accountDetails._id,
+                  userId: res.accountDetails.user,
+                  emailAddress: res.accountDetails.emailAddress,
+                  firstName: res.accountDetails.firstName,
+                  lastName: res.accountDetails.lastName,
+                  phoneNumber: res.accountDetails.phoneNumber,
+                  city: res.accountDetails.city,
+                  postalCode: res.accountDetails.postalCode,
+                  address1: res.accountDetails.address1,
+                  address2: res.accountDetails.address2,
+                }
+              : null,
           };
         })
       );

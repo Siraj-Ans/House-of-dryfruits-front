@@ -14,7 +14,7 @@ import { Order } from '../shared/Order.model';
 export class CheckOutService {
   updateProducts = new Subject<Product[]>();
   updateLoadingStatus = new Subject<boolean>();
-  updateAccountDetails = new Subject<AccountDetails>();
+  updateAccountDetails = new Subject<AccountDetails | null>();
 
   constructor(
     private checkoutDataStorageService: CheckOutDataStorageService,
@@ -24,7 +24,9 @@ export class CheckOutService {
   getAccountDetails(userId: string): void {
     this.checkoutDataStorageService.fetchAccountDetails(userId).subscribe({
       next: (res) => {
-        this.updateAccountDetails.next(res.accountDetails);
+        this.updateAccountDetails.next(
+          res.accountDetails ? res.accountDetails : null
+        );
       },
       error: (err) => {
         if (!err.status)

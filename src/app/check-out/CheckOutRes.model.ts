@@ -12,7 +12,7 @@ export interface FetchAccountDetails {
     postalCode: number;
     address1: string;
     address2: string;
-  };
+  } | null;
 }
 
 export interface FetchCheckedOutProducts {

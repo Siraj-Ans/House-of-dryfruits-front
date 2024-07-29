@@ -61,7 +61,7 @@ export class OrderDataStorageService {
     }[];
   }> {
     return this.http
-      .get<FetchOrdersResponse>(BACKEND_URL + 'fetchOrders', {
+      .get<FetchOrdersResponse>(BACKEND_URL + 'fetchOrdersFront', {
         params: new HttpParams().append('userId', userId),
       })
       .pipe(

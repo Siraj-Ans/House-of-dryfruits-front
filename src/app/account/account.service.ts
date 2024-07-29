@@ -42,7 +42,7 @@ export class AccountService {
               preventDuplicates: true,
             });
           else
-            this.toastr.showError(err.error.message, '', {
+            this.toastr.showWarning(err.error.message, '', {
               toastClass: 'error-toast',
               timeOut: 3000,
               extendedTimeOut: 1000,
@@ -82,7 +82,7 @@ export class AccountService {
               preventDuplicates: true,
             });
           else
-            this.toastr.showError(err.error.message, '', {
+            this.toastr.showWarning(err.error.message, '', {
               toastClass: 'error-toast',
               timeOut: 3000,
               extendedTimeOut: 1000,
@@ -100,10 +100,12 @@ export class AccountService {
   getAccountDetails(userId: string): void {
     this.accountDataStorageService.fetchAccountDetails(userId).subscribe({
       next: (res) => {
-        console.log(res);
-        this.updatedAccountDetails.next(res.accountDetails);
+        this.updatedAccountDetails.next(
+          res.accountDetails ? res.accountDetails : null
+        );
       },
       error: (err) => {
+        console.log(err);
         if (!err.status)
           this.toastr.showError('Server failed!', '', {
             toastClass: 'error-toast',
