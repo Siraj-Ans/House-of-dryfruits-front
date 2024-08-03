@@ -38,7 +38,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.updateOrdersSubscription = this.orderService.updateOrders.subscribe(
       (orders) => {
         this.orders = orders;
-        console.log(this.orders);
       }
     );
 

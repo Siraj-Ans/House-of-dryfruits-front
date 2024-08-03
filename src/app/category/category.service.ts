@@ -27,7 +27,6 @@ export class CategoryService {
           this.updateCategoryProducts.next(res.categoryProducts);
         },
         error: (err) => {
-          console.log(err);
           if (!err.status)
             this.toastr.showError('Server failed!', '', {
               toastClass: 'error-toast',
@@ -169,11 +168,9 @@ export class CategoryService {
       .getOldestCategoryProducts(categoryId)
       .subscribe({
         next: (res) => {
-          console.log(res);
           this.updateCategoryProducts.next(res.categoryProducts);
         },
         error: (err) => {
-          console.log(err);
           if (!err.status)
             this.toastr.showError('Server failed!', '', {
               toastClass: 'error-toast',
@@ -200,11 +197,9 @@ export class CategoryService {
       .getCategoryProductsByLowestPrice(categoryId)
       .subscribe({
         next: (res) => {
-          console.log(res);
           this.updateCategoryProducts.next(res.categoryProducts);
         },
         error: (err) => {
-          console.log(err);
           if (!err.status)
             this.toastr.showError('Server failed!', '', {
               toastClass: 'error-toast',
@@ -231,11 +226,9 @@ export class CategoryService {
       .getCategoryProductsByHighestPrice(categoryId)
       .subscribe({
         next: (res) => {
-          console.log(res);
           this.updateCategoryProducts.next(res.categoryProducts);
         },
         error: (err) => {
-          console.log(err);
           if (!err.status)
             this.toastr.showError('Server failed!', '', {
               toastClass: 'error-toast',

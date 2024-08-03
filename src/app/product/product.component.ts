@@ -73,12 +73,10 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     this.productService.updateReviews.subscribe((reviews) => {
       this.reviews = reviews;
-      console.log(reviews, this.product?.id);
     });
 
     this.productRes$ = this.activatedRoute.data.pipe(
       map((data) => {
-        console.log('product: ', data['product'].product);
         this.selectedImage = data['product'].product.productImages[0];
         this.product = data['product'].product;
 
@@ -123,7 +121,6 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   onChangeReview(i: number): void {
     this.reviewValue = i + 1;
-    console.log(this.reviewValue);
   }
 
   onSelectImage(selectedImage: string): void {

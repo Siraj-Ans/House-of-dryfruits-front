@@ -81,8 +81,6 @@ export class NewProduct implements OnInit, OnDestroy {
       this.newProductsService.updateNewProductsLoadingStatus.subscribe(
         (status) => {
           this.loading = status;
-          console.log('loading: ', this.loading);
-          console.log(this.newProducts);
         }
       );
 

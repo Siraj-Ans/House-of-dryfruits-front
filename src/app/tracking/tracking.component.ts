@@ -33,7 +33,6 @@ export class TrackingComponent implements OnInit {
       map((data) => {
         this.order = data['order'].order;
 
-        console.log('order: ', this.order);
         return data['order'];
       })
     );

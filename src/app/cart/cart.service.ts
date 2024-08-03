@@ -28,7 +28,6 @@ export class CartService {
         this.updateCartItems.next(this.cartItemProducts.slice());
       },
       error: (err) => {
-        console.log(err);
         if (!err.status)
           this.toastr.showError('Server failed!', '', {
             toastClass: 'error-toast',
