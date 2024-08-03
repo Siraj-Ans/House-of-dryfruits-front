@@ -138,6 +138,18 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   onAddToWhishlist(productId: string): void {
+    if (!this.authService.getIsAuthenticated())
+      return this.toastr.showError(
+        'Login first to add products to wishlist.',
+        '',
+        {
+          toastClass: 'error-toast',
+          timeOut: 3000,
+          extendedTimeOut: 1000,
+          positionClass: 'toast-top-right',
+          preventDuplicates: true,
+        }
+      );
     this.productsService.addProductToWishList(productId, this.user!.id);
   }
 

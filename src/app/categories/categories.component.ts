@@ -132,6 +132,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
         this.categoriesService.updateLoadingStatus.next(false);
       },
       error: (err) => {
+        console.log(err);
         if (!err.status)
           this.toastr.showError('Server failed!', '', {
             toastClass: 'error-toast',
@@ -171,6 +172,18 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   onAddToWhishlist(productId: string): void {
+    if (!this.authService.getIsAuthenticated())
+      return this.toastr.showError(
+        'Login first to add products to wishlist.',
+        '',
+        {
+          toastClass: 'error-toast',
+          timeOut: 3000,
+          extendedTimeOut: 1000,
+          positionClass: 'toast-top-right',
+          preventDuplicates: true,
+        }
+      );
     this.categoriesService.addProductToWishList(productId, this.user!.id);
   }
 

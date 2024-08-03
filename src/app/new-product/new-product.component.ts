@@ -46,6 +46,7 @@ import { CartItem } from '../shared/CartItem.model';
 })
 export class NewProduct implements OnInit, OnDestroy {
   state = 'hidden';
+  averageRating = 10;
   loading = false;
   iconsShowing = new Set<string>();
   newProducts: Product[] = [];

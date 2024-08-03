@@ -27,6 +27,7 @@ export class CategoryService {
           this.updateCategoryProducts.next(res.categoryProducts);
         },
         error: (err) => {
+          console.log(err);
           if (!err.status)
             this.toastr.showError('Server failed!', '', {
               toastClass: 'error-toast',

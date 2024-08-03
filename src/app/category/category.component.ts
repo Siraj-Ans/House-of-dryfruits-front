@@ -18,11 +18,12 @@ import {
 import { DropDownDirective } from '../shared/toggle-dropdown.directive';
 
 import { CategoryService } from './category.service';
+import { ToastService } from '../toast.service';
+import { AuthService } from '../auth/auth.service';
 
 import { Category } from '../categories/category.model';
 import { Product } from '../new-product/product.model';
 import { User } from '../account/User.model';
-import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-category',
@@ -74,6 +75,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     private categoryService: CategoryService,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
+    private toastr: ToastService,
     private router: Router
   ) {}
 
@@ -145,6 +147,18 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
 
   onAddToWhishlist(productId: string): void {
+    if (!this.authService.getIsAuthenticated())
+      return this.toastr.showError(
+        'Login first to add products to wishlist.',
+        '',
+        {
+          toastClass: 'error-toast',
+          timeOut: 3000,
+          extendedTimeOut: 1000,
+          positionClass: 'toast-top-right',
+          preventDuplicates: true,
+        }
+      );
     this.categoryService.addProductToWishList(productId, this.user!.id);
   }
 
