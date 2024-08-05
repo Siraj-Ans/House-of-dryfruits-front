@@ -7,7 +7,8 @@ import {
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
 
 import { BarSpinner } from '../shared/bar-spinner/bar-spinner.component';
 
@@ -21,7 +22,7 @@ import { CartItem } from '../shared/CartItem.model';
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, RouterModule, BarSpinner],
+  imports: [CommonModule, RouterModule, BarSpinner, MatIconModule],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
 })
@@ -31,6 +32,7 @@ export class CartComponent implements OnInit, OnDestroy {
   loading = false;
   subTotal = 0;
   shippingFee = 0;
+  totalProducts = 0;
   total = 0;
   updateCartItemsLoadingStatusSubscription: Subscription | undefined;
   updateCartItemsSubscription: Subscription | undefined;
@@ -57,8 +59,13 @@ export class CartComponent implements OnInit, OnDestroy {
         this.cartService.getCartItemProducts(cartItemIds);
 
         this.cartItems.forEach((cartItem) => {
+          this.totalProducts += cartItem.quanity;
           this.subTotal += cartItem.total;
         });
+
+        const shipFee = this.shippingFee * this.totalProducts;
+
+        this.subTotal = this.subTotal + shipFee;
       }
     }
 
@@ -78,15 +85,33 @@ export class CartComponent implements OnInit, OnDestroy {
       });
   }
 
+  onDeletCartItem(cartItemProduct: Product, index: number): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.totalProducts -= this.cartItems[index].quanity;
+      this.subTotal -= this.cartItems[index].total;
+      this.cartItems.splice(index, 1);
+
+      localStorage.removeItem('cart');
+      localStorage.setItem('cart', JSON.stringify(this.cartItems));
+
+      const cartItemIds = this.cartItems.map((cartItem) => cartItem.product);
+
+      this.headerService.updateCartItemsCount.next(this.cartItems.length);
+      this.cartService.getCartItemProducts(cartItemIds);
+    }
+  }
+
   onIncreaseQuantity(index: number) {
     this.cartItems[index].quanity++;
 
     this.cartItems[index].total += this.cartItemProducts[index].priceInPKR;
     this.subTotal += this.cartItemProducts[index].priceInPKR;
+    this.totalProducts++;
   }
 
   onDecreaseQuantity(index: number) {
     if (this.cartItems[index].quanity > 1) {
+      this.totalProducts--;
       this.cartItems[index].quanity--;
       this.cartItems[index].total -= this.cartItemProducts[index].priceInPKR;
       this.subTotal -= this.cartItemProducts[index].priceInPKR;
@@ -124,6 +149,7 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   onUpdateCart(): void {
+    console.log(this.cartItems);
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('cart');
       localStorage.setItem('cart', JSON.stringify(this.cartItems));

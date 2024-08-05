@@ -1,4 +1,4 @@
-<div class="bg-gray-100 h-screen py-8">
+<div class="bg-gray-100 py-8">
   <div class="container mx-auto px-4">
     <button
       (click)="onBack()"
@@ -36,17 +36,31 @@
       </svg>
       <p class="text-sm leading-none">Back</p>
     </button>
-    <h1 class="text-3xl text-dark-blue font-bold mb-4">Shopping Cart</h1>
-    <div class="flex flex-col md:flex-row gap-4">
-      <div class="md:w-3/4">
+    <h1 class="text-xl text-dark-blue font-bold mb-4 lg:text-2xl">
+      Shopping Cart
+    </h1>
+    <div class="flex flex-col lg:flex-row gap-4">
+      <div class="lg:w-3/4">
         <div class="bg-white rounded-lg shadow-md p-6 mb-4">
           <table class="w-full">
             <thead>
               <tr>
                 <th class="text-left text-dark-blue font-semibold">Product</th>
-                <th class="text-left text-dark-blue font-semibold">Price</th>
-                <th class="text-left text-dark-blue font-semibold">Quantity</th>
-                <th class="text-left text-dark-blue font-semibold">Total</th>
+                <th
+                  class="text-left text-dark-blue font-semibold text-sm lg:text-base"
+                >
+                  Price
+                </th>
+                <th
+                  class="text-left text-dark-blue font-semibold text-sm lg:text-base"
+                >
+                  Quantity
+                </th>
+                <th
+                  class="text-left text-dark-blue font-semibold text-sm lg:text-base"
+                >
+                  Total
+                </th>
               </tr>
             </thead>
 
@@ -63,13 +77,14 @@
                 <td class="py-4">
                   <div class="flex items-center">
                     <img
-                      class="h-16 w-16 mr-4"
+                      class="h-10 w-10 lg:h-16 lg:w-16 mr-4"
                       [src]="cartItemProduct.productImages[1]"
                       alt="Product image"
                     />
-                    <span class="font-semibold text-dark-blue">{{
-                      cartItemProduct.productName
-                    }}</span>
+                    <span
+                      class="font-semibold text-sm text-dark-blue lg:text-base"
+                      >{{ cartItemProduct.productName }}</span
+                    >
                   </div>
                 </td>
                 <td class="py-4 w-20">Rs {{ cartItemProduct.priceInPKR }}</td>
@@ -93,6 +108,15 @@
                   </div>
                 </td>
                 <td class="py-4 w-20">Rs {{ cartItems[i].total }}</td>
+                <td class="py-4 w-20">
+                  <mat-icon
+                    (click)="onDeletCartItem(cartItemProduct, i)"
+                    class="cursor-pointer text-red-500 w-8 lg:w-10"
+                    aria-hidden="false"
+                    aria-label="Example delete icon"
+                    fontIcon="delete"
+                  ></mat-icon>
+                </td>
               </tr>
 
               } }
@@ -103,36 +127,38 @@
           <button
             [disabled]="cartItemProducts.length == 0"
             (click)="onUpdateCart()"
-            class="mx-2 my-2 bg-green-600 transition duration-150 ease-in-out hover:bg-green-500 rounded text-white px-6 py-2 text-base"
+            class="mx-2 my-2 bg-green-600 transition duration-150 ease-in-out hover:bg-green-500 rounded text-white text-base px-3 py-1 lg:px-6 lg:py-2"
           >
             Update cart
           </button>
           <button
             [disabled]="cartItemProducts.length == 0"
             (click)="onClearCart()"
-            class="mx-2 my-2 bg-red-600 transition duration-150 ease-in-out hover:bg-red-500 rounded text-white px-6 py-2 text-base"
+            class="mx-2 my-2 bg-red-600 transition duration-150 ease-in-out hover:bg-red-500 rounded text-white text-base px-3 py-1 lg:px-6 lg:py-2"
           >
             Clear cart
           </button>
         </div>
       </div>
 
-      <div class="md:w-1/4">
+      <div class="lg:w-1/4">
         <div class="bg-white rounded-lg shadow-md p-6">
-          <h2 class="text-lg text-dark-blue font-semibold mb-4">Summary</h2>
+          <h2 class="text-base text-dark-blue font-semibold mb-4 lg:text-lg">
+            Summary
+          </h2>
           <div class="flex justify-between mb-2">
             <span>Subtotal</span>
             <span>Rs {{ subTotal }}</span>
           </div>
           <div class="flex justify-between mb-2">
             <span>Shipping</span>
-            <span>Rs {{ shippingFee * cartItemProducts.length }}</span>
+            <span>Rs {{ shippingFee * totalProducts }}</span>
           </div>
           <hr class="my-2" />
           <div class="flex justify-between mb-2">
             <span class="font-semibold text-dark-blue">Total</span>
             <span class="font-semibold text-dark-blue"
-              >Rs {{ subTotal + shippingFee }}</span
+              >Rs {{ subTotal + shippingFee * totalProducts }}</span
             >
           </div>
           <button

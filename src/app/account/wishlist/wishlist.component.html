@@ -2,7 +2,10 @@
 <div class="flex p-6 w-16 bg-transparent items-center gap-2 justify-between">
   <app-bar-spinner></app-bar-spinner>
 </div>
-}@else {
+}@else { @if(wishedProducts.length === 0) {
+<p class="text-dark-gray font-medium text-lg">No Product added to wishlist!</p>
+
+}
 
 <div class="flex flex-wrap py-8 gap-5">
   @for(wishedProduct of wishedProducts; track wishedProduct.id; let i = $index)
@@ -10,13 +13,13 @@
   <div
     (mouseenter)="onMouseEnter(wishedProduct.id)"
     (mouseleave)="onMouseLeave(wishedProduct.id)"
-    class="w-56 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
+    class="w-44 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl lg:w-56"
   >
     <div class="relative">
       <img
         [src]="wishedProduct.product.productImages[0]"
         alt="Product"
-        class="h-52 w-72 object-cover rounded-t-xl"
+        class="h-42 w-52 object-cover rounded-t-xl lg:h-52 lg:w-72"
       />
       @if(iconsShowing.has(wishedProduct.id)) {
 
@@ -60,17 +63,14 @@
         <p
           routerLink="/cart"
           (click)="onViewProduct(wishedProduct.id)"
-          class="cursor-pointer text-base font-semibold text-dark-blue truncate block capitalize"
+          class="cursor-pointer text-sm font-semibold text-dark-blue truncate block capitalize lg:text-base"
         >
           {{ wishedProduct.product.productName }}
         </p>
         <div class="flex items-center">
-          <p class="text-sm font-medium text-dark-blue cursor-auto">
+          <p class="text-xs font-medium text-dark-blue cursor-auto lg:text-sm">
             Rp {{ wishedProduct.product.priceInPKR }}
           </p>
-          <!-- <del>
-            <p class="text-sm text-gray-500 cursor-auto ml-2">Rp 199</p>
-          </del> -->
           <div class="ml-auto">
             <mat-icon
               class="cursor-pointer"

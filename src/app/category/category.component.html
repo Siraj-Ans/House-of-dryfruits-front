@@ -2,7 +2,7 @@
   <div class="mx-auto w-full px-6">
     <div class="flex justify-between px-6">
       @if(categoryRes$ | async;) { }
-      <h1 class="text-2xl text-dark-blue font-bold mb-8">
+      <h1 class="text-xl text-dark-blue font-bold mb-8 lg:text-2xl">
         {{ category?.categoryName || "fafa" }}
       </h1>
       <div class="relative inline-block text-left">
@@ -10,7 +10,7 @@
           class="inline-flex justify-center w-full text-base font-medium text-white bg-gray-600 rounded-md hover:bg-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 focus-visible:ring-opacity-75"
         >
           <select
-            class="form-select block px-2 py-2 bg-gray-600 w-full mt-1"
+            class="form-select block px-1 py-1 bg-gray-600 w-full mt-1 lg:px-2 lg:py-2"
             [(ngModel)]="selectedOption"
             (change)="onSelectChange($event)"
           >
@@ -31,13 +31,13 @@
       <div
         (mouseenter)="onMouseEnter(categoryProduct.id)"
         (mouseleave)="onMouseLeave(categoryProduct.id)"
-        class="w-56 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
+        class="w-44 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl lg:w-56"
       >
         <div class="relative">
           <img
-            src="Organic.svg"
+            [src]="categoryProduct.productImages[0]"
             alt="Product"
-            class="h-52 w-72 object-cover rounded-t-xl"
+            class="h-42 w-52 object-cover rounded-t-xl lg:w-72"
           />
           @if(iconsShowing.has(categoryProduct.id)) {
 
@@ -66,7 +66,7 @@
             >
               <mat-icon
                 class=""
-                (click)="onAddToCart(categoryProduct.id)"
+                (click)="onAddToCart(categoryProduct)"
                 aria-hidden="false"
                 aria-label="Example local_mall icon"
                 fontIcon="local_mall"
@@ -76,7 +76,6 @@
               class="cursor-pointer bg-gray-100 px-3 pt-3 pb-1 rounded-md hover:px-4 hover:pt-4 hover:pb-2"
             >
               <mat-icon
-                class=""
                 (click)="onViewProduct(categoryProduct.id)"
                 aria-hidden="false"
                 aria-label="Example visibility"
@@ -90,21 +89,20 @@
             <p
               routerLink="/cart"
               (click)="onViewProduct(categoryProduct.id)"
-              class="cursor-pointer text-base font-semibold text-dark-blue truncate block capitalize"
+              class="cursor-pointer text-sm font-semibold text-dark-blue truncate block capitalize lg:text-base"
             >
               {{ categoryProduct.productName }}
             </p>
             <div class="flex items-center">
-              <p class="text-sm font-medium text-dark-blue cursor-auto">
+              <p
+                class="text-xs font-medium text-dark-blue cursor-auto lg:text-sm"
+              >
                 Rp {{ categoryProduct.priceInPKR }}
               </p>
-              <del>
-                <p class="text-sm text-gray-500 cursor-auto ml-2">Rp 199</p>
-              </del>
               <div class="ml-auto">
                 <mat-icon
                   class="cursor-pointer"
-                  (click)="onAddToCart(categoryProduct.id)"
+                  (click)="onAddToCart(categoryProduct)"
                   aria-hidden="false"
                   aria-label="Example shopping_cart icon"
                   fontIcon="shopping_cart"

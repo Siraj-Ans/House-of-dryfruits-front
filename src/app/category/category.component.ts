@@ -1,5 +1,11 @@
-import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AsyncPipe, CommonModule, isPlatformBrowser } from '@angular/common';
+import {
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -24,6 +30,8 @@ import { AuthService } from '../auth/auth.service';
 import { Category } from '../categories/category.model';
 import { Product } from '../new-product/product.model';
 import { User } from '../account/User.model';
+import { CartItem } from '../shared/CartItem.model';
+import { HeaderService } from '../header/header.serice';
 
 @Component({
   selector: 'app-category',
@@ -59,6 +67,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   user: User | undefined;
   wishedProducts: string[] = [];
   selectedOption = 'All';
+  cartItems: CartItem[] = [];
   updatedCategorySubscription: Subscription | undefined;
   updateCategoryProductsSubscription: Subscription | undefined;
   updateLoadingStatusSubscription: Subscription | undefined;
@@ -76,11 +85,19 @@ export class CategoryComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     private toastr: ToastService,
-    private router: Router
+    private router: Router,
+    private headerService: HeaderService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit(): void {
     this.user = this.authService.getUser();
+
+    if (isPlatformBrowser(this.platformId)) {
+      if (localStorage.getItem('cart')) {
+        this.cartItems = JSON.parse(localStorage.getItem('cart')!);
+      }
+    }
 
     this.categoryRes$ = this.activatedRoute.data.pipe(
       map((data) => {
@@ -176,7 +193,46 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.iconsShowing.add(productId);
   }
 
-  onAddToCart(productId: string): void {}
+  onAddToCart(product: Product): void {
+    if (isPlatformBrowser(this.platformId)) {
+      if (localStorage.getItem('cart')) {
+        this.cartItems = JSON.parse(localStorage.getItem('cart')!);
+      } else {
+        this.cartItems = [];
+      }
+    }
+
+    const check = this.cartItems.filter(
+      (cartItem) => cartItem.product == product.id
+    );
+
+    if (check.length > 0) {
+      this.toastr.showWarning('Product already exists in the cart!', '', {
+        toastClass: 'warning-toast',
+        timeOut: 3000,
+        extendedTimeOut: 1000,
+        positionClass: 'toast-top-right',
+        preventDuplicates: true,
+      });
+      return;
+    }
+
+    const cartItem = new CartItem(product.id, 1, product.priceInPKR);
+
+    this.cartItems.push(cartItem);
+
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('cart', JSON.stringify(this.cartItems));
+      this.headerService.updateCartItemsCount.next(this.cartItems.length);
+      this.toastr.showSuccess('Product added to the cart!', '', {
+        toastClass: 'success-toast',
+        timeOut: 3000,
+        extendedTimeOut: 1000,
+        positionClass: 'toast-top-right',
+        preventDuplicates: true,
+      });
+    }
+  }
 
   onViewProduct(productID: string): void {
     this.router.navigate(['products/', productID]);

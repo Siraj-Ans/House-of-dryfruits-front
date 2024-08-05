@@ -41,6 +41,7 @@ export class WishListDataStorageService {
       )
       .pipe(
         map((res) => {
+          console.log('res: ', res);
           return {
             message: res.message,
             wishedProducts: res.wishedProducts.map((wishedProduct) => {

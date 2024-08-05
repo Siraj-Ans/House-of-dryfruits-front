@@ -1,17 +1,21 @@
 @if(featuredProduct) {
-<div class="flex bg-dark-gray gap-6 h-4/6 px-6 py-12">
-  <div class="flex flex-col gap-3 w-1/2">
-    <h1 class="text-3xl text-white font-bold">
+<div
+  class="flex flex-col-reverse bg-dark-gray h-fit px-6 py-12 gap-6 lg:flex-row lg:h-4/6"
+>
+  <div class="flex flex-col gap-3 w-full text-center lg:w-1/2 lg:text-left">
+    <h1 class="text-xl text-white font-bold lg:text-2xl">
       {{ featuredProduct.productName }}
     </h1>
-    <p class="text-base h-1/2 overflow-hidden text-gray-400 font-medium">
+    <p
+      class="text-sm h-1/2 mx-auto w-4/5 overflow-hidden text-gray-400 font-medium lg:text-base lg:mx-0"
+    >
       {{ featuredProduct.description }}
     </p>
 
-    <div class="flex gap-5">
+    <div class="flex justify-center gap-5 lg:justify-start">
       <button
         (click)="onAddToCart(featuredProduct)"
-        class="flex items-center w-fit mt-5 rounded gap-3 text-base text-white px-3 py-2 bg-blue-700 transition duration-150 ease-in-out hover:bg-blue-600"
+        class="flex items-center w-fit mt-5 rounded gap-3 text-sm text-white px-2 py-1 bg-blue-700 transition duration-150 ease-in-out hover:bg-blue-600 lg:text-base lg:px-3 lg:py-2"
       >
         <mat-icon
           class="cursor-pointer"
@@ -24,7 +28,7 @@
 
       <button
         (click)="onViewProduct(featuredProduct.id)"
-        class="flex items-center w-fit mt-5 rounded border border-white gap-3 text-base text-white px-3 py-2 bg-transparent transition duration-150 ease-in-out hover:border-gray-500"
+        class="flex items-center w-fit mt-5 rounded border border-white gap-3 text-sm text-white px-2 py-1 bg-transparent transition duration-150 ease-in-out hover:border-gray-500 lg:text-base lg:px-3 lg:py-2"
       >
         <mat-icon
           class="cursor-pointer"
@@ -37,7 +41,7 @@
     </div>
   </div>
 
-  <div class="flex items-center w-1/2">
+  <div class="flex items-center mx-auto w-1/2">
     <img
       class="w-9/12 h-full mx-auto rounded-lg object-contain"
       [src]="featuredProduct.productImages![0]"

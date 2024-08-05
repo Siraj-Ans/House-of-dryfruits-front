@@ -1,5 +1,5 @@
-<div class="bg-gray-100 py-6 px-6 h-full">
-  <div class="flex gap-5 justify-between">
+<div class="bg-gray-100 py-6 px-6">
+  <div class="flex flex-col gap-5 lg:flex lg:justify-between">
     <div class="flex flex-col gap-5 bg-white p-6 rounded-lg w-full">
       <div class="flex gap-8">
         <a
@@ -24,11 +24,13 @@
     </div>
 
     <div class="flex flex-col bg-white pl-6 pr-6 pb-6 pt-3 rounded-lg w-fit">
-      <h2 class="text-2xl mb-3 font-bold text-blue-800">
+      <h2 class="text-xl mb-3 font-bold text-blue-800 lg:text-2xl">
         Welcome {{ user?.userName }}
       </h2>
 
-      <h2 class="text-2xl mb-2 font-bold text-dark-blue">Account Details</h2>
+      <h2 class="text-base mb-2 font-bold text-dark-blue lg:text-lg">
+        Account Details
+      </h2>
 
       @if(loading) {
       <div class="flex bg-transparent items-center gap-2 justify-between">
@@ -147,7 +149,7 @@
               accountDetailsForm.invalid ? 'invalid-update' : 'valid-update'
             "
             type="submit"
-            class="mx-2 my-2 bg-gray-600 transition duration-150 ease-in-out hover:bg-gray-500 rounded-lg text-white px-4 py-1 text-base"
+            class="mx-2 my-2 bg-gray-600 transition duration-150 ease-in-out hover:bg-gray-500 rounded-lg text-white px-2 py-1 text-base lg:px-4 lg:py-1"
           >
             Update
           </button>
@@ -158,7 +160,7 @@
               accountDetailsForm.invalid ? 'invalid-save' : 'valid-save'
             "
             type="submit"
-            class="mx-2 my-2 bg-green-700 transition duration-150 ease-in-out hover:bg-green-600 rounded-lg text-white px-4 py-1 text-base"
+            class="mx-2 my-2 bg-green-700 transition duration-150 ease-in-out hover:bg-green-600 rounded-lg text-white px-2 py-1 text-base lg:px-4 lg:py-1"
           >
             save
           </button>
@@ -167,7 +169,7 @@
         <button
           type="button"
           (click)="onLogout()"
-          class="mx-2 my-2 bg-red-600 transition duration-150 ease-in-out hover:bg-red-500 rounded-lg text-white px-6 py-2 text-base"
+          class="mx-2 my-2 bg-red-600 transition duration-150 ease-in-out hover:bg-red-500 rounded-lg text-white px-3 py-2 text-base lg:px-6 lg:py-2"
         >
           Logout
         </button>

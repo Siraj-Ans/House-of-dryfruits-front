@@ -1,25 +1,49 @@
 <section class="bg-gray-100 h-full pt-4 pb-16">
   <div class="mx-auto w-full px-6">
-    <h1 class="text-2xl text-dark-blue font-bold mb-8">Latest Products</h1>
+    <h1 class="text-xl text-dark-blue font-bold mb-4 lg:mb-8 lg:text-2xl">
+      Latest Products
+    </h1>
 
     @if(loading) {
     <div class="flex bg-transparent items-center gap-2 justify-between">
       <app-bar-spinner></app-bar-spinner>
     </div>
     }@else {
-    <div class="grid grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-4">
+    <div class="grid grid-cols-2 gap-2 lg:grid-cols-4 lg:gap-4">
       @for(newProduct of newProducts; track newProduct.id) {
       <div
         (mouseenter)="onMouseEnter(newProduct.id)"
         (mouseleave)="onMouseLeave(newProduct.id)"
-        class="w-56 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl"
+        class="w-44 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl lg:w-56"
       >
         <div class="relative">
           <img
             [src]="newProduct.productImages[0]"
             alt="Product"
-            class="h-52 w-72 object-cover rounded-t-xl"
+            class="h-42 w-52 object-cover rounded-t-xl lg:h-52 lg:w-72"
           />
+
+          <!-- <div
+            class="absolute top-1 left-1 cursor-pointer bg-gray-100 px-3 pt-3 pb-1 rounded-md hover:px-4 hover:pt-4 hover:pb-2"
+          >
+            @if(wishedProducts.includes(newProduct.id)) {
+            <mat-icon
+              (click)="onRemoveFromWhishlist(newProduct.id)"
+              aria-hidden="false"
+              aria-label="Example close icon"
+              fontIcon="close"
+              class="w-3 h-3"
+            ></mat-icon>
+            } @else {
+            <mat-icon
+              (click)="onAddToWhishlist(newProduct.id)"
+              aria-hidden="false"
+              aria-label="Example favorite icon"
+              fontIcon="favorite"
+              class="w-3 h-3"
+            ></mat-icon>
+            }
+          </div> -->
           @if(iconsShowing.has(newProduct.id)) {
 
           <div class="cursor-pointer icons-container" [@showHideIcons]="state">
@@ -70,12 +94,14 @@
             <p
               routerLink="/cart"
               (click)="onViewProduct(newProduct.id)"
-              class="cursor-pointer text-base font-semibold text-dark-blue truncate block capitalize"
+              class="cursor-pointer text-sm font-semibold text-dark-blue truncate block capitalize lg:text-base"
             >
               {{ newProduct.productName }}
             </p>
             <div class="flex items-center">
-              <p class="text-sm font-medium text-dark-blue cursor-auto">
+              <p
+                class="text-xs font-medium text-dark-blue cursor-auto lg:text-sm"
+              >
                 Rp {{ newProduct.priceInPKR }}
               </p>
             </div>
