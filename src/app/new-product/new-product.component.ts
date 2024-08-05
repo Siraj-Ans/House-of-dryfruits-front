@@ -88,7 +88,6 @@ export class NewProduct implements OnInit, OnDestroy {
       this.newProductsService.updateNewProducts.subscribe((newProducts) => {
         this.newProducts = newProducts;
 
-        console.log(this.authService.getIsAuthenticated());
         if (this.authService.getIsAuthenticated())
           this.newProductsService.getWishedProducts(
             this.user!.id,

@@ -37,6 +37,13 @@
     <a
       [routerLinkActiveOptions]="{ exact: true }"
       routerLinkActive="active-link"
+      routerLink="/contact-us"
+      class="cursor-pointer font-medium text-base text-light"
+      >Contact Us</a
+    >
+    <a
+      [routerLinkActiveOptions]="{ exact: true }"
+      routerLinkActive="active-link"
       routerLink="/cart"
       class="cursor-pointer font-medium text-lg text-light"
       >Cart ({{ cartItemsCount }})</a
@@ -89,6 +96,14 @@
         (click)="toggleIcon()"
         class="cursor-pointer font-medium text-base hover:text-dark-blue"
         >Account</a
+      >
+      <a
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="active-link-mobile"
+        routerLink="/contact-us"
+        (click)="toggleIcon()"
+        class="cursor-pointer font-medium text-base hover:text-dark-blue"
+        >Contact Us</a
       >
       <a
         [routerLinkActiveOptions]="{ exact: true }"

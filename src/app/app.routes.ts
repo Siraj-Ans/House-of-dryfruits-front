@@ -13,6 +13,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { OrdersComponent } from './account/orders/orders.component';
 import { WishListComponent } from './account/wishlist/wishlist.componenet';
 import { TrackingComponent } from './tracking/tracking.component';
+import { ContactUsComponent } from './contact-us/contact-us.component';
 
 import { productResolver } from './product/product.resolver';
 import { categoryResolver } from './category/category.resolver';
@@ -33,6 +34,7 @@ export const routes: Routes = [
     component: CategoryComponent,
     resolve: { category: categoryResolver },
   },
+  { path: 'contact-us', component: ContactUsComponent },
   {
     path: 'account',
     component: AccountComponent,
