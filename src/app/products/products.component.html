@@ -1,4 +1,4 @@
-<section class="flex bg-gray-100 h-full pt-4">
+<section class="flex bg-gray-100 pt-4">
   <div class="flex flex-col mx-auto w-full px-6">
     <h1 class="text-xl text-dark-blue font-bold mb-4 lg:text-2xl">
       All Products
@@ -8,7 +8,7 @@
       <app-bar-spinner></app-bar-spinner>
     </div>
     } @else {
-    <div class="grid grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-4">
+    <div class="grid grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-4 pb-10">
       @for(product of products; track product.id) {
       <div
         (mouseenter)="onMouseEnter(product.id)"
