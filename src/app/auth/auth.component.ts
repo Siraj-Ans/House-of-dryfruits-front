@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { LoadSpinner } from '../shared/load-spinner/load-spinner.component';
 
 import { AuthService } from './auth.service';
+import { ToastService } from '../toast.service';
 
 @Component({
   selector: 'app-account',
@@ -16,11 +17,12 @@ import { AuthService } from './auth.service';
 })
 export class AuthComponent implements OnInit, OnDestroy {
   mode = 'login';
+
   loading = false;
   updateModeSubscription: Subscription | undefined;
   updateLoadingStatusSubscription: Subscription | undefined;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private toastr: ToastService) {}
 
   ngOnInit(): void {
     this.updateModeSubscription = this.authService.updateAuthMode.subscribe(
@@ -47,6 +49,61 @@ export class AuthComponent implements OnInit, OnDestroy {
       authForm.value.emailAddress,
       authForm.value.password
     );
+  }
+
+  onForgotPassword(): void {
+    this.mode = 'forgotPassword';
+  }
+
+  onChangePassword(authForm: NgForm): void {
+    if (authForm.invalid) return;
+
+    if (authForm.value.newPassword !== authForm.value.confirmPassword)
+      return this.toastr.showError('Password dosent match!', '', {
+        toastClass: 'error-toast',
+        timeOut: 3000,
+        extendedTimeOut: 1000,
+        positionClass: 'toast-top-right',
+        preventDuplicates: true,
+      });
+
+    this.authService
+      .changePassword(
+        authForm.value.emailAddress,
+        authForm.value.previousPassword,
+        authForm.value.newPassword
+      )
+      .subscribe({
+        next: (res) => {
+          this.mode = 'login';
+          this.toastr.showSuccess('Password Updated!', '', {
+            toastClass: 'success-toast',
+            timeOut: 3000,
+            extendedTimeOut: 1000,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+          });
+        },
+        error: (err) => {
+          if (!err.status)
+            this.toastr.showError('Server failed!', '', {
+              toastClass: 'error-toast',
+              timeOut: 3000,
+              extendedTimeOut: 1000,
+              positionClass: 'toast-top-right',
+              preventDuplicates: true,
+            });
+          else
+            this.toastr.showError(err.error.message, '', {
+              toastClass: 'error-toast',
+              timeOut: 3000,
+              extendedTimeOut: 1000,
+              positionClass: 'toast-top-right',
+              preventDuplicates: true,
+            });
+        },
+        complete: () => {},
+      });
   }
 
   onAuth(authForm: NgForm): void {

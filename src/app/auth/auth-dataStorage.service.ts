@@ -2,7 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
-import { LoginUserResponse, SignUpUserResponse } from './AuthRes.model';
+import {
+  ChangePassword,
+  LoginUserResponse,
+  SignUpUserResponse,
+} from './AuthRes.model';
 
 import { environment } from '../../environments/environment.development';
 
@@ -76,5 +80,19 @@ export class AuthDataStorageService {
           };
         })
       );
+  }
+
+  changePassword(
+    emailAddress: string,
+    previousPassword: string,
+    newPassword: string
+  ): Observable<{
+    message: string;
+  }> {
+    return this.http.post<ChangePassword>(BACKEND_URL + 'changePassword', {
+      emailAddress: emailAddress,
+      previousPassword: previousPassword,
+      newPassword: newPassword,
+    });
   }
 }

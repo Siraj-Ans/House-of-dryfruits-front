@@ -20,3 +20,7 @@ export interface SignUpUserResponse {
     emailAddress: string;
   };
 }
+
+export interface ChangePassword {
+  message: string;
+}

@@ -1,6 +1,6 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
-import { ReplaySubject, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -89,6 +89,13 @@ export class AuthService {
     this.updateLoadingStatus.next(true);
     this.authDataStorageService.signup(userName, email, password).subscribe({
       next: (res) => {
+        this.toastr.showSuccess('Account created!', '', {
+          toastClass: 'success-toast',
+          timeOut: 3000,
+          extendedTimeOut: 1000,
+          positionClass: 'toast-top-right',
+          preventDuplicates: true,
+        });
         this.user = res.user;
         this.updateUser.next(res.user);
         this.updateAuthMode.next('login');
@@ -116,6 +123,20 @@ export class AuthService {
         this.updateLoadingStatus.next(false);
       },
     });
+  }
+
+  changePassword(
+    emailAddress: string,
+    previousPassword: string,
+    newPassword: string
+  ): Observable<{
+    message: string;
+  }> {
+    return this.authDataStorageService.changePassword(
+      emailAddress,
+      previousPassword,
+      newPassword
+    );
   }
 
   private removeAuthData(): void {
